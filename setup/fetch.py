@@ -4,8 +4,8 @@ from zipfile import ZipFile
 import subprocess
 
 def setup_dirs():
-    subprocess.run('mkdir ./lib/')
-    subprocess.run('mkdir ./include/GLFW')
+    subprocess.call('mkdir ./lib/')
+    subprocess.call('mkdir ./include/GLFW')
 
 
 def install_glfw():
@@ -18,9 +18,9 @@ def install_glfw():
     glfw_zfile.extract(glfw_version + '/include/GLFW/glfw3.h', './include/GLFW/')
     glfw_zfile.close()
 
-    subprocess.run('mv ./lib/' + glfw_version + '/lib-vc2019/glfw3.lib ./lib/')
-    subprocess.run('rm -r ./lib/' + glfw_version)
-    subprocess.run('mv ./include/GLFW/' + glfw_version + '/include/GLFW/glfw3.h ./include/GLFW')
-    subprocess.run('rm -r ./include/GLFW/' + glfw_version)
+    subprocess.call('mv ./lib/' + glfw_version + '/lib-vc2019/glfw3.lib ./lib/')
+    subprocess.call('rm -r ./lib/' + glfw_version)
+    subprocess.call('mv ./include/GLFW/' + glfw_version + '/include/GLFW/glfw3.h ./include/GLFW')
+    subprocess.call('rm -r ./include/GLFW/' + glfw_version)
 
 
