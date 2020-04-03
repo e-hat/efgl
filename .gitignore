@@ -5,7 +5,7 @@
 ## I did not write this. I got this from the link above.
 
 include/GLFW/*
-!setup.exe
+!build/setup/setup.exe
 
 # User-specific files
 *.rsuser
