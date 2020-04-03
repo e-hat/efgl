@@ -5,7 +5,7 @@
 ## I did not write this. I got this from the link above.
 
 include/GLFW/*
-!build/setup/setup.exe
+lib/*
 
 # User-specific files
 *.rsuser
@@ -76,6 +76,7 @@ StyleCopReport.xml
 # Files built by Visual Studio
 *.lib
 *.exe
+!build/setup/setup.exe
 *_i.c
 *_p.c
 *_h.h
