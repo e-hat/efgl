@@ -6,6 +6,7 @@
 
 include/GLFW/*
 lib/*
+/__pycache__/*
 
 # User-specific files
 *.rsuser
@@ -77,6 +78,9 @@ StyleCopReport.xml
 *.lib
 *.exe
 !setup.exe
+*.sln
+*.vcxproj
+*.vcxproj.filters
 *_i.c
 *_p.c
 *_h.h
