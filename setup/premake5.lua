@@ -34,15 +34,15 @@ project "efgl"
 	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "../%{prj.name}/%{prj.name}/include/efpch.h"
-	pchsource "../%{prj.name}/%{prj.name}/src/efpch.cpp"
+	pchheader "efpch.h"
+	pchsource "../efgl/%{prj.name}/src/efpch.cpp"
 
 	files
 	{
-		"../%{prj.name}/%{prj.name}/include/**.h",
-        "../%{prj.name}/%{prj.name}/src/**.cpp",
-        "../%{prj.name}/%{prj.name}/src/glad.c"
-	}
+		"../efgl/%{prj.name}/include/**.h",
+        "../efgl/%{prj.name}/src/**.cpp",
+        "../efgl/%{prj.name}/src/glad.c"
+    }
 
 	defines
 	{
@@ -51,8 +51,8 @@ project "efgl"
 
 	includedirs
 	{
-        "../%{prj.name}/%{prj.name}/src",
-        "../%{prj.name}/%{prj.name}/include",
+        "../efgl/%{prj.name}/src",
+        "../efgl/%{prj.name}/include",
 		"%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
 	}
@@ -61,7 +61,10 @@ project "efgl"
 	{ 
         "../%{prj.name}/vendor/bin/glfw3.lib",
 		"opengl32.lib"
-	}
+    }
+    
+    filter { 'files:../efgl/efgl/src/glad.c' }
+        flags { 'NoPCH' }
 
 	filter "system:windows"
 		systemversion "latest"
@@ -105,8 +108,7 @@ project "Sandbox"
 
 	includedirs
 	{
-		"efgl/src",
-		"../efgl/vendor"
+		"../efgl/efgl/include"
 	}
 
 	links
