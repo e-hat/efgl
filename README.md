@@ -15,4 +15,8 @@ First, open `efgl/efgl.sln` in Visual Studio. Click on the `efgl` __project__ (n
     
 Press <kbd>⌘B</kbd> to build the selected project. Now, in the main `eflg/` directory, your .lib file should be in a directory named something like `eflg/Debug-windows-x86_64/`.  
 ### Using the `efgl` Sandbox
-First, open `efgl/efgl.sln` in Visual Studio. Then, you can simply use the Sandbox project as you would any other project as it comes with the linking and include directories already set up. Add your source files in `/efgl/efgl/Sandbox/src`, which will come with a simple `main.cpp` already there. 
+First, open `efgl/efgl.sln` in Visual Studio. Then, you can simply use the Sandbox project as you would any other project as it comes with the linking and include directories already set up. Add your source files in `/efgl/efgl/Sandbox/src`, which will come with a simple `main.cpp` already there.     
+## Acknowledgements
+* Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL. It can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2)    
+* This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.
+* This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.
