@@ -3,9 +3,9 @@
 Currently, this is just a C++ abstraction of the OpenGL API (I might expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
 Once I finish building the basic API I will be able to use this library in other projects, where I plan to learn more about computer graphics and rendering techniques. As I build my portfolio, I expect that I will be able to adapt some of those projects to be features that I add to `efgl`. After a while of doing this, I hope to have a robust rendering "suite" for adding fancy graphics wherever I want.
-## Requirements
-* [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually    
 ## Getting Started
+### Requirements
+* [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually    
 ### Installation
 Open a command prompt in the directory where you cloned this repo. Type the command `cd setup/`, followed by `./setup.exe`. In the `efgl/` directory, there should now be a file named `efgl.sln`.   
 ### Building `efgl` as a static library
