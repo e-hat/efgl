@@ -1,4 +1,4 @@
-#include "efgl.h"
+#include <efgl.h>
 
 #include <iostream>
 
