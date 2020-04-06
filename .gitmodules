@@ -1,1 +1,4 @@
 
+[submodule "efgl/vendor/GLFW"]
+	path = efgl/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
