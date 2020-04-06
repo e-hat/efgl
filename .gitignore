@@ -78,9 +78,7 @@ StyleCopReport.xml
 
 # Files built by Visual Studio
 efgl/bin-int/*
-efgl/bin*
-!setup.exe
-!premake.exe
+efgl/bin/*
 *.sln
 *.vcxproj
 *.vcxproj.filters
