@@ -1,8 +1,9 @@
+#include "efgl.h"
+
 #include <iostream>
 
 using namespace std;
 
 int main() {
-	cout << "Hello World!" << endl;
-	return 1;
+	cout << "Hello World" << endl;
 }
