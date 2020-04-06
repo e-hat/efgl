@@ -8,7 +8,6 @@ include/GLFW/*
 lib/*
 /__pycache__/*
 /Debug-windows-x86_64/*
-/efgl/vendor/GLFW/*
 
 
 # User-specific files
@@ -78,9 +77,10 @@ StyleCopReport.xml
 
 
 # Files built by Visual Studio
-*.lib
-*.exe
+efgl/bin-int/*
+efgl/bin*
 !setup.exe
+!premake.exe
 *.sln
 *.vcxproj
 *.vcxproj.filters
