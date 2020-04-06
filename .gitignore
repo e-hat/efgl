@@ -7,6 +7,7 @@
 efgl/bin/*
 efgl/bin-int/*
 efgl/Sandbox/*
+efgl/vendor/Glad/bin-int/*
 
 
 # User-specific files
@@ -76,6 +77,10 @@ StyleCopReport.xml
 
 
 # Files built by Visual Studio
+*.lib
+*.exe
+!setup.exe
+!vendor/*
 efgl/bin-int/*
 efgl/bin/*
 *.sln
