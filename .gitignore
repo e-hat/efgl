@@ -4,10 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 ## I did not write this. I got this from the link above.
 
-include/GLFW/*
-lib/*
-/__pycache__/*
-/Debug-windows-x86_64/*
+efgl/bin/*
+efgl/bin-int/*
 
 
 # User-specific files
@@ -101,12 +99,14 @@ efgl/bin/*
 *.tlh
 *.tmp
 *.tmp_proj
+*.tlog
 *_wpftmp.csproj
 *.log
 *.vspscc
 *.vssscc
 .builds
 *.pidb
+*.idb
 *.svclog
 *.scc
 
