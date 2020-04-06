@@ -9,7 +9,7 @@ lib/*
 /__pycache__/*
 /Debug-windows-x86_64/*
 /efgl/vendor/GLFW/*
-/efgl/Sandbox/*
+
 
 # User-specific files
 *.rsuser

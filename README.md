@@ -17,9 +17,8 @@ Press <kbd>⌘B</kbd> to build the selected project. Now, in the main `eflg/` di
 ### Using the `efgl` Sandbox
 First, open `efgl/efgl.sln` in Visual Studio. Then, you can simply use the Sandbox project as you would any other project as it comes with the linking and include directories already set up. Add your source files in `/efgl/efgl/Sandbox/src`, which will come with a simple `main.cpp` already there.      
 ### Using `efgl` in another project
-For this, you will need to follow the steps in the section titled "Building `efgl` as a static library." Once you have the .lib file, add it as a dependency to your project. For the headers, I recommend creating a `efgl/` directory in your include directory and pasting the contents of `efgl/efgl/efgl/include` into that folder.
+For this, you will need to follow the steps in the section titled "Building `efgl` as a static library." Once you have the .lib file, add it as a dependency to your project. For the headers, I recommend adding `efgl/efgl/efgl/include` and `efgl/efgl/efgl/src` to your list of include directories.
 ## Acknowledgements
 * Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). I am following his videos to abstract OpenGL, the first of which can be found [here](https://www.youtube.com/watch?v=bTHqmzjm2UI&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=13). He also came up with the "skeleton" of the `premake5.lua` script.
-* I'm going to start following a tutorial on 
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    
 * This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.

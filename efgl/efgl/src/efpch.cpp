@@ -1,5 +1,7 @@
 #include "efpch.h"
 
+#include <glad/glad.h>
+
 #include <iostream>
 
 namespace efgl
