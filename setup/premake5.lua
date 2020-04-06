@@ -23,8 +23,13 @@ workspace "efgl"
 	-- Include directories relative to root folder (solution directory)
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "../efgl/vendor/GLFW/include"
-	IncludeDir["Glad"] = "../efgl/vendor/Glad/"
+	IncludeDir["Glad"] = "../efgl/vendor/Glad/include"
 
+	group "Dependencies"
+		include "../efgl/vendor/GLFW"
+		include "../efgl/vendor/Glad"
+
+	group ""
 
 	project "efgl"
 		location "../efgl/%{prj.name}"
@@ -58,7 +63,8 @@ workspace "efgl"
 
 		links 
 		{ 
-			"glfw3",
+			"GLFW",
+			"Glad",
 			"opengl32.lib"
 		}
 		
@@ -106,12 +112,13 @@ workspace "efgl"
 
 		includedirs
 		{
-			"../efgl/efgl/src"
+			"../efgl/efgl/src",
+			"../efgl/vendor"
 		}
 
 		links
 		{
-			"efgl",
+			"efgl"
 		}
 
 		filter "system:windows"
