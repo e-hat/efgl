@@ -1,3 +1,4 @@
+-- Pretty much copied from 
 workspace "efgl"
 	architecture "x86_64"
     startproject "Sandbox"
@@ -16,7 +17,7 @@ workspace "efgl"
 		"MultiProcessorCompile"
 	}
 
-outputdir = "../%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputdir = "/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
@@ -31,16 +32,16 @@ project "efgl"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("../efgl/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("../efgl/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "efpch.h"
 	pchsource "../efgl/%{prj.name}/src/efpch.cpp"
 
 	files
 	{
-		"../efgl/%{prj.name}/include/**.h",
-        "../efgl/%{prj.name}/src/**.cpp",
+		"../efgl/%{prj.name}/src/**",
+        "../efgl/%{prj.name}/src/include/**",
         "../efgl/%{prj.name}/src/glad.c"
     }
 
@@ -52,7 +53,6 @@ project "efgl"
 	includedirs
 	{
         "../efgl/%{prj.name}/src",
-        "../efgl/%{prj.name}/include",
 		"%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
 	}
@@ -97,23 +97,23 @@ project "Sandbox"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("../efgl/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("../efgl/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
-		"../efgl/%{prj.name}/src/**.h",
-		"../efgl/%{prj.name}/src/**.cpp"
+		"../efgl/%{prj.name}/src/**"
 	}
 
 	includedirs
 	{
-		"../efgl/efgl/include"
+		"../efgl/efgl/src/include"
 	}
 
 	links
 	{
-		"efgl"
+		"efgl",
+		"efgl.lib"
 	}
 
 	filter "system:windows"
