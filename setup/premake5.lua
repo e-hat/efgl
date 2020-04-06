@@ -113,7 +113,9 @@ workspace "efgl"
 		includedirs
 		{
 			"../efgl/efgl/src",
-			"../efgl/vendor"
+			"../efgl/vendor",
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.Glad}"
 		}
 
 		links
