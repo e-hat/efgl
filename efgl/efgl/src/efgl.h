@@ -1,9 +1,17 @@
 #pragma once
 #include "efpch.h"
 
-#include "Renderer.h"
-#include "Shader.h"
-#include "object/IndexBuffer.h"
-#include "object/VertexArray.h"
-#include "object/VertexBuffer.h"
-#include "object/VertexBufferLayout.h"
+#ifdef RENDERAPI_OGL
+#include "ogl/GLrenderer.h"
+#include "ogl/GLshader.h"
+#include "ogl/object/IndexBuffer.h"
+#include "ogl/object/VertexArray.h"
+#include "ogl/object/VertexBuffer.h"
+#include "ogl/object/VertexBufferLayout.h"
+
+namespace efgl
+{
+	typedef ogl::GLrenderer Renderer;
+	typedef ogl::GLshader	Shader;
+}
+#endif

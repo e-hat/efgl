@@ -6,19 +6,22 @@
 
 namespace efgl
 {
-	void GLClearError()
+	namespace ogl
 	{
-		while (glGetError() != GL_NO_ERROR);
-	}
-
-	bool GLLogCall(const char* function, const char* file, int line)
-	{
-		while (GLenum error = glGetError())
+		void GLClearError()
 		{
-			std::cout << "[OpenGL Error] (" << error << "): " << function <<
-				" " << file << ":" << line << std::endl;
-			return false;
+			while (glGetError() != GL_NO_ERROR);
 		}
-		return true;
+
+		bool GLLogCall(const char* function, const char* file, int line)
+		{
+			while (GLenum error = glGetError())
+			{
+				std::cout << "[OpenGL Error] (" << error << "): " << function <<
+					" " << file << ":" << line << std::endl;
+				return false;
+			}
+			return true;
+		}
 	}
 }

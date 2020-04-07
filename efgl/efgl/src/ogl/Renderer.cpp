@@ -4,5 +4,11 @@
 
 namespace efgl
 {
-	
+	namespace ogl
+	{
+		class GLrenderer
+		{
+
+		};
+	}
 }
