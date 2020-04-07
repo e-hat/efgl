@@ -77,7 +77,8 @@ workspace "efgl"
 			defines
 			{
 				"EF_BUILD_DLL",
-				"GLFW_INCLUDE_NONE"
+				"GLFW_INCLUDE_NONE",
+				"RENDERAPI_OGL"
 			}
 
 		filter "configurations:Debug"
@@ -125,6 +126,11 @@ workspace "efgl"
 
 		filter "system:windows"
 			systemversion "latest"
+
+			defines 
+			{
+				"RENDERAPI_OGL"
+			}
 			
 		filter "configurations:Debug"
 			defines "EF_DEBUG"
