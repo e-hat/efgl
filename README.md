@@ -2,7 +2,7 @@
 ## About
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
-Once I finish building the basic abstractions, such as `VertexBuffer`, `IndexBuffer` and other OpenGL object types, I will begin following the tutorial [here](https://learnopengl.com/Model-Loading/Assimp) to learn about making meshes, materials, and other things at that level of abstraction. This will allow me to implement the Vulkan primitives, then use those to build a `VulkanMesh` class, which will be a sibling class of `OGLMesh` or something like that. I'm sure I'll run into roadblocks along the way, but that's the plan for now.
+I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design, and then decide whether I want to work on the scene graph, the renderer, or some other system first. 
 ## Getting Started
 ### Requirements
 * [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually    
@@ -19,6 +19,6 @@ First, open `efgl/efgl.sln` in Visual Studio. Then, you can simply use the Sandb
 ### Using `efgl` in another project
 For this, you will need to follow the steps in the section titled "Building `efgl` as a static library." Once you have the .lib file, add it as a dependency to your project. For the headers, I recommend adding `efgl/efgl/src`, `efgl/vendor/GLFW/include`, and `efgl/vendor/Glad/include` to your list of include directories. In those folders, you will also find `glfw3.lib`, which you should link your project against, and `glad.c`, which you should include in your project.
 ## Acknowledgements
-* Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). I am following his videos to abstract OpenGL, the first of which can be found [here](https://www.youtube.com/watch?v=bTHqmzjm2UI&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=13). He also came up with the "skeleton" of the `premake5.lua` script.
+* Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). I am following his videos to abstract OpenGL, the first of which can be found [here](https://www.youtube.com/watch?v=bTHqmzjm2UI&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=13). He also came up with the `premake5.lua` script except for the minor changes I've made.
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    
 * This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.
