@@ -14,9 +14,8 @@ namespace efgl
 			void bind() const;
 			void unbind() const;
 
-			void destroy();
 		private:
-			unsigned int* m_RendererID = nullptr;
+			unsigned int m_RendererID;
 		};
 	}
 }

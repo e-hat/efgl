@@ -26,7 +26,7 @@ namespace efgl
 				return 0;
 			}
 
-			static unsigned char getGLBool(bool boolean)
+			inline static unsigned char getGLBool(bool boolean)
 			{
 				return (boolean) ? GL_TRUE : GL_FALSE;
 			}
