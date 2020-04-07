@@ -47,6 +47,7 @@ namespace efgl
 				}
 				else
 				{
+					EF_ASSERT(type != ShaderType::NONE && "Missing #shader or shader type definition.")
 					ss[static_cast<int>(type)] << line << '\n';
 				}
 			}
@@ -54,7 +55,7 @@ namespace efgl
 			return { ss[0].str(), ss[1].str() };
 		}
 
-		bool GLshader::compileShader(unsigned int type, const string& source)
+		unsigned int GLshader::compileShader(unsigned int type, const string& source)
 		{
 			GLCall(unsigned int id = glCreateShader(type));
 			const char* src = source.c_str();
