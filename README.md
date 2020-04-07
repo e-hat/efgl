@@ -2,7 +2,7 @@
 ## About
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
-I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design, and then decide whether I want to work on the scene graph, the renderer, or some other system first. 
+I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design so that, after building some more OpenGL primitive wrappers, I can start implementing my scene graph.
 ## Getting Started
 ### Requirements
 * [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually    
