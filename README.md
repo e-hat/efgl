@@ -2,7 +2,7 @@
 ## About
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
-I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design so that, after building some more OpenGL primitive wrappers, I can start implementing my scene graph. My main objective is to keep this project useful while under development. This means I'll be building it from the ground up, instead of trying to implment my GLrender or World classes  
+I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design so that, after building some more OpenGL primitive wrappers, I can start implementing my scene graph. My main objective is to keep this project useful while under development. This means I'll be building it from the ground up, instead of trying to implment my GLrender or World classes until I've got the infrastrucutre ready to fully flesh them out.  
 
 ## Getting Started
 ### Requirements
