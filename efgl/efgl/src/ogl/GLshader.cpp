@@ -107,7 +107,7 @@ namespace efgl
 			GLCall(glUseProgram(0));
 		}
 
-		int GLshader::getUniformLocation(const string name) const
+		int GLshader::getUniformLocation(const string& name)
 		{
 			if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
 				return m_UniformLocationCache[name];
