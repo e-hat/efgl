@@ -55,7 +55,6 @@ workspace "efgl"
 		defines
 		{
 			"_CRT_SECURE_NO_WARNINGS",
-			"STB_IMAGE_IMPLEMENTATION"
 		}
 
 		includedirs
@@ -74,6 +73,12 @@ workspace "efgl"
 		}
 		
 		filter { 'files:../efgl/efgl/src/glad.c' }
+			flags { 'NoPCH' }
+		
+		filter { 'files:../efgl/vendor/stb/**.h' }
+			flags { 'NoPCH' }
+
+		filter { 'files:../efgl/vendor/stb/**.cpp' }
 			flags { 'NoPCH' }
 
 		filter "system:windows"
@@ -136,7 +141,6 @@ workspace "efgl"
 			defines 
 			{
 				"RENDERAPI_OGL",
-				"STB_IMAGE_IMPLEMENTATION"
 			}
 			
 		filter "configurations:Debug"
