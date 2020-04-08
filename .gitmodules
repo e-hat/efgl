@@ -2,3 +2,6 @@
 [submodule "efgl/vendor/GLFW"]
 	path = efgl/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "efgl/vendor/stb"]
+	path = efgl/vendor/stb
+	url = https://github.com/nothings/stb

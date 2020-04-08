@@ -24,6 +24,7 @@ workspace "efgl"
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "../efgl/vendor/GLFW/include"
 	IncludeDir["Glad"] = "../efgl/vendor/Glad/include"
+	IncludeDir["stb"]  = "../efgl/vendor/stb"
 
 	group "Dependencies"
 		include "../efgl/vendor/GLFW"
@@ -47,11 +48,14 @@ workspace "efgl"
 		files
 		{
 			"../efgl/%{prj.name}/src/**",
+			"../efgl/vendor/stb/**.h",
+			"../efgl/vendor/stb/**.cpp"
 		}
 
 		defines
 		{
-			"_CRT_SECURE_NO_WARNINGS"
+			"_CRT_SECURE_NO_WARNINGS",
+			"STB_IMAGE_IMPLEMENTATION"
 		}
 
 		includedirs
@@ -59,6 +63,7 @@ workspace "efgl"
 			"../efgl/%{prj.name}/src",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
+			"%{IncludeDir.stb}"
 		}
 
 		links 
@@ -116,7 +121,8 @@ workspace "efgl"
 			"../efgl/efgl/src",
 			"../efgl/vendor",
 			"%{IncludeDir.GLFW}",
-			"%{IncludeDir.Glad}"
+			"%{IncludeDir.Glad}",
+			"%{IncludeDir.stb}"
 		}
 
 		links
@@ -129,7 +135,8 @@ workspace "efgl"
 
 			defines 
 			{
-				"RENDERAPI_OGL"
+				"RENDERAPI_OGL",
+				"STB_IMAGE_IMPLEMENTATION"
 			}
 			
 		filter "configurations:Debug"
