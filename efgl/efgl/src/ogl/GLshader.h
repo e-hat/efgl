@@ -18,7 +18,29 @@ namespace efgl
 			void unbind() const;
 
 			// Set uniforms
-			void setUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+			template <typename T>
+			void setUniform(const std::string& name, T value) const
+			{
+				static_assert(false);
+			}
+
+			template <>
+			void setUniform<bool>(const std::string& name, bool value) const
+			{
+				GLCall(glUniform1i(getUniformLocation(name), static_cast<int>(value)));
+			}
+
+			template <>
+			void setUniform<int>(const std::string& name, int value) const
+			{
+				GLCall(glUniform1i(getUniformLocation(name), value));
+			}
+
+			template <>
+			void setUniform<float>(const std::string& name, float value) const
+			{
+				GLCall(glUniform1f(getUniformLocation(name), value));
+			}
 		private:
 			struct ShaderProgramSource
 			{
@@ -32,7 +54,7 @@ namespace efgl
 			// caching for uniforms
 			std::unordered_map<std::string, int> m_UniformLocationCache;
 
-			int getUniformLocation(const std::string name);
+			int getUniformLocation(const std::string name) const;
 
 			ShaderProgramSource parseShader(const std::string& filepath);
 			unsigned int compileShader(unsigned int type, const std::string& source);

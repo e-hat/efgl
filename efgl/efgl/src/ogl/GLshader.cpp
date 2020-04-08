@@ -107,12 +107,7 @@ namespace efgl
 			GLCall(glUseProgram(0));
 		}
 
-		void GLshader::setUniform4f(const string& name, float v0, float v1, float v2, float v3)
-		{
-			GLCall(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
-		}
-
-		int GLshader::getUniformLocation(const string name)
+		int GLshader::getUniformLocation(const string name) const
 		{
 			if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
 				return m_UniformLocationCache[name];
