@@ -3,6 +3,9 @@
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
 I'm going to start reading [this essay](https://www.cg.tuwien.ac.at/research/publications/2007/bauchinger-2007-mre/bauchinger-2007-mre-Thesis.pdf) about rendering engine design so that, after building some more OpenGL primitive wrappers, I can start implementing my scene graph.
+### Current Progress
+<img src="img/Progress_1.png" alt="step1" width="200" height="220">     
+
 ## Getting Started
 ### Requirements
 * [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually    
@@ -11,7 +14,7 @@ Open a command prompt in the directory where want to clone the repo. Enter `git 
 ### Building `efgl` as a static library
 First, open `efgl/efgl.sln` in Visual Studio. Click on the `efgl` __project__ (not solution) in the solution explorer on the left.      
    
-<img src="img/solutionexplorer.png" alt="step1" width="200" height="220">      
+<img src="img/solutionexplorer.png" alt="step1" width="209" height="191">      
     
 Press <kbd>⌘B</kbd> to build the selected project. Now, in the main `eflg/` directory, your .lib file should be in a directory named something like `efgl/bin/efgl/Debug-windows-x86_64/`.  
 ### Using the `efgl` Sandbox
