@@ -26,9 +26,9 @@ namespace efgl
 			for (unsigned int i = 0; i < elements.size(); ++i)
 			{
 				const auto& element = elements[i];
-				GLCall(glEnableVertexAttribArray(i));
 				GLCall(glVertexAttribPointer(i, element.count, element.type,
 					element.normalized, layout.getStride(), (const void*)offset));
+				GLCall(glEnableVertexAttribArray(i));
 				offset += element.count * LayoutElement::getSizeOfType(element.type);
 			}
 		}
