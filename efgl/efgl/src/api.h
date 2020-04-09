@@ -8,9 +8,12 @@
 #include "ogl/object/VertexArray.h"
 #include "ogl/object/VertexBuffer.h"
 #include "ogl/object/VertexBufferLayout.h"
+#include "ogl/TextureManager.h"
+#include "ogl/GLtexture2D.h"
 
 namespace efgl
 {
-	typedef ogl::GLshader	Shader;
+	using Shader = ogl::GLshader;
+	using Texture2D = ogl::GLtexture2D;
 }
 #endif
