@@ -15,7 +15,7 @@ namespace efgl
 			GLtexture2D(const std::string& filepath, const std::string& name, bool flip = false);
 			GLtexture2D(const TextureData& td);
 
-			void bind(unsigned int textureUnit);
+			void bind(unsigned int textureUnit = 0);
 			void unbind();
 
 			inline unsigned int getTextureUnit() { return m_TextureUnit; }

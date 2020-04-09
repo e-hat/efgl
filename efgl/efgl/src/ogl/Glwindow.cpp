@@ -62,6 +62,7 @@ namespace efgl
 
 		GLwindow::~GLwindow()
 		{
+			std::cout << "destructing" << std::endl;
 			glfwTerminate();
 		}
 	}

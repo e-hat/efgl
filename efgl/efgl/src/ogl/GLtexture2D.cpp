@@ -62,6 +62,7 @@ namespace efgl
 			{
 				glActiveTexture(GL_TEXTURE0 + m_TextureUnit);
 				glBindTexture(GL_TEXTURE_2D, 0);
+				m_TextureUnit = -1;
 			}
 		}
 
