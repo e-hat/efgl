@@ -11,9 +11,7 @@ namespace efgl
 		class GLwindow
 		{
 		public:
-			static GLwindow* getWindow();
-
-			void init(int width, int height, const std::string& name);
+			static GLwindow* init(int width, int height, const std::string& name);
 
 			bool shouldClose();
 
@@ -22,6 +20,8 @@ namespace efgl
 			~GLwindow();
 
 		private:
+			static GLFWwindow* getWindow(int width, int height, const std::string& name);
+
 			GLwindow() = default;
 			static GLwindow* p_Instance;
 			static GLFWwindow* p_Window;
