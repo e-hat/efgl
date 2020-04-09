@@ -2,66 +2,53 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
-
+#include <cmath>
 #include <iostream>
 
 using namespace std;
 using namespace efgl;
+using namespace efgl::ogl;
 
 int main() {
 
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-
-	glViewport(0, 0, 800, 600);
+	GLwindow* window = GLwindow::getWindow();
+	window->init(800, 600, "Hello window");
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f, // top
+	 0.5f, -0.5f, 0.0f, // bottom right
+	-0.5f, -0.5f, 0.0f  // bottom left
 	};
 
-	efgl::Shader shader("src/shaders/shader.glsl");
+	unsigned int indices[] = {
+		0, 1, 2
+	};
+
+	IndexBuffer ib(indices, 3);
+
+	Shader shader("src/shaders/shader.glsl");
 	shader.bind();
 
-	efgl::ogl::VertexBuffer vb(vertices, sizeof(vertices));
+	VertexBuffer vb(vertices, sizeof(vertices));
 
-	efgl::ogl::VertexBufferLayout vbl;
+	VertexBufferLayout vbl;
 	vbl.push<float>(3, false);
-	efgl::ogl::VertexArray vao;
+	VertexArray vao;
 	vao.addBuffer(vb, vbl);
 
-	while (!glfwWindowShouldClose(window))
+	ib.bind();
+
+	while (!window->shouldClose())
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.bind();
 		vao.bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		window->swap();
 	}
 
-	glfwTerminate();
-
-	return 1;
+	return 0;
 }
