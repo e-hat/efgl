@@ -25,6 +25,7 @@ workspace "efgl"
 	IncludeDir["GLFW"] = "../efgl/vendor/GLFW/include"
 	IncludeDir["Glad"] = "../efgl/vendor/Glad/include"
 	IncludeDir["stb"]  = "../efgl/vendor/stb"
+	IncludeDir["glm"]  = "../efgl/vendor/glm"
 
 	group "Dependencies"
 		include "../efgl/vendor/GLFW"
@@ -62,7 +63,8 @@ workspace "efgl"
 			"../efgl/%{prj.name}/src",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
-			"%{IncludeDir.stb}"
+			"%{IncludeDir.stb}",
+			"%{IncludeDir.glm}"
 		}
 
 		links 
@@ -127,6 +129,7 @@ workspace "efgl"
 			"../efgl/vendor",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
+			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb}"
 		}
 
