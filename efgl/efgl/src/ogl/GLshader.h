@@ -1,6 +1,9 @@
 #pragma once
 #include "efpch.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <string>
 #include <unordered_map>
 
@@ -18,19 +21,69 @@ namespace efgl
 			void unbind() const;
 
 			// Set uniforms
-			void setUniform(const std::string& name, bool value)
+			void setUniform(const std::string& name, const bool& value)
 			{
 				GLCall(glUniform1i(getUniformLocation(name), static_cast<int>(value)));
 			}
 
-			void setUniform(const std::string& name, int value)
+			void setUniform(const std::string& name, const int& value)
 			{
 				GLCall(glUniform1i(getUniformLocation(name), value));
 			}
 
-			void setUniform(const std::string& name, float value)
+			void setUniform(const std::string& name, const float& value)
 			{
 				GLCall(glUniform1f(getUniformLocation(name), value));
+			}
+
+			void setUniform(const std::string& name, const glm::vec2& value)
+			{
+				GLCall(glUniform2fv(getUniformLocation(name), 1, glm::value_ptr(value)));
+			}
+		
+			void setUniform(const std::string& name, const float& x, const float& y)
+			{
+				GLCall(glUniform2f(getUniformLocation(name), x, y));
+			}
+
+			void setUniform(const std::string& name, const glm::vec3& value)
+			{
+				GLCall(glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value)));
+			}
+
+			void setUniform(const std::string& name, const float& x, const float& y, 
+							const float& z)
+			{
+				GLCall(glUniform3f(getUniformLocation(name), x, y, z));
+			}
+
+			void setUniform(const std::string& name, const glm::vec4& value)
+			{
+				GLCall(glUniform4fv(getUniformLocation(name), 1, glm::value_ptr(value)));
+			}
+
+			void setUniform(const std::string& name, const float& x, const float& y, 
+							const float& z, const float& w)
+			{
+				GLCall(glUniform4f(getUniformLocation(name), x, y, z, w));
+			}
+
+			void setUniform(const std::string& name, const glm::mat2& mat)
+			{
+				GLCall(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, 
+										  glm::value_ptr(mat)));
+			}
+
+			void setUniform(const std::string& name, const glm::mat3& mat)
+			{
+				GLCall(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, 
+										  glm::value_ptr(mat)));
+			}
+
+			void setUniform(const std::string& name, const glm::mat4 mat)
+			{
+				GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, 
+										  glm::value_ptr(mat)));
 			}
 
 		private:
