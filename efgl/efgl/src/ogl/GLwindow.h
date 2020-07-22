@@ -17,6 +17,8 @@ namespace efgl
 
 			void swap();
 
+			GLFWwindow* getWindow() { return p_Window; }
+
 			~GLwindow();
 
 		private:
