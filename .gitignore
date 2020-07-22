@@ -6,7 +6,6 @@
 
 efgl/bin/*
 efgl/bin-int/*
-efgl/Sandbox/*
 efgl/vendor/Glad/bin-int/*
 
 
