@@ -9,7 +9,7 @@
 
 namespace efgl {
 
-	enum CameraMovement {
+	enum class CameraMovement {
 		FORWARD,
 		BACKWARD,
 		LEFT,
@@ -66,16 +66,16 @@ namespace efgl {
 		void ProcessKeyboard(CameraMovement direction, float deltaTime) {
 			float velocity = MovementSpeed * deltaTime;
 			switch (direction) {
-			case FORWARD:
+			case CameraMovement::FORWARD:
 				Position += Front * velocity;
 				break;
-			case BACKWARD:
+			case CameraMovement::BACKWARD:
 				Position -= Front * velocity;
 				break;
-			case LEFT:
+			case CameraMovement::LEFT:
 				Position -= Right * velocity;
 				break;
-			case RIGHT:
+			case CameraMovement::RIGHT:
 				Position += Right * velocity;
 				break;
 			}
