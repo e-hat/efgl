@@ -1,13 +1,4 @@
-#include <efgl.h>
-
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <string>
-#include <cmath>
-#include <iostream>
+#include "common.h"
 
 using namespace std;
 using namespace efgl;
@@ -76,16 +67,10 @@ int main() {
 
 	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Coordinate Systems");
 	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	glfwSetScrollCallback(window->getWindow(), scroll_callback);
+	//glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
+	//glfwSetScrollCallback(window->getWindow(), scroll_callback);
 
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-
+	
 	Shader shader("src/shaders/shader.glsl");
 	Texture2D texture = TextureManager::loadTexture("src/resources/container.jpg", "container");
 	shader.bind();
@@ -113,6 +98,7 @@ int main() {
 		glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
 
 		shader.setUniform("model", model);
 		shader.setUniform("view", view);
