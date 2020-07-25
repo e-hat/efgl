@@ -39,7 +39,7 @@ namespace efgl
 				: m_Stride(0) {}
 
 			template<typename T>
-			void push(unsigned int count, bool normalized)
+			void push(unsigned int count, bool normalized = false)
 			{
 				static_assert(false);
 			}
