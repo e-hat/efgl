@@ -129,6 +129,7 @@ workspace "efgl"
 		{
 			"../efgl/efgl/src",
 			"../efgl/vendor",
+			"../efgl/Sandbox/src",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.glm}",
