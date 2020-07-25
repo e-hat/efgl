@@ -67,7 +67,7 @@ void SpinningPyramid()
 
 	IndexBuffer ib(indices, 3);
 
-	Shader shader("src/shaders/SpinningPyramid.glsl");
+	Shader shader("src/examples/SpinningPyramid/shaders/SpinningPyramid.glsl");
 	shader.bind();
 	shader.setUniform("tex", 0);
 
