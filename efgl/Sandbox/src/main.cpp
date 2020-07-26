@@ -1,8 +1,8 @@
-#include "examples/QuatSlerp/QuatSlerp.h"
+#include "examples/QuatNlerp/QuatNlerp.h"
 
 int main() {
 
-	QuatSlerp();
+	QuatNlerp();
 
 	return 0;
 }
