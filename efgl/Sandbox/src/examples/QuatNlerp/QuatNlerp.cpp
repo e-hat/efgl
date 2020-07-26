@@ -1,4 +1,4 @@
-#include "QuatSlerp.h"
+#include "QuatNlerp.h"
 
 using namespace efgl;
 using namespace efgl::ogl;
@@ -21,15 +21,29 @@ float lastFrame = 0.0f;
 
 static const float dur = 5.0f;
 
-glm::qua<float> nlerp(const glm::qua<float>& a, const glm::qua<float>& b,  float t) {
-	return glm::normalize(glm::mix<float>(a, b, t));
+glm::qua<float> nlerp(const std::vector<glm::qua<float>>& quats,  float t) {
+	if (t == 1.0f) {
+		return quats.back();
+	}
+	const unsigned int idx = std::floor(t * (quats.size() - 1));
+	const float param = (quats.size() - 1) * t - idx;
+	return glm::normalize(glm::mix(quats[idx], quats[idx + 1], param));
+}
+
+glm::qua<float> getUnitQuat(float x, float y, float z, float w) {
+	return glm::normalize(glm::qua<float>(x, y, z, w));
 }
 
 float getKeyframe() {
 	return std::fmod((float)glfwGetTime(), dur) / dur;
 }
 
-void QuatSlerp() {
+/* This is the skeleton for the cubic spline calculator function
+std::vector<glm::quat<float>> getSplines(const glm::quat<float>& a, const glm::qua<float>& b) {
+
+}
+*/
+void QuatNlerp() {
 
 	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
 	
@@ -88,17 +102,18 @@ void QuatSlerp() {
 	VertexArray vao;
 	vao.addBuffer(vb, vbl);
 
-	Shader shader("src/examples/QuatSlerp/shaders/QuatSlerp.glsl");
+	Shader shader("src/examples/QuatNlerp/shaders/QuatNlerp.glsl");
 	Texture2D texture = TextureManager::loadTexture("src/resources/container.jpg", "container");
 	shader.bind();
 	shader.setUniform("tex", 0);
 
 	glEnable(GL_DEPTH_TEST);
 
-	const glm::qua<float> a_start = glm::normalize(glm::qua<float>(0.0f, 0.0f, 0.0f, 0.01f));
-	glm::qua<float> b(1.0f, 1.0f, 1.0f, 1.0f);
-	b = glm::normalize(b);
-	
+	std::vector<glm::qua<float>> quats;
+	quats.push_back(getUnitQuat(1.0f, 0.0f, 1.0f, 1.0f));
+	quats.push_back(getUnitQuat(1.0f, 1.0f, 0.0f, 1.0f));
+	quats.push_back(getUnitQuat(0.0f, 1.0f, 1.0f, 1.0f));
+	quats.push_back(getUnitQuat(1.0f, 0.0f, 1.0f, 1.0f));
 
 	while (!window->shouldClose()) {
 		float currentFrame = glfwGetTime();
@@ -114,7 +129,9 @@ void QuatSlerp() {
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
-		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		const float t = getKeyframe();
+		auto a = nlerp(quats, t);
+		model = model * glm::toMat4(a);
 
 		shader.bind();
 		shader.setUniform("model", model);
@@ -126,12 +143,6 @@ void QuatSlerp() {
 		shader.bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		auto a = nlerp(a_start, b, getKeyframe());
-		std::cout << "a: " << glm::to_string(a) << "    b: " << glm::to_string(b)
-			<< std::endl << "Their distance: " << glm::length(a - b)
-			<< std::endl << std::endl;
-		
 
 		window->swap();
 
