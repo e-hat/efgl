@@ -106,8 +106,17 @@ int main() {
 		objectShader.setUniform("view", view);
 		objectShader.setUniform("proj", proj);
 
-		objectShader.setUniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		objectShader.setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+		objectShader.setUniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+		objectShader.setUniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		objectShader.setUniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+		objectShader.setUniform("material.shininess", 32.0f);
+
+		objectShader.setUniform("light.ambient", 0.2f, 0.2f, 0.2f);
+		objectShader.setUniform("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+		objectShader.setUniform("light.specular", 1.0f, 1.0f, 1.0f);
+
+		/*objectShader.setUniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+		objectShader.setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));*/
 		objectShader.setUniform("lightPos", lightPos);
 		objectShader.setUniform("viewPos", camera.Position);
 
