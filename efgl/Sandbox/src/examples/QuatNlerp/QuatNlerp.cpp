@@ -1,25 +1,14 @@
 #include "QuatNlerp.h"
+#include "common.h"
 
-using namespace efgl;
-using namespace efgl::ogl;
-
-static const int SCREEN_WIDTH = 800;
-static const int SCREEN_HEIGHT = 800;
+static const float dur = 5.0f;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, float deltaTime);
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = SCREEN_WIDTH / 2.0f;
-float lastY = SCREEN_HEIGHT / 2.0f;
-bool firstMouse = true;
-
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-
-static const float dur = 5.0f;
 
 glm::qua<float> nlerp(const std::vector<glm::qua<float>>& quats,  float t) {
 	if (t == 1.0f) {
@@ -47,10 +36,6 @@ void QuatNlerp() {
 
 	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
 	
-	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	//glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	//glfwSetScrollCallback(window->getWindow(), scroll_callback);
-
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -120,7 +105,7 @@ void QuatNlerp() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window->getWindow());
+		processInput(window->getWindow(), deltaTime);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -151,7 +136,7 @@ void QuatNlerp() {
 
 // below is from tutorial https://learnopengl.com/
 
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, float deltaTime)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
