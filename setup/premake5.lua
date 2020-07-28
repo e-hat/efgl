@@ -125,6 +125,11 @@ workspace "efgl"
 			"../efgl/%{prj.name}/src/**"
 		}
 
+		excludes
+		{
+			"../efgl/%{prj.name}/src/examples/**"
+		}
+
 		includedirs
 		{
 			"../efgl/efgl/src",
