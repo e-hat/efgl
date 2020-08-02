@@ -19,7 +19,7 @@ namespace efgl {
 	const float YAW = -90.0f;
 	const float PITCH = 0.0f;
 	const float SPEED = 2.5F;
-	const float SENSITIVITY = 0.1f;
+	const float SENSITIVITY = 0.4f;
 	const float ZOOM = 45.0f;
 
 	class Camera
