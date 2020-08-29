@@ -5,6 +5,3 @@
 [submodule "efgl/vendor/glm"]
 	path = efgl/vendor/glm
 	url = https://github.com/g-truc/glm
-[submodule "efgl/vendor/assimp"]
-	path = efgl/vendor/assimp
-	url = https://github.com/assimp/assimp.git
