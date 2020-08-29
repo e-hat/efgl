@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 #define EF_ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) ::efgl::ogl::GLClearError();\
