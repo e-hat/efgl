@@ -1,4 +1,4 @@
-#include "common.h"
+#include "../../common.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -7,7 +7,7 @@ void processInput(GLFWwindow* window, float deltaTime);
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
-int EarlyLighting1() {
+void EarlyLighting1() {
 	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
 
 	glfwMakeContextCurrent(window->getWindow());
@@ -79,8 +79,8 @@ int EarlyLighting1() {
 	lightVBL.push<float>(2);
 	lightVAO.addBuffer(vbo, lightVBL);
 
-	Shader objectShader("src/shaders/object_shader.glsl");
-	Shader lightShader("src/shaders/light_shader.glsl");
+	Shader objectShader("src/examples/PhongLighting1/shaders/object_shader.glsl");
+	Shader lightShader("src/examples/PhongLighting1/shaders/light_shader.glsl");
 
 	Texture2D diffuseMap = TextureManager::loadTexture("src/resources/container2.png", "diffuseMap");
 	Texture2D specularMap = TextureManager::loadTexture("src/resources/container2_specular.png", "specularMap");
@@ -112,8 +112,6 @@ int EarlyLighting1() {
 		objectShader.setUniform("view", view);
 		objectShader.setUniform("proj", proj);
 
-		//objectShader.setUniform("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-		//objectShader.setUniform("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
 		diffuseMap.bind(0);
 		objectShader.setUniform("material.diffuse", 0);
 		specularMap.bind(1);
@@ -155,8 +153,6 @@ int EarlyLighting1() {
 
 		window->swap();
 	}
-
-	return 0;
 }
 
 // below is from tutorial https://learnopengl.com/
