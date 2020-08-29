@@ -27,12 +27,12 @@ workspace "efgl"
 	IncludeDir["stb"]  = "../efgl/vendor/stb"
 	IncludeDir["glm"]  = "../efgl/vendor/glm"
 	IncludeDir["spdlog"] = "../efgl/vendor/spdlog/include"
+	IncludeDir["assimp"] = "../efgl/vendor/assimp/include"
 
 	group "Dependencies"
 		include "../efgl/vendor/GLFW"
 		include "../efgl/vendor/Glad"
-
-	group ""
+		include "../efgl/vendor/assimp"
 
 	project "efgl"
 		location "../efgl/%{prj.name}"
@@ -66,14 +66,16 @@ workspace "efgl"
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.stb}",
 			"%{IncludeDir.glm}",
-			"%{IncludeDir.spdlog}"
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.assimp}"
 		}
 
 		links 
 		{ 
 			"GLFW",
 			"Glad",
-			"opengl32.lib"
+			"opengl32.lib",
+			"assimp"
 		}
 		
 		filter { 'files:../efgl/efgl/src/glad.c' }
@@ -139,7 +141,8 @@ workspace "efgl"
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb}",
-			"%{IncludeDir.spdlog}"
+			"%{IncludeDir.spdlog}",
+			"%{IncludeDir.assimp}"
 		}
 
 		links

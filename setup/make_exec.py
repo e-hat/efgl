@@ -1,6 +1,6 @@
 import subprocess
 
-subprocess.call('pyinstaller -F setup.py')
+subprocess.call('py -m pyinstaller -F setup.py')
 subprocess.call('mv -f dist/setup.exe .')
 subprocess.call('rm -rf dist')
 subprocess.call('rm -rf build')
