@@ -8,8 +8,10 @@ namespace efgl
 {
 	namespace ogl
 	{
-		GLtexture2D::GLtexture2D(const string& filepath, const string& name, bool flip)
+		GLtexture2D::GLtexture2D(const string& filepath, const string& name, TextureType type, bool flip)
 		{
+			m_Type = type;
+
 			m_TextureUnit = -1;
 			glGenTextures(1, &m_RendererID);
 			glBindTexture(GL_TEXTURE_2D, m_RendererID);
@@ -26,24 +28,6 @@ namespace efgl
 			// TODO: figure out the format stuff and write helper func
 			glTexImage2D(GL_TEXTURE_2D, 0, getFormat(td.nChannels), td.width, td.height, 0, 
 						 getFormat(td.nChannels), GL_UNSIGNED_BYTE, td.data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
-
-		GLtexture2D::GLtexture2D(const TextureData& td)
-		{
-			glGenTextures(1, &m_RendererID);
-			glBindTexture(GL_TEXTURE_2D, m_RendererID);
-
-			// TODO: replace this with them passing a struct with this data
-			// this will work for now
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			// TODO: fix the GL_RGB to be determined by the td
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, td.width, td.height, 0,
-				getFormat(td.nChannels), GL_UNSIGNED_BYTE, td.data);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 

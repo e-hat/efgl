@@ -9,20 +9,27 @@ namespace efgl
 {
 	namespace ogl
 	{
+
+		enum class TextureType {
+			Diffuse,
+			Specular
+		};
+
 		class GLtexture2D
 		{
 		public:
-			GLtexture2D(const std::string& filepath, const std::string& name, bool flip = false);
-			GLtexture2D(const TextureData& td);
+			GLtexture2D(const std::string& filepath, const std::string& name, TextureType type, bool flip = false);
 
 			void bind(unsigned int textureUnit = 0);
 			void unbind();
 
-			inline unsigned int getTextureUnit() { return m_TextureUnit; }
+			inline unsigned int getTextureUnit() const { return m_TextureUnit; }
+			inline TextureType getType() const { return m_Type; }
 
 		private:
 			unsigned int m_RendererID;
 			unsigned int m_TextureUnit;
+			TextureType m_Type;
 
 			static unsigned int getFormat(unsigned int channels);
 		};
