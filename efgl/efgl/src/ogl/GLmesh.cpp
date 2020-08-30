@@ -22,14 +22,14 @@ namespace efgl {
 			m_VAO.addBuffer(m_VBO, vbl);
 		}
 
-		void GLmesh::draw(GLshader& shader) {
+		void GLmesh::draw(GLshader& shader) const {
 			unsigned int diffuseCount = 1;
 			unsigned int specularCount = 1;
 
 			shader.bind();
 
 			for (unsigned int i = 0; i < Textures.size(); ++i) {
-				GLtexture2D& tex = Textures[i];
+				GLtexture2D tex = Textures[i];
 				tex.bind(i);
 
 				string number;

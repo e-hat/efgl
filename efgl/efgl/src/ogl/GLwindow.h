@@ -3,11 +3,13 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
+#include <functional>
 
 namespace efgl
 {
 	namespace ogl
 	{
+
 		class GLwindow
 		{
 		public:
@@ -17,7 +19,7 @@ namespace efgl
 
 			void swap();
 
-			GLFWwindow* getWindow() { return p_Window; }
+			GLFWwindow* getWindow() { return p_Window; }		
 
 			~GLwindow();
 

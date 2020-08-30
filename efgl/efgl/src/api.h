@@ -10,10 +10,12 @@
 #include "ogl/object/VertexBufferLayout.h"
 #include "ogl/TextureManager.h"
 #include "ogl/GLtexture2D.h"
+#include "ogl/GLmodel.h"
 
 namespace efgl
 {
 	using Shader = ogl::GLshader;
 	using Texture2D = ogl::GLtexture2D;
+	using Model = ogl::GLmodel;
 }
 #endif

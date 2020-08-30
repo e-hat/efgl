@@ -18,7 +18,7 @@ namespace efgl
 		class GLtexture2D
 		{
 		public:
-			GLtexture2D(const std::string& filepath, const std::string& name, TextureType type, bool flip = false);
+			GLtexture2D(const std::string& filepath, TextureType type, bool flip = false);
 
 			void bind(unsigned int textureUnit = 0);
 			void unbind();

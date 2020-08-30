@@ -19,13 +19,14 @@ namespace efgl
 		class TextureManager
 		{
 		public:
-			static TextureData loadTexture(std::string filepath, std::string name, bool flip = false);
+			// maybe make this private to hide 
+			static TextureData loadTexture(std::string filepath, bool flip = false);
 
-			static void destroyTexture(std::string name);
+			static void destroyTexture(std::string filepath);
 			
 		private:
 			TextureManager() = default;
-			static std::unordered_map<std::string, TextureData> m_CachedTextures;
+			static std::unordered_map<std::string, TextureData> s_CachedTextures;
 		};
 	}
 }

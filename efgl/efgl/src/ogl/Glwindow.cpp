@@ -52,6 +52,11 @@ namespace efgl
 		bool GLwindow::shouldClose()
 		{
 			glfwPollEvents();
+			const char* desc;
+			int code = glfwGetError(&desc);
+			if (code != GLFW_NO_ERROR) {
+				std::cout << "GLFW:: Error code " << code << ": " << desc << std::endl;
+			}
 			return glfwWindowShouldClose(p_Window);
 		}
 

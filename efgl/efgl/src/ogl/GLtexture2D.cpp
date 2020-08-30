@@ -8,7 +8,7 @@ namespace efgl
 {
 	namespace ogl
 	{
-		GLtexture2D::GLtexture2D(const string& filepath, const string& name, TextureType type, bool flip)
+		GLtexture2D::GLtexture2D(const string& filepath, TextureType type, bool flip)
 		{
 			m_Type = type;
 
@@ -23,7 +23,7 @@ namespace efgl
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			TextureData td = TextureManager::loadTexture(filepath, name, flip);
+			TextureData td = TextureManager::loadTexture(filepath, flip);
 
 			// TODO: figure out the format stuff and write helper func
 			glTexImage2D(GL_TEXTURE_2D, 0, getFormat(td.nChannels), td.width, td.height, 0, 

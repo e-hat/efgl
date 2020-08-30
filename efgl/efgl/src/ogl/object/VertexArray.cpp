@@ -31,6 +31,7 @@ namespace efgl
 				GLCall(glEnableVertexAttribArray(i));
 				offset += element.count * LayoutElement::getSizeOfType(element.type);
 			}
+			unbind();
 		}
 		void VertexArray::bind() const
 		{

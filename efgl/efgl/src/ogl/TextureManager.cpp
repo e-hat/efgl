@@ -13,12 +13,12 @@ namespace efgl
 {
 	namespace ogl
 	{
-		unordered_map<string, TextureData> TextureManager::m_CachedTextures{};
+		unordered_map<string, TextureData> TextureManager::s_CachedTextures{};
 
-		TextureData TextureManager::loadTexture(string filepath, string name, bool flip)
+		TextureData TextureManager::loadTexture(string filepath, bool flip)
 		{
-			if (m_CachedTextures.find(name) != m_CachedTextures.end())
-				return m_CachedTextures[name];
+			if (s_CachedTextures.find(filepath) != s_CachedTextures.end())
+				return s_CachedTextures[filepath];
 			
 			TextureData result{};
 			stbi_set_flip_vertically_on_load(flip);
@@ -26,25 +26,24 @@ namespace efgl
 						&result.height, &result.nChannels, 0);
 			if (result.data)
 			{
-				m_CachedTextures[name] = result;
+				s_CachedTextures[filepath] = result;
 				return result;
 			}
-			cout << "TextureManager: failed to load texture '" << name 
-				 << "' from " << filepath << endl;
+			cout << "TextureManager: failed to load texture from " << filepath << endl;
 			return { 0, 0, 0, nullptr };
 		}
 
-		void TextureManager::destroyTexture(string name)
+		void TextureManager::destroyTexture(string filepath)
 		{
-			if (m_CachedTextures.find(name) == m_CachedTextures.end())
+			if (s_CachedTextures.find(filepath) == s_CachedTextures.end())
 			{
-				cout << "TextureManager: Attempting to delete texture '" << name
+				cout << "TextureManager: Attempting to delete texture at '" << filepath
 					<< "' which either has already been deleted or does not exist" << endl;
 				return;
 			}
 
-			stbi_image_free(m_CachedTextures[name].data);
-			m_CachedTextures.erase(name);
+			stbi_image_free(s_CachedTextures[filepath].data);
+			s_CachedTextures.erase(filepath);
 		}
 	}
 }
