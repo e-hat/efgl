@@ -30,25 +30,26 @@ namespace efgl {
 
 			for (unsigned int i = 0; i < Textures.size(); ++i) {
 				GLtexture2D tex = Textures[i];
-				tex.bind(i);
 
 				string number;
-				auto name = tex.getType();
-				if (name == TextureType::Diffuse)
+				string typeOutput;
+				TextureType name = tex.getType();
+				if (name == TextureType::Diffuse) {
 					number = to_string(diffuseCount++);
-				else if (name == TextureType::Specular)
+					typeOutput = "texture_diffuse";
+				}
+				else if (name == TextureType::Specular) {
 					number = to_string(specularCount++);
-
-				string typeOutput = (name == TextureType::Diffuse) ? "texture_diffuse" : "texture_specular";
+					typeOutput = "texture_specular";
+				}
 
 				shader.setUniform("material." + typeOutput + number, (int)i);
+				tex.bind(i);
 			}
-			glActiveTexture(GL_TEXTURE0);
 
 			m_VAO.bind();
-			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, Indices.data());
 			m_VAO.unbind();
-			shader.unbind();
 		}
 	}
 }

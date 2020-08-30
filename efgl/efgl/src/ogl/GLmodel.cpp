@@ -98,7 +98,7 @@ namespace efgl {
 				aiString str;
 				mat->GetTexture(type, i, &str);
 
-				GLtexture2D texture(m_Directory + "/" + str.C_Str(), typeName);
+				GLtexture2D texture(m_Directory + "/" + str.C_Str(), typeName, true);
 				textures.push_back(texture);
 			}
 			return textures;

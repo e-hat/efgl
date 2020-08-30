@@ -10,7 +10,7 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f)); 
 
 int main() {
-	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
+	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Models");
 
 	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
 	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
@@ -34,7 +34,7 @@ int main() {
 		processInput(window->getWindow(), deltaTime);
 
 		// set background
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
