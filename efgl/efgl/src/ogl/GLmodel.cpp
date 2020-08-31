@@ -11,7 +11,9 @@ using namespace std;
 
 namespace efgl {
 	namespace ogl {
-		GLmodel::GLmodel(const char* path) {
+		GLmodel::GLmodel(const char* path)
+			: m_TextureManager(TextureManager(true))
+		{
 			loadModel(path);
 		}
 
@@ -38,7 +40,6 @@ namespace efgl {
 		}
 
 		void GLmodel::processNode(aiNode* node, const aiScene* scene) {
-			PROFILE_FUNCTION();
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				m_Meshes.push_back(processMesh(mesh, scene));
@@ -95,14 +96,15 @@ namespace efgl {
 			return MakeRef<GLmesh>(vertices, indices, textures);
 		}
 
-		vector<GLtexture2D>	GLmodel::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName) {
+		vector<GLtexture2D> GLmodel::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName) {
+			PROFILE_FUNCTION();
 			vector<GLtexture2D> textures;
 			for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i) {
 				aiString str;
 				mat->GetTexture(type, i, &str);
 
-				GLtexture2D texture(m_Directory + "/" + str.C_Str(), typeName, true);
-				textures.push_back(texture);
+				textures.push_back(m_TextureManager.LoadTexture(str.C_Str(), m_Directory, typeName));
+
 			}
 			return textures;
 		}

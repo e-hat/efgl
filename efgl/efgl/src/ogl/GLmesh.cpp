@@ -9,6 +9,7 @@ using namespace std;
 
 namespace efgl {
 	namespace ogl {
+
 		GLmesh::GLmesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<GLtexture2D> textures)
 			: m_VBO(VertexBuffer(vertices.data(), vertices.size() * sizeof(Vertex))), m_IBO(Indices.data(), Indices.size())
 		{
@@ -29,7 +30,7 @@ namespace efgl {
 			shader.Bind();
 
 			for (unsigned int i = 0; i < Textures.size(); ++i) {
-				GLtexture2D tex = Textures[i];
+				auto tex = Textures[i];
 
 				string number;
 				string typeOutput;

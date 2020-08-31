@@ -8,7 +8,6 @@
 #include "ogl/object/VertexArray.h"
 #include "ogl/object/VertexBuffer.h"
 #include "ogl/object/VertexBufferLayout.h"
-#include "ogl/TextureManager.h"
 #include "ogl/GLtexture2D.h"
 #include "ogl/GLmodel.h"
 

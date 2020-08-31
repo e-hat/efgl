@@ -21,6 +21,7 @@ namespace efgl {
 		private:
 			std::vector<Ref<GLmesh>> m_Meshes;
 			std::string m_Directory;
+			TextureManager m_TextureManager;
 
 			void loadModel(const std::string& path);
 			void processNode(aiNode* node, const aiScene* scene);

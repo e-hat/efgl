@@ -20,7 +20,6 @@ int main() {
 	Instrumentor::Get().BeginSession("Model building");
 	Model backpack("src/resources/backpack.obj");
 	Instrumentor::Get().EndSession();
-	return EXIT_SUCCESS;
 	Shader shader("src/shaders/shader.glsl");
 
 	glEnable(GL_DEPTH_TEST);
@@ -53,7 +52,7 @@ int main() {
 
 		shader.SetUniform("pointLight.position", 0.7f, 0.2f, 2.0f);
 		shader.SetUniform("pointLight.ambient", 0.05f, 0.05f, 0.05f);
-		shader.SetUniform("pointLight.diffuse", 0.8f, 0.8f, 0.8f);
+		shader.SetUniform("pointLight.diffuse", 0.95f, 0.95f, 0.95f);
 		shader.SetUniform("pointLight.specular", glm::vec3(1.0f));
 		shader.SetUniform("pointLight.constant", 1.0f);
 		shader.SetUniform("pointLight.linear", 0.09f);

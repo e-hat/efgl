@@ -98,7 +98,7 @@ public:
 		auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(m_StartTimepoint).time_since_epoch().count();
 		auto end = std::chrono::time_point_cast<std::chrono::milliseconds>(endTimpoint).time_since_epoch().count();
 
-		std::cout << m_Name << ": " << end - start << "ms\n" << std::endl;
+		//std::cout << m_Name << ": " << end - start << "ms\n" << std::endl;
 
 		uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
 		Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
