@@ -1,6 +1,10 @@
 #pragma once
 
-#include <efgl.h>
+#include <efgl/Camera.h>
+#include <efgl/Window.h>
+#include <efgl/geometry/Model.h>
+#include <efgl/Shader.h>
+#include <efgl/util/Profile.h>
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -15,7 +19,6 @@
 #include <vector>
 
 using namespace efgl;
-using namespace efgl::ogl;
 
 static const int SCREEN_WIDTH = 800;
 static const int SCREEN_HEIGHT = 800;

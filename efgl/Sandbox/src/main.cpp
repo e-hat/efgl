@@ -8,7 +8,7 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f)); 
 
 int main() {
-	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Models");
+	Window* window = Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Models");
 
 	glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
 	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
