@@ -22,12 +22,12 @@ namespace efgl
 			GLCall(glDeleteBuffers(1, &m_RendererID));
 		}
 
-		void IndexBuffer::bind() const
+		void IndexBuffer::Bind() const
 		{
 			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
 		}
 
-		void IndexBuffer::unbind() const
+		void IndexBuffer::Unbind() const
 		{
 			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 		}

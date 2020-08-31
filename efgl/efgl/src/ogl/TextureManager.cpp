@@ -15,7 +15,7 @@ namespace efgl
 	{
 		unordered_map<string, TextureData> TextureManager::s_CachedTextures{};
 
-		TextureData TextureManager::loadTexture(string filepath, bool flip)
+		TextureData TextureManager::LoadTexture(string filepath, bool flip)
 		{
 			if (s_CachedTextures.find(filepath) != s_CachedTextures.end())
 				return s_CachedTextures[filepath];
@@ -33,7 +33,7 @@ namespace efgl
 			return { 0, 0, 0, nullptr };
 		}
 
-		void TextureManager::destroyTexture(string filepath)
+		void TextureManager::DestroyTexture(string filepath)
 		{
 			if (s_CachedTextures.find(filepath) == s_CachedTextures.end())
 			{

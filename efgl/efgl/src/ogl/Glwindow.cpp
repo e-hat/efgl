@@ -12,7 +12,7 @@ namespace efgl
 		GLwindow* GLwindow::p_Instance = nullptr;
 		GLFWwindow* GLwindow::p_Window = nullptr;
 
-		GLwindow* GLwindow::init(int width, int height, const std::string& name)
+		GLwindow* GLwindow::Init(int width, int height, const std::string& name)
 		{
 			if (p_Instance == nullptr)
 			{
@@ -49,7 +49,7 @@ namespace efgl
 			return result;
 		}
 
-		bool GLwindow::shouldClose()
+		bool GLwindow::ShouldClose()
 		{
 			glfwPollEvents();
 			const char* desc;
@@ -60,7 +60,7 @@ namespace efgl
 			return glfwWindowShouldClose(p_Window);
 		}
 
-		void GLwindow::swap()
+		void GLwindow::Swap()
 		{
 			glfwSwapBuffers(p_Window);
 		}

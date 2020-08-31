@@ -14,7 +14,7 @@ namespace efgl
 			unsigned int  count;
 			unsigned char normalized;
 
-			static unsigned int getSizeOfType(unsigned int type)
+			static unsigned int GetSizeOfType(unsigned int type)
 			{
 				switch (type)
 				{
@@ -26,7 +26,7 @@ namespace efgl
 				return 0;
 			}
 
-			inline static unsigned char getGLBool(bool boolean)
+			inline static unsigned char GetGLBool(bool boolean)
 			{
 				return (boolean) ? GL_TRUE : GL_FALSE;
 			}
@@ -39,33 +39,33 @@ namespace efgl
 				: m_Stride(0) {}
 
 			template<typename T>
-			void push(unsigned int count, bool normalized = false)
+			void Push(unsigned int count, bool normalized = false)
 			{
 				static_assert(false);
 			}
 
 			template<>
-			void push<float>(unsigned int count, bool normalized)
+			inline void Push<float>(unsigned int count, bool normalized)
 			{
-				m_Elements.push_back({ GL_FLOAT, count, LayoutElement::getGLBool(normalized) });
-				m_Stride += count * LayoutElement::getSizeOfType(GL_FLOAT);
+				m_Elements.push_back({ GL_FLOAT, count, LayoutElement::GetGLBool(normalized) });
+				m_Stride += count * LayoutElement::GetSizeOfType(GL_FLOAT);
 			}
 
 			template<>
-			void push<unsigned int>(unsigned int count, bool normalized)
+			inline void Push<unsigned int>(unsigned int count, bool normalized)
 			{
-				m_Elements.push_back({ GL_UNSIGNED_INT, count, LayoutElement::getGLBool(normalized) });
-				m_Stride += count * LayoutElement::getSizeOfType(GL_UNSIGNED_INT);
+				m_Elements.push_back({ GL_UNSIGNED_INT, count, LayoutElement::GetGLBool(normalized) });
+				m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_INT);
 			}
 
 			template<>
-			void push<unsigned char>(unsigned int count, bool normalized)
+			inline void Push<unsigned char>(unsigned int count, bool normalized)
 			{
-				m_Elements.push_back({ GL_UNSIGNED_BYTE, count, LayoutElement::getGLBool(normalized) });
-				m_Stride += count * LayoutElement::getSizeOfType(GL_UNSIGNED_BYTE);
+				m_Elements.push_back({ GL_UNSIGNED_BYTE, count, LayoutElement::GetGLBool(normalized) });
+				m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_BYTE);
 			}
 
-			inline const std::vector<LayoutElement>& getElements() const
+			inline const std::vector<LayoutElement>& GetElements() const
 			{
 				return m_Elements;
 			}

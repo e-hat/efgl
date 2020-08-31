@@ -20,9 +20,9 @@ namespace efgl
 		{
 		public:
 			// maybe make this private to hide 
-			static TextureData loadTexture(std::string filepath, bool flip = false);
+			static TextureData LoadTexture(std::string filepath, bool flip = false);
 
-			static void destroyTexture(std::string filepath);
+			static void DestroyTexture(std::string filepath);
 			
 		private:
 			TextureManager() = default;

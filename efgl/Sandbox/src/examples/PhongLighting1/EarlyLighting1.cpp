@@ -8,7 +8,7 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 void EarlyLighting1() {
-	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
+	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
 
 	glfwMakeContextCurrent(window->getWindow());
 	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
@@ -67,23 +67,23 @@ void EarlyLighting1() {
 
 	VertexArray vao;
 	VertexBufferLayout vbl;
-	vbl.push<float>(3);
-	vbl.push<float>(3);
-	vbl.push<float>(2);
-	vao.addBuffer(vbo, vbl);
+	vbl.Push<float>(3);
+	vbl.Push<float>(3);
+	vbl.Push<float>(2);
+	vao.AddBuffer(vbo, vbl);
 
 	VertexArray lightVAO;
 	VertexBufferLayout lightVBL;
-	lightVBL.push<float>(3);
-	lightVBL.push<float>(3);
-	lightVBL.push<float>(2);
-	lightVAO.addBuffer(vbo, lightVBL);
+	lightVBL.Push<float>(3);
+	lightVBL.Push<float>(3);
+	lightVBL.Push<float>(2);
+	lightVAO.AddBuffer(vbo, lightVBL);
 
 	Shader objectShader("src/examples/PhongLighting1/shaders/object_shader.glsl");
 	Shader lightShader("src/examples/PhongLighting1/shaders/light_shader.glsl");
 
-	Texture2D diffuseMap = TextureManager::loadTexture("src/resources/container2.png", "diffuseMap");
-	Texture2D specularMap = TextureManager::loadTexture("src/resources/container2_specular.png", "specularMap");
+	Texture2D diffuseMap = TextureManager::LoadTexture("src/resources/container2.png", "diffuseMap");
+	Texture2D specularMap = TextureManager::LoadTexture("src/resources/container2_specular.png", "specularMap");
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -91,12 +91,12 @@ void EarlyLighting1() {
 
 	// render loop
 	// ----------------
-	while (!window->shouldClose()) {
+	while (!window->ShouldClose()) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window->getWindow(), deltaTime);
+		processInput(window->GetWindow(), deltaTime);
 
 		// set background
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -107,51 +107,51 @@ void EarlyLighting1() {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -2.0f));
 
-		objectShader.bind();
-		objectShader.setUniform("model", model);
-		objectShader.setUniform("view", view);
-		objectShader.setUniform("proj", proj);
+		objectShader.Bind);
+		objectShader.SetUniform("model", model);
+		objectShader.SetUniform("view", view);
+		objectShader.SetUniform("proj", proj);
 
-		diffuseMap.bind(0);
-		objectShader.setUniform("material.diffuse", 0);
-		specularMap.bind(1);
-		objectShader.setUniform("material.specular", 1);
-		objectShader.setUniform("material.shininess", 32.0f);
+		diffuseMap.Bind(0);
+		objectShader.SetUniform("material.diffuse", 0);
+		specularMap.Bind(1);
+		objectShader.SetUniform("material.specular", 1);
+		objectShader.SetUniform("material.shininess", 32.0f);
 
-		objectShader.setUniform("light.ambient", 0.2f, 0.2f, 0.2f);
-		objectShader.setUniform("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
-		objectShader.setUniform("light.specular", 1.0f, 1.0f, 1.0f);
+		objectShader.SetUniform("light.ambient", 0.2f, 0.2f, 0.2f);
+		objectShader.SetUniform("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+		objectShader.SetUniform("light.specular", 1.0f, 1.0f, 1.0f);
 
-		/*objectShader.setUniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		objectShader.setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));*/
-		objectShader.setUniform("lightPos", lightPos);
-		objectShader.setUniform("viewPos", camera.Position);
+		/*objectShader.SetUniform("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+		objectShader.SetUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));*/
+		objectShader.SetUniform("lightPos", lightPos);
+		objectShader.SetUniform("viewPos", camera.Position);
 
-		vao.bind();
+		vao.Bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		objectShader.unbind();
-		vao.unbind();
+		objectShader.Unbind();
+		vao.Unbind();
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
 
-		lightShader.bind();
-		lightShader.setUniform("model", model);
-		lightShader.setUniform("view", view);
-		lightShader.setUniform("proj", proj);
+		lightShader.Bind();
+		lightShader.SetUniform("model", model);
+		lightShader.SetUniform("view", view);
+		lightShader.SetUniform("proj", proj);
 
-		lightShader.setUniform("specularColor", 1.0f, 1.0f, 1.0f);
+		lightShader.SetUniform("specularColor", 1.0f, 1.0f, 1.0f);
 
-		lightVAO.bind();
-		lightShader.bind();
+		lightVAO.Bind();
+		lightShader.Bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		lightShader.unbind();
-		lightVAO.unbind();
+		lightShader.Unbind();
+		lightVAO.Unbind();
 
-		window->swap();
+		window->Swap();
 	}
 
 	return EXIT_SUCCESS;

@@ -1,6 +1,4 @@
 #include "common.h"
-#include "examples/PhongLighting1/EarlyLighting1.h"
-#include <assimp/scene.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -10,46 +8,60 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f)); 
 
 int main() {
-	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Models");
+	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Models");
 
-	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	glfwSetScrollCallback(window->getWindow(), scroll_callback);
+	glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
+	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	Instrumentor::Get().BeginSession("Model building");
 	Model backpack("src/resources/backpack.obj");
+	Instrumentor::Get().EndSession();
+	return EXIT_SUCCESS;
 	Shader shader("src/shaders/shader.glsl");
 
 	glEnable(GL_DEPTH_TEST);
 
 	// render loop
 	// ----------------
-	while (!window->shouldClose()) {
+	while (!window->ShouldClose()) {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window->getWindow(), deltaTime);
+		processInput(window->GetWindow(), deltaTime);
 
 		// set background
 		glClearColor(0.0f, 0.0f, 0.f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+		shader.Bind();
+		
 		glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 
-		shader.bind();
-		
-		shader.setUniform("proj", proj);
-		shader.setUniform("view", view);
-		shader.setUniform("model", model);
+		shader.SetUniform("proj", proj);
+		shader.SetUniform("view", view);
+		shader.SetUniform("model", model);
+
+		shader.SetUniform("material.shininess", 32.0f);
+
+		shader.SetUniform("pointLight.position", 0.7f, 0.2f, 2.0f);
+		shader.SetUniform("pointLight.ambient", 0.05f, 0.05f, 0.05f);
+		shader.SetUniform("pointLight.diffuse", 0.8f, 0.8f, 0.8f);
+		shader.SetUniform("pointLight.specular", glm::vec3(1.0f));
+		shader.SetUniform("pointLight.constant", 1.0f);
+		shader.SetUniform("pointLight.linear", 0.09f);
+		shader.SetUniform("pointLight.quadratic", 0.032f);
 
 		backpack.Draw(shader);
 
-		window->swap();
+		window->Swap();
 	}
 	
 

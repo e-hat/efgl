@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include "Profile.h"
+
 #define EF_ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) ::efgl::ogl::GLClearError();\
 	x;\

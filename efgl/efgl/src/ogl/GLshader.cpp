@@ -97,12 +97,12 @@ namespace efgl
 			return program;
 		}
 
-		void GLshader::bind() const
+		void GLshader::Bind() const
 		{
 			GLCall(glUseProgram(m_RendererID));
 		}
 
-		void GLshader::unbind() const
+		void GLshader::Unbind() const
 		{
 			GLCall(glUseProgram(0));
 		}

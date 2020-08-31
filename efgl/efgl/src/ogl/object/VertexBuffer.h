@@ -11,8 +11,8 @@ namespace efgl
 			VertexBuffer(const void* data, unsigned int size);
 			~VertexBuffer();
 
-			void bind() const;
-			void unbind() const;
+			void Bind() const;
+			void Unbind() const;
 
 		private:
 			unsigned int m_RendererID;

@@ -3,7 +3,6 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
-#include <functional>
 
 namespace efgl
 {
@@ -13,13 +12,13 @@ namespace efgl
 		class GLwindow
 		{
 		public:
-			static GLwindow* init(int width, int height, const std::string& name);
+			static GLwindow* Init(int width, int height, const std::string& name);
 
-			bool shouldClose();
+			bool ShouldClose();
 
-			void swap();
+			void Swap();
 
-			GLFWwindow* getWindow() { return p_Window; }		
+			inline GLFWwindow* GetWindow() { return p_Window; }		
 
 			~GLwindow();
 

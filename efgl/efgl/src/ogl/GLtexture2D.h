@@ -20,11 +20,11 @@ namespace efgl
 		public:
 			GLtexture2D(const std::string& filepath, TextureType type, bool flip = false);
 
-			void bind(unsigned int textureUnit = 0);
-			void unbind();
+			void Bind(unsigned int textureUnit = 0);
+			void Unbind();
 
-			inline unsigned int getTextureUnit() const { return m_TextureUnit; }
-			inline TextureType getType() const { return m_Type; }
+			inline unsigned int GetTextureUnit() const { return m_TextureUnit; }
+			inline TextureType GetType() const { return m_Type; }
 
 		private:
 			unsigned int m_RendererID;

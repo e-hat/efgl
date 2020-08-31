@@ -28,7 +28,7 @@ float getKeyframe() {
 
 int main(int argc, char** argv) {
 
-	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
+	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
 	
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -76,15 +76,15 @@ int main(int argc, char** argv) {
 
 	VertexBuffer vb(vertices, sizeof(vertices));
 	VertexBufferLayout vbl;
-	vbl.push<float>(3);
-	vbl.push<float>(2);
+	vbl.Push<float>(3);
+	vbl.Push<float>(2);
 	VertexArray vao;
-	vao.addBuffer(vb, vbl);
+	vao.AddBuffer(vb, vbl);
 
 	Shader shader("src/examples/QuatNlerp/shaders/QuatNlerp.glsl");
 	Texture2D texture = TextureManager::loadTexture("src/resources/container.jpg", "container");
-	shader.bind();
-	shader.setUniform("tex", 0);
+	shader.Bind();
+	shader.SetUniform("tex", 0);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -94,12 +94,12 @@ int main(int argc, char** argv) {
 	quats.push_back(getUnitQuat(0.0f, 1.0f, 1.0f, 1.0f));
 	quats.push_back(getUnitQuat(1.0f, 0.0f, 1.0f, 1.0f));
 
-	while (!window->shouldClose()) {
+	while (!window->ShouldClose()) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window->getWindow(), deltaTime);
+		processInput(window->GetWindow(), deltaTime);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -112,18 +112,18 @@ int main(int argc, char** argv) {
 		auto a = nlerp(quats, t);
 		model = model * glm::toMat4(a);
 
-		shader.bind();
-		shader.setUniform("model", model);
-		shader.setUniform("view", view);
-		shader.setUniform("proj", proj);
+		shader.Bind();
+		shader.SetUniform("model", model);
+		shader.SetUniform("view", view);
+		shader.SetUniform("proj", proj);
 
-		vao.bind();
-		texture.bind();
-		shader.bind();
+		vao.Bind();
+		texture.Bind();
+		shader.Bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		window->swap();
+		window->Swap();
 
 	}
 

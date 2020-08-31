@@ -27,7 +27,7 @@ namespace efgl {
 
 			GLmesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<GLtexture2D> textures);
 
-			void draw(GLshader& shader) const;
+			void Draw(GLshader& shader) const;
 
 		private:
 			VertexArray m_VAO;

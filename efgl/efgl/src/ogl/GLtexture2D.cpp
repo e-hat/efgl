@@ -23,7 +23,7 @@ namespace efgl
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			TextureData td = TextureManager::loadTexture(filepath, flip);
+			TextureData td = TextureManager::LoadTexture(filepath, flip);
 
 			// TODO: figure out the format stuff and write helper func
 			glTexImage2D(GL_TEXTURE_2D, 0, getFormat(td.nChannels), td.width, td.height, 0, 
@@ -31,7 +31,7 @@ namespace efgl
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 
-		void GLtexture2D::bind(unsigned int textureUnit)
+		void GLtexture2D::Bind(unsigned int textureUnit)
 		{
 			EF_ASSERT(textureUnit < 16 && "GLtexture2D: textureUnit out of range");
 
@@ -40,7 +40,7 @@ namespace efgl
 			glBindTexture(GL_TEXTURE_2D, m_RendererID);
 		}
 
-		void GLtexture2D::unbind()
+		void GLtexture2D::Unbind()
 		{
 			if (m_TextureUnit >= 0) 
 			{

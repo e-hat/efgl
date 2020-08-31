@@ -16,24 +16,24 @@ namespace efgl {
 			Indices = indices;
 			Textures = textures;
 			VertexBufferLayout vbl;
-			vbl.push<float>(3);
-			vbl.push<float>(3);
-			vbl.push<float>(2);
-			m_VAO.addBuffer(m_VBO, vbl);
+			vbl.Push<float>(3);
+			vbl.Push<float>(3);
+			vbl.Push<float>(2);
+			m_VAO.AddBuffer(m_VBO, vbl);
 		}
 
-		void GLmesh::draw(GLshader& shader) const {
+		void GLmesh::Draw(GLshader& shader) const {
 			unsigned int diffuseCount = 1;
 			unsigned int specularCount = 1;
 
-			shader.bind();
+			shader.Bind();
 
 			for (unsigned int i = 0; i < Textures.size(); ++i) {
 				GLtexture2D tex = Textures[i];
 
 				string number;
 				string typeOutput;
-				TextureType name = tex.getType();
+				TextureType name = tex.GetType();
 				if (name == TextureType::Diffuse) {
 					number = to_string(diffuseCount++);
 					typeOutput = "texture_diffuse";
@@ -43,13 +43,13 @@ namespace efgl {
 					typeOutput = "texture_specular";
 				}
 
-				shader.setUniform("material." + typeOutput + number, (int)i);
-				tex.bind(i);
+				shader.SetUniform("material." + typeOutput + number, (int)i);
+				tex.Bind(i);
 			}
 
-			m_VAO.bind();
+			m_VAO.Bind();
 			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, Indices.data());
-			m_VAO.unbind();
+			m_VAO.Bind();
 		}
 	}
 }

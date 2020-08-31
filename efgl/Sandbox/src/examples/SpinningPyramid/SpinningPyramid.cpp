@@ -1,4 +1,4 @@
-#include "common.h"
+#include "../../common.h"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans1 = glm::translate(trans1, offset);
 	trans1 = glm::translate(trans1, glm::vec3(x, y, 0.0f));
 	trans1 = glm::scale(trans1, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
-	shader.bind();
+	shader.Bind();
 	shader.setUniform("transform", trans1);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
@@ -34,7 +34,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans2 = glm::translate(trans2, offset);
 	trans2 = glm::translate(trans2, glm::vec3(x, y, 0.0f));
 	trans2 = glm::scale(trans2, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
-	shader.bind();
+	shader.Bind();
 	shader.setUniform("transform", trans2);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
@@ -45,7 +45,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans3 = glm::translate(trans3, offset);
 	trans3 = glm::translate(trans3, glm::vec3(x, y, 0.0f));
 	trans3 = glm::scale(trans3, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
-	shader.bind();
+	shader.Bind();
 	shader.setUniform("transform", trans3);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
@@ -54,7 +54,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 
 int main(int argc, char** argc)
 {
-	GLwindow* window = GLwindow::init(800, 800, "Sierpinksi Triangle");
+	GLwindow* window = GLwindow::Init(800, 800, "Sierpinksi Triangle");
 
 	float vertices[] = {
 		// positions         // texture coords
@@ -72,30 +72,30 @@ int main(int argc, char** argc)
 	IndexBuffer ib(indices, 3);
 
 	Shader shader("src/examples/SpinningPyramid/shaders/SpinningPyramid.glsl");
-	shader.bind();
+	shader.Bind();
 	shader.setUniform("tex", 0);
 
 	VertexBuffer vb(vertices, sizeof(vertices));
 
 	VertexBufferLayout vbl;
-	vbl.push<float>(3, false);
-	vbl.push<float>(2, false);
+	vbl.Push<float>(3, false);
+	vbl.Push<float>(2, false);
 	VertexArray vao;
-	vao.addBuffer(vb, vbl);
+	vao.AddBuffer(vb, vbl);
 
-	while (!window->shouldClose())
+	while (!window->ShouldClose())
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		texture.bind();
-		shader.bind();
-		vao.bind();
-		ib.bind();
+		texture.Bind();
+		shader.Bind();
+		vao.Bind();
+		ib.Bind();
 
 		makeSierpinski(shader, 0.0f, 0.0f, 1.0, 4);
 
-		window->swap();
+		window->Swap();
 	}
 
 	return EXIT_SUCCESS;

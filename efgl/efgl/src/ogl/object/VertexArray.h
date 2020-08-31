@@ -15,10 +15,10 @@ namespace efgl
 			VertexArray();
 			~VertexArray();
 
-			void addBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
+			void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
 
-			void bind() const;
-			void unbind() const;
+			void Bind() const;
+			void Unbind() const;
 		private:
 			unsigned int m_RendererID;
 		};

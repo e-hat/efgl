@@ -18,11 +18,12 @@ namespace efgl {
 		void GLmodel::Draw(GLshader& shader) {
 			for_each(std::begin(m_Meshes), std::end(m_Meshes),
 				[&shader](Ref<GLmesh>& pMesh) {
-				pMesh->draw(shader);
+				pMesh->Draw(shader);
 			});
 		}
 
 		void GLmodel::loadModel(const std::string& path) {
+			PROFILE_FUNCTION();
 			Assimp::Importer importer;
 			const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -37,6 +38,7 @@ namespace efgl {
 		}
 
 		void GLmodel::processNode(aiNode* node, const aiScene* scene) {
+			PROFILE_FUNCTION();
 			for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
 				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 				m_Meshes.push_back(processMesh(mesh, scene));
@@ -48,6 +50,7 @@ namespace efgl {
 		}
 
 		Ref<GLmesh> GLmodel::processMesh(aiMesh* mesh, const aiScene* scene) {
+			PROFILE_FUNCTION();
 			vector<Vertex> vertices;
 			vector<unsigned int> indices;
 			vector<GLtexture2D> textures;

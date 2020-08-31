@@ -33,6 +33,7 @@ workspace "efgl"
 		include "../efgl/vendor/GLFW"
 		include "../efgl/vendor/Glad"
 		include "../efgl/vendor/assimp"
+	group ""
 
 	project "efgl"
 		location "../efgl/%{prj.name}"
