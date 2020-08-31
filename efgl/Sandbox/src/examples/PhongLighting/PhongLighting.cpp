@@ -7,13 +7,13 @@ void processInput(GLFWwindow* window, float deltaTime);
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
-void EarlyLighting1() {
-	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
+int main(int argc, char** argv) {
+	Window* window = Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
 
-	glfwMakeContextCurrent(window->getWindow());
-	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	glfwSetScrollCallback(window->getWindow(), scroll_callback);
+	glfwMakeContextCurrent(window->GetWindow());
+	glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
+	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -79,11 +79,13 @@ void EarlyLighting1() {
 	lightVBL.Push<float>(2);
 	lightVAO.AddBuffer(vbo, lightVBL);
 
-	Shader objectShader("src/examples/PhongLighting1/shaders/object_shader.glsl");
-	Shader lightShader("src/examples/PhongLighting1/shaders/light_shader.glsl");
+	Shader objectShader("src/examples/PhongLighting/shaders/object_shader.glsl");
+	Shader lightShader("src/examples/PhongLighting/shaders/light_shader.glsl");
 
-	Texture2D diffuseMap = TextureManager::LoadTexture("src/resources/container2.png", "diffuseMap");
-	Texture2D specularMap = TextureManager::LoadTexture("src/resources/container2_specular.png", "specularMap");
+	TextureManager tm(false);
+
+	Texture2D diffuseMap = tm.LoadTexture("container2.png", "src/examples/PhongLighting/resources", TextureType::Diffuse);
+	Texture2D specularMap = tm.LoadTexture("container2_specular.png", "src/examples/PhongLighting/resources", TextureType::Specular);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -107,7 +109,7 @@ void EarlyLighting1() {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -2.0f));
 
-		objectShader.Bind);
+		objectShader.Bind();
 		objectShader.SetUniform("model", model);
 		objectShader.SetUniform("view", view);
 		objectShader.SetUniform("proj", proj);

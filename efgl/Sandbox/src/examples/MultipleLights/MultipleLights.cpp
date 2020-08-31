@@ -8,11 +8,11 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 int main(int argc, char** argv) {
-	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Multiple Lights");
+	Window* window = Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Multiple Lights");
 
-	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	glfwSetScrollCallback(window->getWindow(), scroll_callback);
+	glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
+	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -77,15 +77,17 @@ int main(int argc, char** argv) {
 	lightVBL.Push<float>(2);
 	lightVAO.AddBuffer(vbo, lightVBL);
 
-	Shader objectShader("src/shaders/object_shader.glsl");
-	Shader lightShader("src/shaders/light_shader.glsl");
+	Shader objectShader("src/examples/MultipleLights/shaders/object_shader.glsl");
+	Shader lightShader("src/examples/MultipleLights/shaders/light_shader.glsl");
 
 	glEnable(GL_DEPTH_TEST);
 
 	glm::vec3 lightPos(0.5f, 0.5f, 1.0f);
 
-	Texture2D diff = TextureManager::LoadTexture("src/resources/container2.png", "diffuse");
-	Texture2D spec = TextureManager::LoadTexture("src/resources/container2_specular.png", "specular");
+	TextureManager tm(false);
+
+	Texture2D diff = tm.LoadTexture("container2.png", "src/examples/MultipleLights/resources", TextureType::Diffuse);
+	Texture2D spec = tm.LoadTexture("container2_specular.png", "src/examples/MultipleLights/resources", TextureType::Specular);
 
 	glEnable(GL_DEPTH_TEST);
 

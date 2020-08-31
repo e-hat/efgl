@@ -8,12 +8,12 @@ void processInput(GLFWwindow* window, float deltaTime);
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 int main(int argc, char** argv) {
-	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
+	Window* window = Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
 
-	glfwMakeContextCurrent(window->getWindow());
-	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
-	glfwSetCursorPosCallback(window->getWindow(), mouse_callback);
-	glfwSetScrollCallback(window->getWindow(), scroll_callback);
+	glfwMakeContextCurrent(window->GetWindow());
+	glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
+	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -79,12 +79,14 @@ int main(int argc, char** argv) {
 	lightVBL.Push<float>(2);
 	lightVAO.AddBuffer(vbo, lightVBL);
 
-	Shader objectShader("src/shaders/object_shader.glsl");
-	Shader lightShader("src/shaders/light_shader.glsl");
+	Shader objectShader("src/examples/EmissionMap/shaders/object_shader.glsl");
+	Shader lightShader("src/examples/EmissionMap/shaders/light_shader.glsl");
 
-	Texture2D diffuseMap = TextureManager::LoadTexture("src/resources/container2.png", "diffuseMap");
-	Texture2D specularMap = TextureManager::LoadTexture("src/resources/container2_specular.png", "specularMap");
-	Texture2D emissionMap = TextureManager::LoadTexture("src/resources/emission.jpg", "emissionMap");
+	TextureManager tm(false);
+
+	Texture2D diffuseMap = tm.LoadTexture("container2.png", "src/examples/EmissionMap/resources", TextureType::Diffuse);
+	Texture2D specularMap = tm.LoadTexture("container2_specular.png", "src/examples/EmissionMap/resources", TextureType::Specular);
+	Texture2D emissionMap = tm.LoadTexture("emission.jpg", "src/examples/EmissionMap/resources", TextureType::Diffuse);
 	
 	glEnable(GL_DEPTH_TEST);
 

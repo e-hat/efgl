@@ -24,7 +24,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans1 = glm::translate(trans1, glm::vec3(x, y, 0.0f));
 	trans1 = glm::scale(trans1, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
 	shader.Bind();
-	shader.setUniform("transform", trans1);
+	shader.SetUniform("transform", trans1);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
 
@@ -35,7 +35,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans2 = glm::translate(trans2, glm::vec3(x, y, 0.0f));
 	trans2 = glm::scale(trans2, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
 	shader.Bind();
-	shader.setUniform("transform", trans2);
+	shader.SetUniform("transform", trans2);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
 
@@ -46,15 +46,15 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 	trans3 = glm::translate(trans3, glm::vec3(x, y, 0.0f));
 	trans3 = glm::scale(trans3, scl * 0.5f * glm::vec3(1.0f, 1.0f, 1.0f));
 	shader.Bind();
-	shader.setUniform("transform", trans3);
+	shader.SetUniform("transform", trans3);
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	makeSierpinski(shader, offset.x + x, offset.y + y, scl * 0.5f, depth - 1);
 
 }
 
-int main(int argc, char** argc)
+int main(int argc, char** argv)
 {
-	GLwindow* window = GLwindow::Init(800, 800, "Sierpinksi Triangle");
+	Window* window = Window::Init(800, 800, "Sierpinksi Triangle");
 
 	float vertices[] = {
 		// positions         // texture coords
@@ -67,13 +67,14 @@ int main(int argc, char** argc)
 		0, 1, 2
 	};
 
-	Texture2D texture("src/resources/awesomeface.png", "face", true);
+	TextureManager tm(true);
+	Texture2D texture = tm.LoadTexture("awesomeface.png", "src/examples/SpinningPyramid/resources", TextureType::Diffuse);
 
 	IndexBuffer ib(indices, 3);
 
 	Shader shader("src/examples/SpinningPyramid/shaders/SpinningPyramid.glsl");
 	shader.Bind();
-	shader.setUniform("tex", 0);
+	shader.SetUniform("tex", 0);
 
 	VertexBuffer vb(vertices, sizeof(vertices));
 
@@ -88,7 +89,7 @@ int main(int argc, char** argc)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		texture.Bind();
+		texture.Bind(0);
 		shader.Bind();
 		vao.Bind();
 		ib.Bind();

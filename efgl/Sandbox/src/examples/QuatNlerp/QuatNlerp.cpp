@@ -28,7 +28,7 @@ float getKeyframe() {
 
 int main(int argc, char** argv) {
 
-	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
+	Window* window = Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
 	
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -82,7 +82,10 @@ int main(int argc, char** argv) {
 	vao.AddBuffer(vb, vbl);
 
 	Shader shader("src/examples/QuatNlerp/shaders/QuatNlerp.glsl");
-	Texture2D texture = TextureManager::loadTexture("src/resources/container.jpg", "container");
+
+	TextureManager tm(false);
+
+	Texture2D texture = tm.LoadTexture("container.jpg", "src/examples/QuatNlerp/resources", TextureType::Diffuse);
 	shader.Bind();
 	shader.SetUniform("tex", 0);
 
@@ -118,7 +121,7 @@ int main(int argc, char** argv) {
 		shader.SetUniform("proj", proj);
 
 		vao.Bind();
-		texture.Bind();
+		texture.Bind(0);
 		shader.Bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
