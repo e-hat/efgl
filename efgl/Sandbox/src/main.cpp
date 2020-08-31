@@ -50,9 +50,9 @@ int main() {
 
 		shader.SetUniform("material.shininess", 32.0f);
 
-		shader.SetUniform("pointLight.position", 0.7f, 0.2f, 2.0f);
-		shader.SetUniform("pointLight.ambient", 0.05f, 0.05f, 0.05f);
-		shader.SetUniform("pointLight.diffuse", 0.95f, 0.95f, 0.95f);
+		shader.SetUniform("pointLight.position", 0.5f, 0.5f, 0.5f);
+		shader.SetUniform("pointLight.ambient", 0.3f, 0.15f, 0.15f);
+		shader.SetUniform("pointLight.diffuse", 1.0f, 0.8f, 0.8f);
 		shader.SetUniform("pointLight.specular", glm::vec3(1.0f));
 		shader.SetUniform("pointLight.constant", 1.0f);
 		shader.SetUniform("pointLight.linear", 0.09f);
