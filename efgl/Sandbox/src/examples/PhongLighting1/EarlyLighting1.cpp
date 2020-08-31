@@ -153,6 +153,8 @@ void EarlyLighting1() {
 
 		window->swap();
 	}
+
+	return EXIT_SUCCESS;
 }
 
 // below is from tutorial https://learnopengl.com/

@@ -1,5 +1,4 @@
-#include "QuatNlerp.h"
-#include "common.h"
+#include "../../common.h"
 
 static const float dur = 5.0f;
 
@@ -27,12 +26,7 @@ float getKeyframe() {
 	return std::fmod((float)glfwGetTime(), dur) / dur;
 }
 
-/* This is the skeleton for the cubic spline calculator function
-std::vector<glm::quat<float>> getSplines(const glm::quat<float>& a, const glm::qua<float>& b) {
-
-}
-*/
-void QuatNlerp() {
+int main(int argc, char** argv) {
 
 	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "QuatSlerp");
 	
@@ -132,6 +126,8 @@ void QuatNlerp() {
 		window->swap();
 
 	}
+
+	return EXIT_SUCCESS;
 }
 
 // below is from tutorial https://learnopengl.com/

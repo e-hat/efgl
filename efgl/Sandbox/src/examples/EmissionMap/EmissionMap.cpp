@@ -1,5 +1,4 @@
-#include "EmissionMap.h"
-#include "common.h"
+#include "../../common.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -8,8 +7,8 @@ void processInput(GLFWwindow* window, float deltaTime);
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
-int EmissionMap() {
-	GLwindow* window = GLwindow::init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
+int main(int argc, char** argv) {
+	GLwindow* window = GLwindow::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Colors");
 
 	glfwMakeContextCurrent(window->getWindow());
 	glfwSetFramebufferSizeCallback(window->getWindow(), framebuffer_size_callback);
@@ -68,24 +67,24 @@ int EmissionMap() {
 
 	VertexArray vao;
 	VertexBufferLayout vbl;
-	vbl.push<float>(3);
-	vbl.push<float>(3);
-	vbl.push<float>(2);
-	vao.addBuffer(vbo, vbl);
+	vbl.Push<float>(3);
+	vbl.Push<float>(3);
+	vbl.Push<float>(2);
+	vao.AddBuffer(vbo, vbl);
 
 	VertexArray lightVAO;
 	VertexBufferLayout lightVBL;
-	lightVBL.push<float>(3);
-	lightVBL.push<float>(3);
-	lightVBL.push<float>(2);
-	lightVAO.addBuffer(vbo, lightVBL);
+	lightVBL.Push<float>(3);
+	lightVBL.Push<float>(3);
+	lightVBL.Push<float>(2);
+	lightVAO.AddBuffer(vbo, lightVBL);
 
 	Shader objectShader("src/shaders/object_shader.glsl");
 	Shader lightShader("src/shaders/light_shader.glsl");
 
-	Texture2D diffuseMap = TextureManager::loadTexture("src/resources/container2.png", "diffuseMap");
-	Texture2D specularMap = TextureManager::loadTexture("src/resources/container2_specular.png", "specularMap");
-	Texture2D emissionMap = TextureManager::loadTexture("src/resources/emission.jpg", "emissionMap");
+	Texture2D diffuseMap = TextureManager::LoadTexture("src/resources/container2.png", "diffuseMap");
+	Texture2D specularMap = TextureManager::LoadTexture("src/resources/container2_specular.png", "specularMap");
+	Texture2D emissionMap = TextureManager::LoadTexture("src/resources/emission.jpg", "emissionMap");
 	
 	glEnable(GL_DEPTH_TEST);
 
@@ -161,7 +160,7 @@ int EmissionMap() {
 		window->swap();
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 // below is from tutorial https://learnopengl.com/

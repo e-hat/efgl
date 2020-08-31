@@ -1,4 +1,3 @@
-#include "SpinningPyramid.h"
 #include "common.h"
 
 using namespace std;
@@ -53,7 +52,7 @@ void makeSierpinski(Shader shader, float x, float y, float scl, unsigned int dep
 
 }
 
-void SpinningPyramid()
+int main(int argc, char** argc)
 {
 	GLwindow* window = GLwindow::init(800, 800, "Sierpinksi Triangle");
 
@@ -99,6 +98,7 @@ void SpinningPyramid()
 		window->swap();
 	}
 
+	return EXIT_SUCCESS;
 }
 
 // below is from tutorial https://learnopengl.com/
