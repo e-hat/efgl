@@ -46,7 +46,7 @@ workspace "efgl"
 		objdir ("../efgl/bin-int/" .. outputdir .. "/%{prj.name}")
 
 		pchheader "efpch.h"
-		pchsource "../efgl/%{prj.name}/src/efpch.cpp"
+		pchsource "../efgl/%{prj.name}/src/efgl/efpch.cpp"
 
 		files
 		{
@@ -62,7 +62,7 @@ workspace "efgl"
 
 		includedirs
 		{
-			"../efgl/%{prj.name}/src",
+			"../efgl/%{prj.name}/src/efgl",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.stb}",
@@ -79,7 +79,7 @@ workspace "efgl"
 			"assimp"
 		}
 		
-		filter { 'files:../efgl/efgl/src/glad.c' }
+		filter { 'files:../efgl/efgl/src/efgl/glad.c' }
 			flags { 'NoPCH' }
 		
 		filter { 'files:../efgl/vendor/stb/**.h' }
@@ -136,6 +136,7 @@ workspace "efgl"
 		includedirs
 		{
 			"../efgl/efgl/src",
+			"../efgl/efgl/src/efgl",
 			"../efgl/vendor",
 			"../efgl/Sandbox/src",
 			"%{IncludeDir.GLFW}",
