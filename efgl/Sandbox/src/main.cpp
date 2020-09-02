@@ -18,12 +18,12 @@ int main() {
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	Instrumentor::Get().BeginSession("Model building");
-	Model backpack("src/resources/backpack.obj");
+	Model dragon("src/resources/models/dragon/dragon.obj");
 	Instrumentor::Get().EndSession();
 	Shader shader("src/shaders/shader.glsl");
 
 	glEnable(GL_DEPTH_TEST);
-
+	glEnable(GL_MULTISAMPLE);
 	// render loop
 	// ----------------
 	while (!window->ShouldClose()) {
@@ -48,17 +48,15 @@ int main() {
 		shader.SetUniform("view", view);
 		shader.SetUniform("model", model);
 
-		shader.SetUniform("material.shininess", 32.0f);
+		shader.SetUniform("material.cool", 0.0f, 0.0f, 0.55f);
+		shader.SetUniform("material.warm", 0.3f, 0.3f, 0.0f);
+		shader.SetUniform("material.surface", glm::vec3(0.7f));
+		shader.SetUniform("material.highlight", glm::vec3(1.0f));
 
-		shader.SetUniform("pointLight.position", 0.5f, 0.5f, 0.5f);
-		shader.SetUniform("pointLight.ambient", 0.3f, 0.15f, 0.15f);
-		shader.SetUniform("pointLight.diffuse", 1.0f, 0.8f, 0.8f);
-		shader.SetUniform("pointLight.specular", glm::vec3(1.0f));
-		shader.SetUniform("pointLight.constant", 1.0f);
-		shader.SetUniform("pointLight.linear", 0.09f);
-		shader.SetUniform("pointLight.quadratic", 0.032f);
+		shader.SetUniform("lightPos", glm::vec3(1.5f));
+		shader.SetUniform("viewPos", camera.Position);
 
-		backpack.Draw(shader);
+		dragon.Draw(shader);
 
 		window->Swap();
 	}
