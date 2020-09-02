@@ -8,3 +8,6 @@
 [submodule "efgl/vendor/assimp"]
 	path = efgl/vendor/assimp
 	url = https://github.com/AminAliari/assimp.git
+[submodule "efgl/vendor/imgui"]
+	path = efgl/vendor/imgui
+	url = https://github.com/TheCherno/imgui.git
