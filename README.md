@@ -4,9 +4,15 @@ Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to
 ### Long-term Goals
 I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/efgl/JumboEngine) and begin building a rendering engine there.
 ### Progress So Far
-<img src="progress/first_model_render.png" width="250" height="250">   
+<img src="progress/first_model_render.PNG" width="250" height="250" />   
 
 First rendered model.  
+
+<img src="progress/gooch_shading.PNG" width="250" height="250" />
+
+Gooch shading model implementation. See reference for Stanford dragon model below.
+
+Morgan McGuire, Computer Graphics Archive, July 2017 (https://casual-effects.com/data)
 
 ## Getting Started
 ### Requirements
