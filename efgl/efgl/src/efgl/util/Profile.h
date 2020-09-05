@@ -28,9 +28,10 @@ public:
 		: m_CurrentSession(nullptr), m_ProfileCount(0)
 	{}
 
-	void BeginSession(const std::string& name, const std::string& filepath = "profiling/results.json")
+	void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 	{
 		m_OutputStream.open(filepath);
+		EF_ASSERT(m_OutputStream.good() && "failed to open profiling results file");
 		WriteHeader();
 		m_CurrentSession = new InstrumentationSession{ name };
 	}
