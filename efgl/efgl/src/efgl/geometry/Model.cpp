@@ -15,12 +15,13 @@ namespace efgl {
 	Model::Model(const char* path)
 		: m_TextureManager(TextureManager(true))
 	{
+		PROFILE_FUNCTION();
 		loadModel(path);
 	}
 
 	void Model::Draw(Shader& shader) {
-		for_each(std::begin(m_Meshes), std::end(m_Meshes),
-			[&shader](Ref<Mesh>& pMesh) {
+		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
+			[&shader](auto& pMesh) {
 			pMesh->Draw(shader);
 		});
 	}
@@ -38,6 +39,11 @@ namespace efgl {
 		m_Directory = path.substr(0, path.find_last_of('/'));
 
 		processNode(scene->mRootNode, scene);
+
+		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
+			[](auto& pMesh) {
+			pMesh->UploadData();
+		});
 	}
 
 	void Model::processNode(aiNode* node, const aiScene* scene) {

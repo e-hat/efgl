@@ -23,8 +23,11 @@ namespace efgl {
 		TextureManager m_TextureManager;
 
 		void loadModel(const std::string& path);
+
 		void processNode(aiNode* node, const aiScene* scene);
+
 		Ref<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
+
 		std::vector<Texture2D> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName);
 	};
 }

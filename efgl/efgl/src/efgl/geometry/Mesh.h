@@ -15,6 +15,8 @@ namespace efgl {
 		glm::vec3 Position;
 		glm::vec3 Normal;
 		glm::vec2 TexCoords;
+
+		static VertexBufferLayout GetVBL();
 	};
 
 	// maybe i would like to make this templated to accept custom vertex formats
@@ -26,11 +28,15 @@ namespace efgl {
 
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
 
+		void UploadData();
+
 		void Draw(Shader& shader) const;
 
 	private:
-		VertexArray m_VAO;
-		VertexBuffer m_VBO;
-		IndexBuffer m_IBO;
+		Ref<VertexArray> m_VAO;
+		Ref<VertexBuffer> m_VBO;
+		Ref<IndexBuffer> m_IBO;
+
+		bool m_Uploaded;
 	};
 }

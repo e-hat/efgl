@@ -1,5 +1,8 @@
 #pragma once
 #include "efpch.h"
 
-#include "ogl/GLmesh.h"
+#include "geometry/Mesh.h"
 
+namespace efgl {
+
+}
