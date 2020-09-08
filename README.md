@@ -35,3 +35,4 @@ Simply exclude `main.cpp` from your project, and include the folder of the examp
 * Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). He also came up with the `premake5.lua` script except for the minor changes I've made.
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    
 * This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.
+* I am using [ASSIMP](https://www.assimp.org/) as my model loading library.
