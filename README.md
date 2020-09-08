@@ -2,7 +2,7 @@
 ## About
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
-I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/efgl/JumboEngine) and begin building a rendering engine there.
+I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/JumboEngine) and begin building a rendering engine there.
 ### Progress So Far
 <img src="progress/first_model_render.PNG" width="250" height="250" />   
 
