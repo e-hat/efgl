@@ -19,7 +19,7 @@ namespace efgl {
 	}
 
 	Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture2D> textures)
-		: Vertices(vertices), Indices(indices), Textures(textures), m_Uploaded(false)
+		: Vertices(vertices), Indices(indices), Textures(textures)
 	{
 	}
 
@@ -63,7 +63,15 @@ namespace efgl {
 		}
 
 		m_VAO->Bind();
-		glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, Indices.data());
+		if (!Indices.empty()) {
+			m_IBO->Bind();
+			GLCall(glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, (GLvoid*)nullptr));
+			m_IBO->Unbind();
+		} 
+		else {
+			GLCall(glDrawArrays(GL_TRIANGLES, 0, Vertices.size()));
+		}
+
 		m_VAO->Bind();
 	}
 }

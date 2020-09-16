@@ -1,3 +1,4 @@
+#pragma once
 #include "efpch.h"
 
 #include "platform/OpenGL/VertexArray.h"
@@ -19,13 +20,15 @@ namespace efgl {
 		static VertexBufferLayout GetVBL();
 	};
 
-	// maybe i would like to make this templated to accept custom vertex formats
+	// maybe I would like to make this templated to accept custom vertex formats
+	// or maybe make subclasses of Vertex implementing GetVBL
 	class Mesh {
 	public:
 		std::vector<Vertex> Vertices;
 		std::vector<unsigned int> Indices;
 		std::vector<Texture2D> Textures;
 
+		Mesh() = default;
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
 
 		void UploadData();
@@ -37,6 +40,6 @@ namespace efgl {
 		Ref<VertexBuffer> m_VBO;
 		Ref<IndexBuffer> m_IBO;
 
-		bool m_Uploaded;
+		bool m_Uploaded = false;
 	};
 }
