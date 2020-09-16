@@ -2,7 +2,7 @@
 ## About
 Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
 ### Long-term Goals
-I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/efgl/JumboEngine) and begin building a rendering engine there.
+I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/JumboEngine) and begin building a rendering engine there.
 ### Progress So Far
 <img src="progress/first_model_render.PNG" width="250" height="250" />   
 
@@ -35,3 +35,4 @@ Simply exclude `main.cpp` from your project, and include the folder of the examp
 * Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). He also came up with the `premake5.lua` script except for the minor changes I've made.
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    
 * This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.
+* I am using [ASSIMP](https://www.assimp.org/) as my model loading library.
