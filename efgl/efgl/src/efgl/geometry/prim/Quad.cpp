@@ -6,10 +6,11 @@
 
 namespace efgl {
 
-	Quad::Quad(Texture2D texture) {
+	Quad::Quad(Texture2D* texture) {
 		using VertexData = std::array<float, 8>;
 
-		Textures = { texture };
+		if (texture != nullptr) Textures = { *texture };
+
 		std::array<VertexData, 6> vertices = {
 			VertexData{-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f},
 			VertexData{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},
