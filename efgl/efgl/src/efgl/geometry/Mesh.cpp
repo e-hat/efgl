@@ -18,8 +18,8 @@ namespace efgl {
 		return vbl;
 	}
 
-	Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture2D> textures)
-		: Vertices(vertices), Indices(indices), Textures(textures)
+	Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Ref<IMaterial> material)
+		: Vertices(vertices), Indices(indices), pMaterial(material)
 	{
 	}
 
@@ -43,24 +43,7 @@ namespace efgl {
 
 		shader.Bind();
 
-		for (unsigned int i = 0; i < Textures.size(); ++i) {
-			auto tex = Textures[i];
-
-			string number;
-			string typeOutput;
-			TextureType name = tex.GetType();
-			if (name == TextureType::Diffuse) {
-				number = to_string(diffuseCount++);
-				typeOutput = "texture_diffuse";
-			}
-			else if (name == TextureType::Specular) {
-				number = to_string(specularCount++);
-				typeOutput = "texture_specular";
-			}
-
-			shader.SetUniform("material." + typeOutput + number, (int)i);
-			tex.Bind(i);
-		}
+		pMaterial->SetShaderUniforms(shader);
 
 		m_VAO->Bind();
 		if (!Indices.empty()) {

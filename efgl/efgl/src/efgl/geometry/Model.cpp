@@ -3,11 +3,14 @@
 
 #include "util/Profile.h"
 
+#include "material/StandardMaterial.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
 #include <algorithm>
 #include <iostream>
+#include <future>
 
 using namespace std;
 
@@ -17,6 +20,13 @@ namespace efgl {
 	{
 		PROFILE_FUNCTION();
 		loadModel(path);
+	}
+
+	void Model::SetMaterial(Ref<IMaterial> pMat) {
+		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
+			[&pMat](auto& pMesh) {
+			pMesh->pMaterial = pMat;
+		});
 	}
 
 	void Model::Draw(Shader& shader) {
@@ -92,15 +102,15 @@ namespace efgl {
 				indices.push_back(face.mIndices[j]);
 		}
 
+		auto pMat = MakeRef<StandardMaterial>();
+
 		if (mesh->mMaterialIndex >= 0) {
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-			vector<Texture2D> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::Diffuse);
-			textures.insert(std::end(textures), std::begin(diffuseMaps), std::end(diffuseMaps));
-			vector<Texture2D> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::Specular);
-			textures.insert(std::end(textures), std::begin(specularMaps), std::end(specularMaps));
+			pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::Diffuse);
+			pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::Specular);
 		}
 
-		return MakeRef<Mesh>(vertices, indices, textures);
+		return MakeRef<Mesh>(vertices, indices, pMat);
 	}
 
 	vector<Texture2D> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName) {

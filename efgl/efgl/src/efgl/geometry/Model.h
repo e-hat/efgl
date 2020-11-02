@@ -15,6 +15,8 @@ namespace efgl {
 	public:
 		Model(const char* path);
 
+		void SetMaterial(Ref<IMaterial> pMat);
+
 		void Draw(Shader& shader);
 
 	private:

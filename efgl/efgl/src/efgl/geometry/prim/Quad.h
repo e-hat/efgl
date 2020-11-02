@@ -7,7 +7,7 @@ namespace efgl {
 
 	class Quad : public Mesh {
 	public:
-		Quad(Texture2D* texture = nullptr);
+		Quad(Ref<IMaterial> pMat);
 	};
 
 }

@@ -5,11 +5,12 @@
 
 namespace efgl {
 	
-	Box::Box(std::vector<Texture2D> textures)
+	Box::Box(Ref<IMaterial> pMat)
 	{
+		pMaterial = pMat;
+
 		using VertexData = std::array<float, 8>;
 
-		Textures = textures;
 		std::array<VertexData, 36> vertices = {
 						// positions         normals		    texture coords
 			VertexData{ -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f },

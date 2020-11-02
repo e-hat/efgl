@@ -6,6 +6,7 @@
 #include "platform/OpenGL/IndexBuffer.h"
 #include "Shader.h"
 #include "texture/Texture2D.h"
+#include "material/IMaterial.h"
 
 #include <vector>
 #include <string>
@@ -26,10 +27,10 @@ namespace efgl {
 	public:
 		std::vector<Vertex> Vertices;
 		std::vector<unsigned int> Indices;
-		std::vector<Texture2D> Textures;
+		Ref<IMaterial> pMaterial;
 
 		Mesh() = default;
-		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture2D> textures);
+		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Ref<IMaterial> material);
 
 		void UploadData();
 

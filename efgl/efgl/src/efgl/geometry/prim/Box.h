@@ -5,8 +5,8 @@
 
 namespace efgl {
 	
-	class Box : public Mesh {
+	class Box : public Mesh{
 	public:
-		Box(std::vector<Texture2D> textures = {});
+		Box(Ref<IMaterial> pMat);
 	};
 }
