@@ -1,8 +1,6 @@
 # efgl
 ## About
-Currently, this is just a C++ abstraction of the OpenGL API (I plan to expand to other rendering APIs at some point, such as Vulkan). It will be useful for me to have this around for various projects I might want to do in the future.
-### Long-term Goals
-I want to collect a lot of graphical effects and techniques here in the `efgl/Sandbox/src/examples` folder, along with animation techniques and other stuff having to do with real-time rendering. Once I have those, I want to revisit my [JumboEngine project](https://github.com/deadbird11/JumboEngine) and begin building a rendering engine there.
+This repo is where I will build my rendering engine. Most recently, I implemented my scene-graph since I found it messy to manually manage positional data, along with light/camera data for each object in my scene. Next, I will implement a deferred rendering system, followed by a physically-based shading model. Then, I think I will change the architecture to allow for some forward rendering to be done, which is why you may see various hooks that don't strictly follow a deferred mindset. Then who knows.
 ### Progress So Far
 <img src="progress/first_model_render.PNG" width="250" height="250" />   
 
