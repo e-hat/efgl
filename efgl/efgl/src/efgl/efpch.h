@@ -10,6 +10,8 @@
 	x;\
 	EF_ASSERT(::efgl::GLLogCall(#x, __FILE__, __LINE__))
 
+using Color = glm::vec3;
+
 namespace efgl
 {
 	void GLClearError();
