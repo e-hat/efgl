@@ -1,6 +1,10 @@
 #pragma once
 #include "efpch.h"
 
+#include "SceneNode.h"
+#include "Camera.h"
+#include "Light.h"
+
 #include <vector>
 
 namespace efgl {
@@ -8,14 +12,12 @@ namespace efgl {
 	public:
 		Scene() = default;
 
-		void AddLight(Ref<Light> light);
+		inline void Traverse() { Root->Traverse(); }
 
-		Ref<SceneNode> GetRoot();
+		Camera Cam;
+		Ref<SceneNode> Root;
+		std::vector<DirectionalLight> DirLights;
+		std::vector<PointLight> PointLights;
 
-		void Draw();
-
-	private:
-		std::vector<Ref<Light>> m_Lights;
-		Ref<SceneNode> m_Root;
 	};
 }
