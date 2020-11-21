@@ -8,5 +8,6 @@ namespace efgl {
 	class IMaterial {
 	public:
 		virtual void SetShaderUniforms(Shader& shader) = 0;
+
 	};
 }
