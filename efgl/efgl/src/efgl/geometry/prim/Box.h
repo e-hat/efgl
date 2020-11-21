@@ -5,7 +5,7 @@
 
 namespace efgl {
 	
-	class Box : public Mesh{
+	class Box : public Mesh {
 	public:
 		Box(Ref<IMaterial> pMat);
 	};

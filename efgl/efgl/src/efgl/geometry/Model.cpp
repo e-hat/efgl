@@ -29,7 +29,7 @@ namespace efgl {
 		});
 	}
 
-	void Model::Draw(Shader& shader) {
+	void Model::Draw(Shader& shader) const {
 		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
 			[&shader](auto& pMesh) {
 			pMesh->Draw(shader);

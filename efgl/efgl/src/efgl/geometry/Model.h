@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "texture/Texture2D.h"
+#include "IRenderable.h"
 
 #include <assimp/scene.h>
 
@@ -11,13 +12,13 @@
 #include <string>
 
 namespace efgl {
-	class Model {
+	class Model : public IRenderable {
 	public:
 		Model(const char* path);
 
-		void SetMaterial(Ref<IMaterial> pMat);
+		void SetMaterial(Ref<IMaterial> pMat) override;
 
-		void Draw(Shader& shader);
+		virtual void Draw(Shader& shader) const override;
 
 	private:
 		std::vector<Ref<Mesh>> m_Meshes;
