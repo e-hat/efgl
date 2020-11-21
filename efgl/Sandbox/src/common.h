@@ -1,10 +1,14 @@
 #pragma once
 
+/*#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>*/
+
 #include <efgl/Camera.h>
 #include <efgl/Window.h>
 #include <efgl/geometry/Model.h>
 #include <efgl/Shader.h>
 #include <efgl/util/Profile.h>
+#include <efgl/geometry/prim/Quad.h>
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>

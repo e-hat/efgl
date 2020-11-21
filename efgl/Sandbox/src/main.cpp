@@ -1,5 +1,12 @@
 #include "common.h"
 
+#include "obj/floor/Floor.h"
+#include <efgl/material/GoochMaterial.h>
+
+/*#define IMGUI_IMPL_OPENGL_LOADER_GLAD
+#include <examples/imgui_impl_glfw.cpp>
+#include <examples/imgui_impl_opengl3.cpp>*/
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -17,10 +24,21 @@ int main() {
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	Instrumentor::Get().BeginSession("Model building");
 	Model dragon("src/resources/models/dragon/dragon.obj");
-	Instrumentor::Get().EndSession();
+
+	auto gm = MakeRef<GoochMaterial>();
+	gm->Cool = Color(0.7f, 1.0f, 0.0f) * 0.5f;
+	gm->Highlight = Color(1.0f);
+	gm->Surface = Color(0.3f);
+	gm->Warm = Color(0.3f, 0.8f, 1.0f);
+
+	dragon.SetMaterial(gm);
+
 	Shader shader("src/shaders/shader.glsl");
+
+	glm::vec3 lightPos(1.5f);
+
+	Floor floor;
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -37,26 +55,21 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 		shader.Bind();
 		
 		glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 model = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f));
 
 		shader.SetUniform("proj", proj);
 		shader.SetUniform("view", view);
 		shader.SetUniform("model", model);
 
-		shader.SetUniform("material.cool", 0.0f, 0.0f, 0.55f);
-		shader.SetUniform("material.warm", 0.3f, 0.3f, 0.0f);
-		shader.SetUniform("material.surface", glm::vec3(0.7f));
-		shader.SetUniform("material.highlight", glm::vec3(1.0f));
-
-		shader.SetUniform("lightPos", glm::vec3(1.5f));
+		shader.SetUniform("lightPos", lightPos);
 		shader.SetUniform("viewPos", camera.Position);
 
 		dragon.Draw(shader);
+		floor.Draw(proj, camera, lightPos, -5);
 
 		window->Swap();
 	}
