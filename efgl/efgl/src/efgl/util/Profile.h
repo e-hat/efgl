@@ -101,7 +101,7 @@ public:
 
 		//std::cout << m_Name << ": " << end - start << "ms\n" << std::endl;
 
-		uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
+		uint32_t threadID = (uint32_t)std::hash<std::thread::id>{}(std::this_thread::get_id());
 		Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
 
 		m_Stopped = true;
