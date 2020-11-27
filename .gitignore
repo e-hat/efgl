@@ -8,6 +8,7 @@ efgl/bin/*
 efgl/bin-int/*
 efgl/vendor/Glad/bin-int/*
 efgl/Sandbox/profiling/*
+efgl/Sandbox/src/examples/*
 
 # User-specific files
 *.rsuser
