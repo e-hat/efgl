@@ -31,6 +31,9 @@ namespace efgl {
 		glm::vec3 Right;
 		glm::vec3 WorldUp;
 
+		float Near;
+		float Far;
+
 		float Yaw;
 		float Pitch;
 
@@ -38,7 +41,7 @@ namespace efgl {
 		float MouseSensitivity;
 		float Zoom;
 
-		Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH)
+		Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH, float near = 0.1f, float far = 100.0f)
 			: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY),
 			Zoom(ZOOM)
 		{
@@ -61,6 +64,10 @@ namespace efgl {
 
 		glm::mat4 GetViewMatrix() const {
 			return glm::lookAt(Position, Position + Front, Up);
+		}
+
+		glm::mat4 GetProjectionMatrix(float screenWidth, float screenHeight) const {
+			return glm::perspective(glm::radians(Zoom), screenWidth / screenHeight, Near, Far);
 		}
 
 		void ProcessKeyboard(CameraMovement direction, float deltaTime) {
