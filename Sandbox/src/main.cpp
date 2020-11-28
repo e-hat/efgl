@@ -17,8 +17,8 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 
-		sponza = MakeRef<Model>("src/resources/models/sponza/sponza.obj");
-		subdivisionShader = MakeRef<Shader>("src/shaders/shader.glsl");
+		sponza = MakeRef<Model>("resources/models/sponza/sponza.obj");
+		subdivisionShader = MakeRef<Shader>("shaders/shader.glsl");
 		camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 	}
 

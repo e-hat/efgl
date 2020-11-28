@@ -4,7 +4,7 @@ workspace "efgl"
 	architecture "x86_64"
     startproject "Sandbox"
     filename "efgl"
-    location "../efgl/"
+    location "../"
 
 	configurations
 	{
@@ -20,15 +20,14 @@ workspace "efgl"
 
 	outputdir = "/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-	-- Include directories relative to root folder (solution directory)
 	IncludeDir = {}
-	IncludeDir["GLFW"] = "../efgl/vendor/GLFW/include"
-	IncludeDir["Glad"] = "../efgl/vendor/Glad/include"
-	IncludeDir["stb"]  = "../efgl/vendor/stb"
-	IncludeDir["glm"]  = "../efgl/vendor/glm"
-	IncludeDir["spdlog"] = "../efgl/vendor/spdlog/include"
-	IncludeDir["assimp"] = "../efgl/vendor/assimp/include"
-	IncludeDir["ImGui"] = "../efgl/vendor/imgui"
+	IncludeDir["GLFW"] = "../vendor/GLFW/include"
+	IncludeDir["Glad"] = "../vendor/Glad/include"
+	IncludeDir["stb"]  = "../vendor/stb"
+	IncludeDir["glm"]  = "../vendor/glm"
+	IncludeDir["spdlog"] = "../vendor/spdlog/include"
+	IncludeDir["assimp"] = "../vendor/assimp/include"
+	IncludeDir["ImGui"] = "../vendor/imgui"
 
 	group "Dependencies"
 		include "../efgl/vendor/GLFW"
@@ -38,23 +37,23 @@ workspace "efgl"
 	group ""
 
 	project "efgl"
-		location "../efgl/efgl/"
+		location "../efgl/"
 		kind "StaticLib"
 		language "C++"
 		cppdialect "C++17"
 		staticruntime "on"
 
-		targetdir ("../efgl/bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("../efgl/bin-int/" .. outputdir .. "/%{prj.name}")
+		targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
 
 		pchheader "efpch.h"
-		pchsource "../efgl/%{prj.name}/src/efpch.cpp"
+		pchsource "../%{prj.name}/src/efpch.cpp"
 
 		files
 		{
-			"../efgl/%{prj.name}/src/**",
-			"../efgl/vendor/stb/**.h",
-			"../efgl/vendor/stb/**.cpp"
+			"../%{prj.name}/src/**",
+			"../vendor/stb/**.h",
+			"../vendor/stb/**.cpp"
 		}
 
 		defines
@@ -64,7 +63,7 @@ workspace "efgl"
 
 		includedirs
 		{
-			"../efgl/%{prj.name}/src/",
+			"../%{prj.name}/src/",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.stb}",
@@ -83,13 +82,13 @@ workspace "efgl"
 			"ImGui"
 		}
 		
-		filter { 'files:../efgl/efgl/src/glad.c' }
+		filter { 'files:../efgl/src/glad.c' }
 			flags { 'NoPCH' }
 		
-		filter { 'files:../efgl/vendor/stb/**.h' }
+		filter { 'files:../vendor/stb/**.h' }
 			flags { 'NoPCH' }
 
-		filter { 'files:../efgl/vendor/stb/**.cpp' }
+		filter { 'files:../vendor/stb/**.cpp' }
 			flags { 'NoPCH' }
 
 		filter "system:windows"
@@ -118,30 +117,30 @@ workspace "efgl"
 			optimize "on"
 
 	project "Sandbox"
-		location "../efgl/Sandbox"
+		location "../Sandbox"
 		kind "ConsoleApp"
 		language "C++"
 		cppdialect "C++17"
 		staticruntime "on"
 
-		targetdir ("../efgl/bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("../efgl/bin-int/" .. outputdir .. "/%{prj.name}")
+		targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
 
 		files
 		{
-			"../efgl/%{prj.name}/src/**"
+			"../%{prj.name}/src/**"
 		}
 
 		excludes
 		{
-			"../efgl/%{prj.name}/src/examples/**"
+			"../%{prj.name}/src/examples/**"
 		}
 
 		includedirs
 		{
-			"../efgl/efgl/src",
-			"../efgl/vendor",
-			"../efgl/Sandbox/src",
+			"../efgl/src",
+			"../vendor",
+			"../Sandbox/src",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.glm}",

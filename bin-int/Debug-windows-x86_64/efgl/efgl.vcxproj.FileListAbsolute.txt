@@ -1,0 +1,2 @@
+C:\dev\efgl\bin\Debug-windows-x86_64\efgl\efgl.pdb
+C:\dev\efgl\bin-int\Debug-windows-x86_64\efgl\efgl.pdb

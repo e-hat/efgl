@@ -17,6 +17,12 @@ namespace efgl {
 		m_RendererID = createShader(filePath);
 	}
 
+
+	ComputeShader::~ComputeShader()
+	{
+		GLCall(glDeleteProgram(m_RendererID));
+	}
+
 	std::string ComputeShader::parseShader(const string& filepath)
 	{
 		std::ifstream stream(filepath);
