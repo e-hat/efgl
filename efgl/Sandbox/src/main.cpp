@@ -1,7 +1,7 @@
 #include "common.h"
 
 #include "obj/floor/Floor.h"
-#include <efgl/material/GoochMaterial.h>
+#include <material/GoochMaterial.h>
 
 /*#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include <examples/imgui_impl_glfw.cpp>
@@ -24,21 +24,11 @@ int main() {
 	// tell GLFW to capture our mouse
 	//glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	Model dragon("src/resources/models/dragon/dragon.obj");
-
-	auto gm = MakeRef<GoochMaterial>();
-	gm->Cool = Color(0.7f, 1.0f, 0.0f) * 0.5f;
-	gm->Highlight = Color(1.0f);
-	gm->Surface = Color(0.3f);
-	gm->Warm = Color(0.3f, 0.8f, 1.0f);
-
-	dragon.SetMaterial(gm);
+	Model sponza("src/resources/models/sponza/sponza.obj");
 
 	Shader shader("src/shaders/shader.glsl");
 
-	glm::vec3 lightPos(1.5f);
-
-	Floor floor;
+	glm::vec3 lightPos(0.0f, 5.0f, 0.0f);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -52,24 +42,27 @@ int main() {
 		processInput(window->GetWindow(), deltaTime);
 
 		// set background
-		glClearColor(0.0f, 0.0f, 0.f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.Bind();
 		
-		glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 proj = camera.GetProjectionMatrix((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f));
+		glm::mat4 model = glm::scale(glm::mat4(1.0f), glm::vec3(0.01f));
 
 		shader.SetUniform("proj", proj);
 		shader.SetUniform("view", view);
 		shader.SetUniform("model", model);
 
-		shader.SetUniform("lightPos", lightPos);
-		shader.SetUniform("viewPos", camera.Position);
+		shader.SetUniform("numSlices", 60);
+		shader.SetUniform("near", camera.Near);
+		shader.SetUniform("far", camera.Far);
 
-		dragon.Draw(shader);
-		floor.Draw(proj, camera, lightPos, -5);
+		shader.SetUniform("c1", Color(204.0f, 78.0f, 92.0f) / 255.0f);
+		shader.SetUniform("c2", Color(60.0f, 100.0f, 60.0f) / 255.0f);
+
+		sponza.Draw(shader);
 
 		window->Swap();
 	}

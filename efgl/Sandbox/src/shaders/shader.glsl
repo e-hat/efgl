@@ -16,7 +16,7 @@ out vec2 TexCoords;
 void main()
 {
 	gl_Position = proj * view * model * vec4(aPos, 1.0);
-	FragPos = vec3(model * vec4(aPos, 1.0));
+	FragPos = vec3(proj * view * model * vec4(aPos, 1.0));
 	Normal = mat3(transpose(inverse(model))) * aNormal;
 	TexCoords = aTexCoords;
 }
@@ -27,30 +27,34 @@ in vec3 FragPos;
 in vec3 Normal;
 in vec2 TexCoords;
 
-uniform struct {
-	vec3 cool;
-	vec3 warm;
-	vec3 surface;
-	vec3 highlight;
-} material;
+struct Material {
+	sampler2D texture_diffuse1;
+	sampler2D texture_specular1;
 
-uniform vec3 lightPos;
-uniform vec3 viewPos;
+	float shininess;
+};
 
-out vec4 FragColor;
+uniform Material material;
+uniform int numSlices;
+uniform float near;
+uniform float far;
 
-void main() {
-	vec3 n = normalize(Normal);
-	vec3 l = normalize(lightPos - FragPos);
-	vec3 v = normalize(viewPos - FragPos);
+uniform vec3 c1;
+uniform vec3 c2;
 
-	vec3 cool_color = material.cool + 0.25 * material.surface;
-	vec3 warm_color = material.warm + 0.25 * material.surface;
+out vec4 outputColor;
 
-	float t = (dot(n, l) + 1.0) / 2.0;
-	vec3 r  = 2 * dot(n, l) * n - l;
-	float s = clamp(100 * dot(r, v) - 97, 0, 1);
-	
+void main()
+{
+	float a = log(FragPos.z) * numSlices / log(far / near);
+	float b = numSlices * log(near) / log(far / near);
 
-	FragColor = vec4(s * material.highlight + (1 - s) * (t * warm_color + (1 - t) * cool_color), 1.0);
+	int slice = int(floor(a - b));
+
+	if (mod(slice, 2) == 0) {
+		outputColor = vec4(c1, 1.0f);
+	}
+	else {
+		outputColor = vec4(c2, 1.0f);
+	}
 }
