@@ -1,17 +1,15 @@
 #pragma once
 #include "efpch.h"
 
-#include <glm/gtc/type_ptr.hpp>
-
 #include <unordered_map>
 
-namespace efgl
-{
-	class Shader 
-	{
+#include <glm/gtc/type_ptr.hpp>
+
+namespace efgl {
+	class ComputeShader {
 	public:
-		~Shader();
-		Shader(const std::string& filepath);
+		~ComputeShader();
+		ComputeShader(const std::string& filepath);
 
 		void Bind()	  const;
 		void Unbind() const;
@@ -36,7 +34,7 @@ namespace efgl
 		{
 			GLCall(glUniform2fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
-		
+
 		void SetUniform(const std::string& name, const float& x, const float& y)
 		{
 			GLCall(glUniform2f(getUniformLocation(name), x, y));
@@ -47,8 +45,8 @@ namespace efgl
 			GLCall(glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
 
-		void SetUniform(const std::string& name, const float& x, const float& y, 
-						const float& z)
+		void SetUniform(const std::string& name, const float& x, const float& y,
+			const float& z)
 		{
 			GLCall(glUniform3f(getUniformLocation(name), x, y, z));
 		}
@@ -58,48 +56,39 @@ namespace efgl
 			GLCall(glUniform4fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
 
-		void SetUniform(const std::string& name, const float& x, const float& y, 
-						const float& z, const float& w)
+		void SetUniform(const std::string& name, const float& x, const float& y,
+			const float& z, const float& w)
 		{
 			GLCall(glUniform4f(getUniformLocation(name), x, y, z, w));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat2& mat)
 		{
-			GLCall(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, 
-										glm::value_ptr(mat)));
+			GLCall(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE,
+				glm::value_ptr(mat)));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat3& mat)
 		{
-			GLCall(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, 
-										glm::value_ptr(mat)));
+			GLCall(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE,
+				glm::value_ptr(mat)));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat4 mat)
 		{
-			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, 
-										glm::value_ptr(mat)));
+			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
+				glm::value_ptr(mat)));
 		}
-
-	protected:
-		struct ShaderProgramSource
-		{
-			std::string vertexSrc;
-			std::string fragSrc;
-		};
-
+	private:
 		unsigned int m_RendererID;
 		std::string m_FilePath;
 
-		// caching for uniforms
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 
 		int getUniformLocation(const std::string& name);
 
-		ShaderProgramSource parseShader(const std::string& filepath);
+		std::string parseShader(const std::string& filepath);
 		unsigned int compileShader(unsigned int type, const std::string& source);
-		unsigned int createShader(const std::string& vertexShader, const std::string& fragmentShader);
-
+		unsigned int createShader(const std::string& source);
 	};
 }
