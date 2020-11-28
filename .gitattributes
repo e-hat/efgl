@@ -1,2 +1,2 @@
-efgl/efgl/src/glad.c linguist-vendored
-efgl/vendor/* linguist-vendored
+efgl/src/glad.c linguist-vendored
+vendor/* linguist-vendored
