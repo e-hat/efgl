@@ -18,7 +18,8 @@ static Camera camera;
 class SandboxApplication : public Application {
 public:
 	SandboxApplication()
-		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "efgl"))
+		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "efgl")),
+		numSlices(60)
 	{
 	}
 
