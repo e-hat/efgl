@@ -4,11 +4,11 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 ## I did not write this. I got this from the link above.
 
-efgl/bin/*
-efgl/bin-int/*
-efgl/vendor/Glad/bin-int/*
-efgl/Sandbox/profiling/*
-efgl/Sandbox/src/examples/*
+/bin/*
+/bin-int/*
+vendor/Glad/bin-int/*
+Sandbox/profiling/*
+Sandbox/src/examples/*
 
 # User-specific files
 *.rsuser
