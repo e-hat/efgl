@@ -1,17 +1,5 @@
 #include "common.h"
 
-#include "obj/floor/Floor.h"
-#include <material/GoochMaterial.h>
-
-/*#define IMGUI_IMPL_OPENGL_LOADER_GLAD
-#include <examples/imgui_impl_glfw.cpp>
-#include <examples/imgui_impl_opengl3.cpp>*/
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow* window, float deltaTime);
-
 static Camera camera;
 
 class SandboxApplication : public Application {
@@ -29,7 +17,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 
-		sponza = MakeRef<Model>("src/resources/sponza/sponza.obj");
+		sponza = MakeRef<Model>("src/resources/models/sponza/sponza.obj");
 		subdivisionShader = MakeRef<Shader>("src/shaders/shader.glsl");
 		camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 	}

@@ -24,8 +24,8 @@
 
 using namespace efgl;
 
-static const int SCREEN_WIDTH = 800;
-static const int SCREEN_HEIGHT = 800;
+static const int SCREEN_WIDTH = 1080;
+static const int SCREEN_HEIGHT = 920;
 
 static bool firstMouse = true;
 static float lastX = SCREEN_WIDTH / 2.0f;
