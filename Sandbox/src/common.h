@@ -22,14 +22,4 @@
 #include <vector>
 #include <functional>
 
-using namespace efgl;
-
-static const int SCREEN_WIDTH = 1080;
-static const int SCREEN_HEIGHT = 920;
-
-static bool firstMouse = true;
-static float lastX = SCREEN_WIDTH / 2.0f;
-static float lastY = SCREEN_HEIGHT / 2.0f;
-static float deltaTime = 0.0f;
-static float lastFrame = 0.0f;
 

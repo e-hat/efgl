@@ -1,5 +1,18 @@
 #include "common.h"
 
+#include <imgui.h>
+
+using namespace efgl;
+
+static const int SCREEN_WIDTH = 1080;
+static const int SCREEN_HEIGHT = 920;
+
+static bool firstMouse = true;
+static float lastX = SCREEN_WIDTH / 2.0f;
+static float lastY = SCREEN_HEIGHT / 2.0f;
+static float deltaTime = 0.0f;
+static float lastFrame = 0.0f;
+
 static Camera camera;
 
 class SandboxApplication : public Application {
@@ -10,9 +23,9 @@ public:
 	}
 
 	virtual void Init() override {
-		glfwSetFramebufferSizeCallback(window->GetWindow(), framebuffer_size_callback);
-		glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
-		glfwSetScrollCallback(window->GetWindow(), scroll_callback);
+		glfwSetFramebufferSizeCallback(window->GetNativeWindow(), framebuffer_size_callback);
+		glfwSetCursorPosCallback(window->GetNativeWindow(), mouse_callback);
+		glfwSetScrollCallback(window->GetNativeWindow(), scroll_callback);
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
@@ -20,14 +33,15 @@ public:
 		sponza = MakeRef<Model>("resources/models/sponza/sponza.obj");
 		subdivisionShader = MakeRef<Shader>("shaders/shader.glsl");
 		camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+		numSlices = 25;
 	}
 
-	virtual void Tick() override {
+	virtual void OnRender() override {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		processInput(window->GetWindow(), deltaTime);
+		processInput(window->GetNativeWindow(), deltaTime);
 
 		// set background
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -43,7 +57,7 @@ public:
 		subdivisionShader->SetUniform("view", view);
 		subdivisionShader->SetUniform("model", model);
 
-		subdivisionShader->SetUniform("numSlices", 60);
+		subdivisionShader->SetUniform("numSlices", numSlices);
 		subdivisionShader->SetUniform("near", camera.Near);
 		subdivisionShader->SetUniform("far", camera.Far);
 
@@ -51,8 +65,14 @@ public:
 		subdivisionShader->SetUniform("c2", Color(60.0f, 100.0f, 60.0f) / 255.0f);
 
 		sponza->Draw(*subdivisionShader);
+	}
 
-		window->Swap();
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Subdivision debugging.");
+		ImGui::InputFloat("Near plane distance", &camera.Near, 0.001f, 10.0f);
+		ImGui::InputFloat("Far plane distance", &camera.Far, 10.0f, 100.0f);
+		ImGui::InputInt("Number of slices", &numSlices, 1, 100);
+		ImGui::End();
 	}
 
 	virtual void Exit() override {
@@ -62,6 +82,8 @@ public:
 private:
 	Ref<Model> sponza;
 	Ref<Shader> subdivisionShader;
+
+	int numSlices;
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------

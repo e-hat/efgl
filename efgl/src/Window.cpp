@@ -10,6 +10,9 @@ namespace efgl
 	Window* Window::p_Instance = nullptr;
 	GLFWwindow* Window::p_Window = nullptr;
 
+	int Window::m_Width = 0;
+	int Window::m_Height = 0;
+
 	Window* Window::Init(int width, int height, const std::string& name)
 	{
 		if (p_Instance == nullptr)
@@ -22,6 +25,9 @@ namespace efgl
 
 	GLFWwindow* Window::getWindow(int width, int height, const std::string& name)
 	{
+		m_Width = width;
+		m_Height = height;
+
 		EF_ASSERT(p_Window == nullptr && "Trying to create more than one window");
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

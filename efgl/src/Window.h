@@ -15,12 +15,16 @@ namespace efgl
 
 		void Swap();
 
-		inline GLFWwindow* GetWindow() { return p_Window; }		
+		inline GLFWwindow* GetNativeWindow() { return p_Window; }		
+		inline int GetWidth() { return m_Width; }
+		inline int GetHeight() { return m_Height; }
 
 		~Window();
 
 	private:
 		static GLFWwindow* getWindow(int width, int height, const std::string& name);
+
+		static int m_Width, m_Height;
 
 		Window() = default;
 		static Window* p_Instance;
