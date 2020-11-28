@@ -1,6 +1,13 @@
 # efgl
 ## About
-This engine started as an abstraction over OpenGL, with some useful classes such as a Camera and Window along with it. Now, I am working on making it into more of a fully-fledged rendering engine, which began with adding a Scene Graph. Next, I will implement clustered forward rendering by following various guides around the internet. After that, my plan is to implement a physically based shading model. Any other rendering techniques, such as shadows/post-processing are still TBD.
+This engine is still very much in progress, as most of the major features have not yet been built. The current roadmap is as follows:
+
+* Create a clustered forward rendering pipeline for efficiency and and graphical fidelity.
+* Implement a physically-based shading model.
+* Post-processing, including SSAO. 
+* Shadows, which I intend to use PCSS for, although, like many things in this project, this will require MUCH research.
+
+This project began as an abstraction over OpenGL where I played around with various simple lighting techniques, which explains the outsized commit history.
 
 ### Progress So Far
 
