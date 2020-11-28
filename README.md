@@ -3,6 +3,11 @@
 This engine started as an abstraction over OpenGL, with some useful classes such as a Camera and Window along with it. Now, I am working on making it into more of a fully-fledged rendering engine, which began with adding a Scene Graph. Next, I will implement clustered forward rendering by following various guides around the internet. After that, my plan is to implement a physically based shading model. Any other rendering techniques, such as shadows/post-processing are still TBD.
 
 ### Progress So Far
+
+<img src="progress/subdiv_demo.PNG" width="250" height="250" />
+
+Debug screenshot of subdividing the between near and far plane on the sponza model.
+
 <img src="progress/first_model_render.PNG" width="250" height="250" />   
 
 First rendered model.  

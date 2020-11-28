@@ -7,6 +7,7 @@
 #include "util/Profile.h"
 #include "geometry/prim/Quad.h"
 #include "scene/Light.h"
+#include "Application.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -19,6 +20,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <functional>
 
 using namespace efgl;
 
