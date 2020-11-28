@@ -6,7 +6,7 @@ This engine started as an abstraction over OpenGL, with some useful classes such
 
 <img src="progress/subdiv_demo.PNG" width="250" height="250" />
 
-Debug screenshot of subdividing the between near and far plane on the sponza model.
+Debug screenshot of subdividing the between near and far plane on the sponza model. This idea will be used later to subdivide into clusters.
 
 <img src="progress/first_model_render.PNG" width="250" height="250" />   
 
