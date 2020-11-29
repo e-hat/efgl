@@ -2,7 +2,7 @@
 #include "efpch.h"
 
 #include "material/IMaterial.h"
-#include "texture/Texture2D.h"
+#include "texture/Texture.h"
 
 #include <vector>
 
@@ -13,8 +13,8 @@ namespace efgl {
 	public:
 		virtual void SetShaderUniforms(Shader& shader) override;
 		
-		std::vector<Texture2D> Diffuses;
-		std::vector<Texture2D> Speculars;
+		std::vector<Ref<Texture>> Diffuses;
+		std::vector<Ref<Texture>> Speculars;
 
 	};
 }

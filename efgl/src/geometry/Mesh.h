@@ -5,7 +5,7 @@
 #include "platform/OpenGL/VertexBuffer.h"
 #include "platform/OpenGL/IndexBuffer.h"
 #include "Shader.h"
-#include "texture/Texture2D.h"
+#include "texture/Texture.h"
 #include "material/IMaterial.h"
 #include "IRenderable.h"
 

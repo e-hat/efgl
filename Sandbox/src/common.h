@@ -8,6 +8,7 @@
 #include "geometry/prim/Quad.h"
 #include "scene/Light.h"
 #include "Application.h"
+#include "texture/Texture.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>

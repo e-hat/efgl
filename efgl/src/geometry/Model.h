@@ -3,7 +3,7 @@
 
 #include "Mesh.h"
 #include "Shader.h"
-#include "texture/Texture2D.h"
+#include "texture/Texture.h"
 #include "IRenderable.h"
 
 #include <assimp/scene.h>
@@ -23,7 +23,6 @@ namespace efgl {
 	private:
 		std::vector<Ref<Mesh>> m_Meshes;
 		std::string m_Directory;
-		TextureManager m_TextureManager;
 
 		void loadModel(const std::string& path);
 
@@ -31,6 +30,6 @@ namespace efgl {
 
 		Ref<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
 
-		std::vector<Texture2D> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName);
+		std::vector<Ref<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
 	};
 }

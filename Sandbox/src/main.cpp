@@ -33,7 +33,7 @@ public:
 
 		sponza = MakeRef<Model>("resources/models/sponza/sponza.obj");
 		subdivisionShader = MakeRef<Shader>("shaders/shader.glsl");
-		camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+		camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT, glm::vec3(0.0f, 0.0f, 3.0f));
 		numSlices = 25;
 	}
 
@@ -69,7 +69,7 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
-		ImGui::Begin("Subdivision debugging.");
+		ImGui::Begin("Subdivision debugging");
 		ImGui::InputFloat("Near plane distance", &camera.Near, 0.001f, 10.0f);
 		ImGui::InputFloat("Far plane distance", &camera.Far, 10.0f, 100.0f);
 		ImGui::InputInt("Number of slices", &numSlices, 1, 100);
@@ -77,7 +77,7 @@ public:
 	}
 
 	virtual void Exit() override {
-
+		TextureManager::CleanUp();
 	}
 
 private:

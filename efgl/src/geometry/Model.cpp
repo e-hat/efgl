@@ -10,15 +10,14 @@
 
 #include <algorithm>
 #include <iostream>
-#include <future>
 
 using namespace std;
 
 namespace efgl {
 	Model::Model(const char* path)
-		: m_TextureManager(TextureManager(false))
 	{
 		PROFILE_FUNCTION();
+		TextureManager::SetFlip(false);
 		loadModel(path);
 	}
 
@@ -71,7 +70,7 @@ namespace efgl {
 		PROFILE_FUNCTION();
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
-		vector<Texture2D> textures;
+		auto pMat = MakeRef<StandardMaterial>();
 
 		for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
 			Vertex vt;
@@ -102,25 +101,27 @@ namespace efgl {
 				indices.push_back(face.mIndices[j]);
 		}
 
-		auto pMat = MakeRef<StandardMaterial>();
 
 		if (mesh->mMaterialIndex >= 0) {
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-			pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::Diffuse);
-			pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::Specular);
+			pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE);
+			pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR);
 		}
 
 		return MakeRef<Mesh>(vertices, indices, pMat);
 	}
 
-	vector<Texture2D> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType typeName) {
+	vector<Ref<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type) {
 		PROFILE_FUNCTION();
-		vector<Texture2D> textures;
-		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i) {
+		vector<Ref<Texture>> textures;
+		int numTextures = mat->GetTextureCount(type);
+		for (unsigned int i = 0; i < numTextures; ++i) {
 			aiString str;
 			mat->GetTexture(type, i, &str);
 
-			textures.push_back(m_TextureManager.LoadTexture(str.C_Str(), m_Directory, typeName));
+			textures.push_back(
+				TextureManager::LoadTexture(str.C_Str(), m_Directory)
+			);
 
 		}
 		return textures;
