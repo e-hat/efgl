@@ -34,6 +34,9 @@ namespace efgl {
 		float Near;
 		float Far;
 
+		int ScreenWidth;
+		int ScreenHeight;
+
 		float Yaw;
 		float Pitch;
 
@@ -41,8 +44,8 @@ namespace efgl {
 		float MouseSensitivity;
 		float Zoom;
 
-		Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH, float near = 0.1f, float far = 100.0f)
-			: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY),
+		Camera(int screenWidth = 1080, int screenHeight = 920, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH, float near = 0.1f, float far = 100.0f)
+			: ScreenWidth(screenWidth), ScreenHeight(screenHeight), Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY),
 			Zoom(ZOOM), Near(near), Far(far)
 		{
 			Position = position;
