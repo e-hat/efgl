@@ -35,6 +35,13 @@ namespace efgl {
 		});
 	}
 
+	void Model::DrawCustom(Ref<IMaterial> mat, Shader& shader) const {
+		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
+			[&mat, &shader](auto& pMesh) {
+			pMesh->DrawCustom(mat, shader);
+		});
+	}
+
 	void Model::loadModel(const std::string& path) {
 		PROFILE_FUNCTION();
 		Assimp::Importer importer;

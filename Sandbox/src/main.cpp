@@ -65,7 +65,7 @@ public:
 		subdivisionShader->SetUniform("c1", Color(204.0f, 78.0f, 92.0f) / 255.0f);
 		subdivisionShader->SetUniform("c2", Color(60.0f, 100.0f, 60.0f) / 255.0f);
 
-		sponza->Draw(*subdivisionShader);
+		sponza->DrawCustom(nullptr, *subdivisionShader);
 	}
 
 	virtual void OnImGuiRender() override {

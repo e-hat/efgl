@@ -34,27 +34,30 @@ namespace efgl {
 		}
 	}
 
-	void Mesh::Draw(Shader& shader) const {
-
+	void Mesh::DrawCustom(Ref<IMaterial> mat, Shader& shader) const {
 		EF_ASSERT(m_Uploaded && "Mesh was not uploaded prior to draw call");
 
 		unsigned int diffuseCount = 1;
 		unsigned int specularCount = 1;
 
 		shader.Bind();
-
-		pMaterial->SetShaderUniforms(shader);
+		if (mat)
+			mat->SetShaderUniforms(shader);
 
 		m_VAO->Bind();
 		if (!Indices.empty()) {
 			m_IBO->Bind();
 			GLCall(glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, (GLvoid*)nullptr));
 			m_IBO->Unbind();
-		} 
+		}
 		else {
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, Vertices.size()));
 		}
 
 		m_VAO->Bind();
+	}
+
+	void Mesh::Draw(Shader& shader) const {
+		DrawCustom(pMaterial, shader);
 	}
 }

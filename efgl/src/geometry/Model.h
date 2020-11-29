@@ -18,6 +18,7 @@ namespace efgl {
 
 		void SetMaterial(Ref<IMaterial> pMat) override;
 
+		virtual void DrawCustom(Ref<IMaterial> mat, Shader& shader) const override;
 		virtual void Draw(Shader& shader) const override;
 
 	private:

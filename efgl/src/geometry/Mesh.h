@@ -34,7 +34,10 @@ namespace efgl {
 
 		void UploadData();
 
+		// for the actual shader/material used in presentation
 		void Draw(Shader& shader) const override;
+		// for render passes
+		void DrawCustom(Ref<IMaterial> mat, Shader& shader) const override;
 
 		inline virtual void SetMaterial(Ref<IMaterial> mat) { pMaterial = mat; }
 		Ref<IMaterial> pMaterial;
