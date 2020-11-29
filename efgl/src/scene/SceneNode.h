@@ -17,6 +17,9 @@ namespace efgl {
 
 		virtual bool IsRenderable() { return false; }
 
+		// This is set up to propogate the new shader 
+		// to all children. We'll see if this is useful
+		// or annoying
 		void UpdateShader(Ref<Shader> newShader);
 		void UpdatePos(glm::vec3 newPos);
 		void UpdateScale(glm::vec3 newScale);

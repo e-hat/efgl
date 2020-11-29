@@ -15,9 +15,8 @@ namespace efgl {
 			Ref<IRenderable> geometry);
 
 		virtual bool IsRenderable() { return true; }
+		Ref<IRenderable> Geometry;
 
 	private:
-		Ref<IRenderable> m_Geometry;
-		Ref<IMaterial> m_Material;
 	};
 }
