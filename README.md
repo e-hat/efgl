@@ -11,6 +11,10 @@ This project began as an abstraction over OpenGL where I played around with vari
 
 ### Progress So Far
 
+<img src="progress/phong_demo.PNG" width="250" height="250" />
+
+Simple phong lighting model with forward rendering, which will be adapted to work with clustered forward rendering.
+
 <img src="progress/subdiv_demo.PNG" width="250" height="250" />
 
 Debug screenshot of subdividing between near and far plane into clusters on the sponza model. This idea will be used in the compute shader for culling lights into clusters. 
