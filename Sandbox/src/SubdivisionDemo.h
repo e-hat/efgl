@@ -21,7 +21,7 @@ static Camera camera;
 class SubdivisionDemo : public Application {
 public:
 	SubdivisionDemo()
-		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "efgl")),
+		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Subdivision demo")),
 		numSlices(60)
 	{
 	}
