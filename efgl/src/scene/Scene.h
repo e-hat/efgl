@@ -14,9 +14,10 @@ namespace efgl {
 
 		inline void Traverse() { Root->Traverse(); }
 
-		Camera Cam;
+		Camera Camera;
 		Ref<SceneNode> Root;
-		std::vector<DirectionalLight> DirLights;
+		// ref for optionality
+		Ref<DirectionalLight> DirLight;
 		std::vector<PointLight> PointLights;
 
 	};

@@ -27,11 +27,11 @@ namespace efgl {
 
 		void Traverse();
 
+		std::vector<Ref<SceneNode>> Children;
 	protected:
 		void SetVisitedFalse();
 
 		SceneNode* m_Parent;
-		std::vector<Ref<SceneNode>> m_Children;
 		Ref<Shader> m_OptionalShader;
 		Ref<Shader> m_ShaderToRender;
 

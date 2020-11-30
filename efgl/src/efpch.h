@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 
 #include <memory>
+#include <vector>
+#include <string>
 
 #define EF_ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) ::efgl::GLClearError();\

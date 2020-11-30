@@ -7,9 +7,8 @@
 #include "material/IMaterial.h"
 
 namespace efgl {
-	class RenderableNode : protected SceneNode
+	class RenderableNode : public SceneNode
 	{
-		friend class Scene;
 	public:
 		RenderableNode(glm::vec3 pos, glm::vec3 scale, glm::quat rotation, 
 			Ref<IRenderable> geometry);
@@ -17,6 +16,8 @@ namespace efgl {
 		virtual bool IsRenderable() { return true; }
 		Ref<IRenderable> Geometry;
 
-	private:
+		// should only be used after scene is traversed
+		inline glm::mat4 GetTransform() { return m_Transform; }
+
 	};
 }

@@ -12,7 +12,7 @@ namespace efgl {
 	}
 
 	void SceneNode::AddChild(Ref<SceneNode> child) {
-		m_Children.push_back(child);
+		Children.push_back(child);
 		child->m_Parent = this;
 	}
 
@@ -37,7 +37,7 @@ namespace efgl {
 
 	void SceneNode::SetVisitedFalse() {
 		m_Visited = false;
-		for (Ref<SceneNode> child : m_Children) {
+		for (Ref<SceneNode> child : Children) {
 			child->SetVisitedFalse();
 		}
 	}
@@ -62,7 +62,7 @@ namespace efgl {
 			m_ShaderToRender = m_OptionalShader;
 		}
 
-		for (Ref<SceneNode> child : m_Children) {
+		for (Ref<SceneNode> child : Children) {
 			if (!child->m_Visited)
 				child->Traverse();
 		}

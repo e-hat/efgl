@@ -69,8 +69,8 @@ namespace efgl {
 			return glm::lookAt(Position, Position + Front, Up);
 		}
 
-		glm::mat4 GetProjectionMatrix(float screenWidth, float screenHeight) const {
-			return glm::perspective(glm::radians(Zoom), screenWidth / screenHeight, Near, Far);
+		glm::mat4 GetProjectionMatrix() const {
+			return glm::perspective(glm::radians(Zoom), (float)ScreenWidth / (float)ScreenHeight, Near, Far);
 		}
 
 		void ProcessKeyboard(CameraMovement direction, float deltaTime) {
