@@ -4,9 +4,6 @@
 #include "material/IMaterial.h"
 #include "texture/Texture.h"
 
-#include <vector>
-
-
 namespace efgl {
 
 	class StandardMaterial : public IMaterial {
@@ -16,5 +13,6 @@ namespace efgl {
 		std::vector<Ref<Texture>> Diffuses;
 		std::vector<Ref<Texture>> Speculars;
 
+		float Shininess = 32.0f;
 	};
 }

@@ -7,6 +7,8 @@ namespace efgl {
 
 		shader.Bind();
 
+		shader.SetUniform("material.shininess", Shininess);
+
 		for (int i = 0; i < Diffuses.size(); ++i) {
 			shader.SetUniform("material.texture_diffuse" + std::to_string(i + 1), i);
 
