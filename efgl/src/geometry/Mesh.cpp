@@ -2,6 +2,7 @@
 #include "Mesh.h"
 
 #include "platform/OpenGL/VertexBufferLayout.h"
+#include "util/Profile.h"
 
 #include <string>
 
@@ -35,6 +36,7 @@ namespace efgl {
 	}
 
 	void Mesh::DrawCustom(Ref<IMaterial> mat, Shader& shader) const {
+		PROFILE_FUNCTION();
 		EF_ASSERT(m_Uploaded && "Mesh was not uploaded prior to draw call");
 
 		unsigned int diffuseCount = 1;

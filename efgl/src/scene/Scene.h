@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "Light.h"
 
+#include "util/Profile.h"
+
 #include <vector>
 
 namespace efgl {
@@ -12,7 +14,10 @@ namespace efgl {
 	public:
 		Scene() = default;
 
-		inline void Traverse() { Root->Traverse(); }
+		inline void Traverse() { 
+			PROFILE_FUNCTION();
+			Root->Traverse(); 
+		}
 
 		Camera Camera;
 		Ref<SceneNode> Root;

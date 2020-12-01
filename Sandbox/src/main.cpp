@@ -75,7 +75,7 @@ public:
 
 		renderer = MakeRef<Renderer>(scene);
 
-		Instrumentor::Get().BeginSession("Phong demo");
+		Instrumentor::Get().BeginSession("Phong demo", "profiling/results.json");
 	}
 
 	virtual void OnRender() override {
