@@ -113,7 +113,7 @@ private:
 	bool m_Stopped;
 };
 
-#if PROFILING
+#ifdef PROFILING
 #define PROFILE_SCOPE(name) InstrumentationTimer timer##__LINE__(name)
 #define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__)
 #else

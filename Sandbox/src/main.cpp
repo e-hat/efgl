@@ -10,6 +10,7 @@
 #include "render/Renderer.h"
 #include "InputManager.h"
 #include "util/Time.h"
+#include "util/Profile.h"
 
 #include <imgui.h>
 
@@ -54,16 +55,31 @@ public:
 
 		p.Position = glm::vec3(3.0f);
 
+		PointLight p2;
+		p2.Ambient = Color(0.2f);
+		p2.Diffuse = Color(0.5f);
+		p2.Specular = Color(1.0f, 1.0f, 1.0f);
+
+		p2.Constant = 1.0f;
+		p2.Linear = 0.09f;
+		p2.Quadratic = 0.032f;
+
+		p2.Position = glm::vec3(7.0f);
+
 		scene->PointLights.push_back(p);
+		scene->PointLights.push_back(p2);
 
 		scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 		auto sponzaNode = MakeRef<RenderableNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), sponza);
 		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(sponzaNode));
 
 		renderer = MakeRef<Renderer>(scene);
+
+		Instrumentor::Get().BeginSession("Phong demo", "profiling/results.json");
 	}
 
 	virtual void OnRender() override {
+		PROFILE_FUNCTION();
 		float deltaTime = Time::GetDeltaTime();
 		InputManager::ProcessInput(window, deltaTime);
 		fps = 1.0f / deltaTime;
@@ -79,7 +95,7 @@ public:
 		ImGui::ColorEdit3("Directional Light ambient", glm::value_ptr(dl->Ambient));
 		ImGui::ColorEdit3("Directional Light diffuse", glm::value_ptr(dl->Diffuse));
 		ImGui::ColorEdit3("Directional Light specular", glm::value_ptr(dl->Specular));
-		ImGui::InputFloat3("Directional Light direction", glm::value_ptr(dl->Direction));
+		ImGui::DragFloat3("Directional Light direction", glm::value_ptr(dl->Direction));
 
 		ImGui::DragFloat3("Point Light position", glm::value_ptr(scene->PointLights[0].Position));
 
@@ -87,11 +103,13 @@ public:
 	}
 
 	virtual void Exit() override {
+		Instrumentor::Get().EndSession();
 		TextureManager::CleanUp();
 	}
 
 private:
 	Ref<Model> sponza;
+
 	Ref<Scene> scene;
 	Ref<Renderer> renderer;
 

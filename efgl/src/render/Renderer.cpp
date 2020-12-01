@@ -2,6 +2,7 @@
 #include "Renderer.h"
 
 #include "scene/RenderableNode.h"
+#include "util/Profile.h"
 
 #include <stack>
 
@@ -11,9 +12,11 @@ namespace efgl {
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_CULL_FACE);
 	}
 
 	void Renderer::Render() {
+		PROFILE_FUNCTION();
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
