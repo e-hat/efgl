@@ -24,7 +24,7 @@ namespace efgl {
 		m_Shader.SetUniform("proj", m_Scene->Camera.GetProjectionMatrix());
 		m_Shader.SetUniform("view", m_Scene->Camera.GetViewMatrix());
 		m_Shader.SetUniform("viewPos", m_Scene->Camera.Position);
-
+		
 		if (m_Scene->DirLight) {
 			m_Shader.SetUniform("dirLight.direction", m_Scene->DirLight->Direction);
 			m_Shader.SetUniform("dirLight.ambient", m_Scene->DirLight->Ambient);
@@ -43,7 +43,7 @@ namespace efgl {
 			m_Shader.SetUniform(prefix + "diffuse", p.Diffuse);
 			m_Shader.SetUniform(prefix + "specular", p.Specular);
 		}
-
+		
 		m_Scene->Traverse();
 
 		std::stack<Ref<SceneNode>> work;

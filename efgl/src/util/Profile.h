@@ -8,6 +8,8 @@
 #include <iostream>
 #include <thread>
 
+//#define PROFILING
+
 struct ProfileResult {
 	std::string Name;
 	long long Start, End;

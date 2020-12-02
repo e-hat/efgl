@@ -3,6 +3,8 @@
 
 #include "Window.h"
 
+#define DEBUG
+
 namespace efgl
 {
 	class Application
