@@ -45,7 +45,13 @@ namespace efgl {
 	void Model::loadModel(const std::string& path) {
 		PROFILE_FUNCTION();
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(
+			path,
+			aiProcess_Triangulate
+			| aiProcess_FlipUVs
+			| aiProcess_OptimizeMeshes
+			| aiProcess_OptimizeGraph
+		);
 
 		if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			cout << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
@@ -54,18 +60,22 @@ namespace efgl {
 
 		m_Directory = path.substr(0, path.find_last_of('/'));
 
+		m_Materials = vector<Ref<IMaterial>>(scene->mNumMaterials);
+		m_Data = vector<MeshData>(scene->mNumMaterials);
+		m_Meshes.reserve(scene->mNumMaterials);
+
 		processNode(scene->mRootNode, scene);
 
-		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
-			[](auto& pMesh) {
-			pMesh->UploadData();
-		});
+		for (int i = 0; i < m_Materials.size(); ++i) {
+			m_Meshes.push_back(MakeRef<Mesh>(m_Data[i], m_Materials[i]));
+			m_Meshes[i]->UploadData();
+		}
 	}
 
 	void Model::processNode(aiNode* node, const aiScene* scene) {
 		for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			m_Meshes.push_back(processMesh(mesh, scene));
+			processMesh(mesh, scene);
 		}
 
 		for (unsigned int i = 0; i < node->mNumChildren; ++i) {
@@ -73,11 +83,10 @@ namespace efgl {
 		}
 	}
 
-	Ref<Mesh> Model::processMesh(aiMesh* mesh, const aiScene* scene) {
+	void Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		PROFILE_FUNCTION();
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
-		auto pMat = MakeRef<StandardMaterial>();
 
 		for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
 			Vertex vt;
@@ -105,17 +114,26 @@ namespace efgl {
 		for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
 			aiFace face = mesh->mFaces[i];
 			for (unsigned int j = 0; j < face.mNumIndices; ++j)
-				indices.push_back(face.mIndices[j]);
+				indices.push_back(face.mIndices[j] + m_Data[mesh->mMaterialIndex].vertices.size());
 		}
 
+		if (!m_Materials[mesh->mMaterialIndex]) {
+			auto pMat = MakeRef<StandardMaterial>();
 
-		if (mesh->mMaterialIndex >= 0) {
-			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-			pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE);
-			pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR);
+			if (mesh->mMaterialIndex >= 0) {
+				aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+				pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE);
+				pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR);
+			}
+
+			m_Materials[mesh->mMaterialIndex] = pMat;
 		}
 
-		return MakeRef<Mesh>(vertices, indices, pMat);
+		vector<Vertex>&		 matGroupVertices = m_Data[mesh->mMaterialIndex].vertices;
+		vector<unsigned int>& matGroupIndices = m_Data[mesh->mMaterialIndex].indices;
+
+		matGroupVertices.insert(matGroupVertices.end(), vertices.begin(), vertices.end());
+		matGroupIndices.insert(matGroupIndices.end(), indices.begin(), indices.end());
 	}
 
 	vector<Ref<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type) {

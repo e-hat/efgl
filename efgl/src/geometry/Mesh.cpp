@@ -19,8 +19,8 @@ namespace efgl {
 		return vbl;
 	}
 
-	Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Ref<IMaterial> material)
-		: Vertices(vertices), Indices(indices), pMaterial(material)
+	Mesh::Mesh(MeshData data, Ref<IMaterial> material)
+		: Vertices(data.vertices), Indices(data.indices), pMaterial(material)
 	{
 	}
 
@@ -39,9 +39,6 @@ namespace efgl {
 		PROFILE_FUNCTION();
 		EF_ASSERT(m_Uploaded && "Mesh was not uploaded prior to draw call");
 
-		unsigned int diffuseCount = 1;
-		unsigned int specularCount = 1;
-
 		shader.Bind();
 		if (mat)
 			mat->SetShaderUniforms(shader);
@@ -56,7 +53,6 @@ namespace efgl {
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, Vertices.size()));
 		}
 
-		m_VAO->Bind();
 	}
 
 	void Mesh::Draw(Shader& shader) const {

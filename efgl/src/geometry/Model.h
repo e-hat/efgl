@@ -23,13 +23,15 @@ namespace efgl {
 
 	private:
 		std::vector<Ref<Mesh>> m_Meshes;
+		std::vector<MeshData> m_Data;
+		std::vector<Ref<IMaterial>> m_Materials;
 		std::string m_Directory;
 
 		void loadModel(const std::string& path);
 
 		void processNode(aiNode* node, const aiScene* scene);
 
-		Ref<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
+		void processMesh(aiMesh* mesh, const aiScene* scene);
 
 		std::vector<Ref<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
 	};

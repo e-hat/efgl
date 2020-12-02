@@ -22,6 +22,11 @@ namespace efgl {
 		static VertexBufferLayout GetVBL();
 	};
 
+	struct MeshData {
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+	};
+
 	// maybe I would like to make this templated to accept custom vertex formats
 	// or maybe make subclasses of Vertex implementing GetVBL
 	class Mesh : public IRenderable {
@@ -30,7 +35,7 @@ namespace efgl {
 		std::vector<unsigned int> Indices;
 
 		Mesh() = default;
-		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Ref<IMaterial> material);
+		Mesh(MeshData data, Ref<IMaterial> material);
 
 		void UploadData();
 
