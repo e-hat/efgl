@@ -1,3 +1,8 @@
+PBR textures for the Sponza model.
+For more informations: www.alexandre-pestana.com
+
+Original copyright:
+
 July 14, 2011 Morgan McGuire modified the model from Crytek's OBJ
 export to correct some small errors.  He computed bump maps from the
 normal maps using <a
@@ -8,8 +13,6 @@ noise in the masks, created the missing gi_flag.tga texture, and
 removed the long untextured banner floating in the middle of the
 atrium that appears in the file but in none of the published images of
 the model.  The banner is in banner.obj.
-
-
 
 http://www.crytek.com/cryengine/cryengine3/downloads
 
@@ -23,3 +26,5 @@ However, nowadays it is considered as a simple model, thus it was decided to cra
 
 Screenshot from the I3D paper
 http://crytek.com/sites/default/files/20100301_lpv.pdf
+
+- material(s) slightly adjusted to fit Cell's import pipeline.
