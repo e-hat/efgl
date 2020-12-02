@@ -97,7 +97,8 @@ public:
 		ImGui::ColorEdit3("Directional Light specular", glm::value_ptr(dl->Specular));
 		ImGui::DragFloat3("Directional Light direction", glm::value_ptr(dl->Direction));
 
-		ImGui::DragFloat3("Point Light position", glm::value_ptr(scene->PointLights[0].Position));
+		ImGui::DragFloat3("Point Light1 position", glm::value_ptr(scene->PointLights[0].Position));
+		ImGui::DragFloat3("Point Light2 position", glm::value_ptr(scene->PointLights[1].Position));
 
 		ImGui::End();
 	}
