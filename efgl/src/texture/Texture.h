@@ -1,12 +1,14 @@
 #pragma once
 #include "efpch.h"
 
+#include "platform/OpenGL/fbo/ITargetable.h"
+
 #include <unordered_map>
 #include <string>
 
 namespace efgl {
 
-	class Texture {
+	class Texture : public ITargetable {
 	public:
 
 		Texture(int width, int height, GLint dataFormat, GLenum pixelDataType = GL_UNSIGNED_BYTE, const void* data = nullptr);
@@ -15,7 +17,7 @@ namespace efgl {
 		void Bind(unsigned int textureUnit);
 		void Unbind();
 
-		inline unsigned int GetID() { return m_RendererID; }
+		virtual inline unsigned int GetID() override { return m_RendererID; }
 		inline unsigned int GetTextureUnit() { return m_TextureUnit; }
 
 	private:

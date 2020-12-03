@@ -7,7 +7,7 @@ namespace efgl {
 		GLCall(glGenFramebuffers(1, &m_RendererID));
 	}
 
-	void FrameBuffer::AddColorAttachment(Texture tex, unsigned int slot) {
+	void FrameBuffer::AddColorAttachment(ITargetable& tex, unsigned int slot) {
 		Bind();
 		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, 
 			GL_COLOR_ATTACHMENT0 + slot, 
@@ -17,19 +17,19 @@ namespace efgl {
 		Unbind();
 	}
 
-	void FrameBuffer::AddDepthStencilBuffer(Texture tex) {
+	void FrameBuffer::AddDepthStencilBuffer(ITargetable& tex) {
 		Bind();
 		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, tex.GetID(), 0));
 		Unbind();
 	}
 
-	void FrameBuffer::AddDepthBuffer(Texture tex) {
+	void FrameBuffer::AddDepthBuffer(ITargetable& tex) {
 		Bind();
 		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, tex.GetID(), 0));
 		Unbind();
 	}
 
-	void FrameBuffer::AddStencilBuffer(Texture tex) {
+	void FrameBuffer::AddStencilBuffer(ITargetable& tex) {
 		Bind();
 		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, tex.GetID(), 0));
 		Unbind();

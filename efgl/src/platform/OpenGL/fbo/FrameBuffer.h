@@ -1,7 +1,7 @@
 #pragma once
 #include "efpch.h"
 
-#include "texture/Texture.h"
+#include "ITargetable.h"
 
 namespace efgl {
 	class FrameBuffer {
@@ -10,10 +10,10 @@ namespace efgl {
 		FrameBuffer();
 		~FrameBuffer();
 
-		void AddColorAttachment(Texture tex, unsigned int slot);
-		void AddDepthStencilBuffer(Texture tex);
-		void AddDepthBuffer(Texture tex);
-		void AddStencilBuffer(Texture tex);
+		void AddColorAttachment(ITargetable& tex, unsigned int slot);
+		void AddDepthStencilBuffer(ITargetable& tex);
+		void AddDepthBuffer(ITargetable& tex);
+		void AddStencilBuffer(ITargetable& tex);
 
 		void ClearColor(Color c, float alpha);
 		void ClearBuffers(GLbitfield mask);
