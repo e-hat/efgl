@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 
+#include <../tracy/Tracy.hpp>
+
 #define EF_ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) ::efgl::GLClearError();\
 	x;\

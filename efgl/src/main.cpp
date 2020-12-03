@@ -1,4 +1,4 @@
-#include "common.h"
+#include "efpch.h"
 
 #include "Application.h"
 
@@ -10,7 +10,9 @@
 #include "render/Renderer.h"
 #include "InputManager.h"
 #include "util/Time.h"
-#include "util/Profile.h"
+#include "material/StandardMaterial.h"
+
+#include <../tracy/Tracy.hpp>
 
 #include <imgui.h>
 
@@ -23,19 +25,22 @@ class SandboxApplication : public Application {
 public:
 	SandboxApplication()
 		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Subdivision demo")),
-		fps(0)
+		dragonPos(1.0f)
 	{
 	}
 
 	virtual void Init() override {
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_MULTISAMPLE);
 
 		scene = MakeRef<Scene>();
 
 		scene->Camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT, glm::vec3(0.0f, 0.0f, 3.0f));
 		InputManager::SetGLFWCallbacks(window, &(scene->Camera));
 		sponza = MakeRef<Model>("resources/models/sponza/sponza.obj");
+		dragon = MakeRef<Model>("resources/models/dragon/dragon.obj");
+
+		auto dragonMat = MakeRef<StandardMaterial>();
+		dragonMat->Diffuses.push_back(TextureManager::LoadTexture("container2.png", "resources/img/"));
+		dragonMat->Speculars.push_back(TextureManager::LoadTexture("container2_specular.png", "resources/img/"));
 
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
@@ -71,50 +76,65 @@ public:
 
 		scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 		auto sponzaNode = MakeRef<RenderableNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), sponza);
+		dragonNode = MakeRef<RenderableNode>(dragonPos, glm::vec4(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), dragon);
 		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(sponzaNode));
-
+		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(dragonNode));
 		renderer = MakeRef<Renderer>(scene);
 
-		Instrumentor::Get().BeginSession("Phong demo", "profiling/results.json");
 	}
 
 	virtual void OnRender() override {
-		PROFILE_FUNCTION();
-		float deltaTime = Time::GetDeltaTime();
-		InputManager::ProcessInput(window, deltaTime);
-		fps = 1.0f / deltaTime;
+		ZoneScoped("OnRender");
+		InputManager::ProcessInput(window, Time::GetDeltaTime());
 		renderer->Render();
 	}
 
 	virtual void OnImGuiRender() override {
+		ZoneScoped;
 		Ref<DirectionalLight> dl = scene->DirLight;
 		ImGui::Begin("Phong Scene Debug Menu");
-		
-		ImGui::Text("FPS: %3.2f", fps);
 
-		ImGui::ColorEdit3("Directional Light ambient", glm::value_ptr(dl->Ambient));
-		ImGui::ColorEdit3("Directional Light diffuse", glm::value_ptr(dl->Diffuse));
-		ImGui::ColorEdit3("Directional Light specular", glm::value_ptr(dl->Specular));
-		ImGui::DragFloat3("Directional Light direction", glm::value_ptr(dl->Direction));
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-		ImGui::DragFloat3("Point Light1 position", glm::value_ptr(scene->PointLights[0].Position));
-		ImGui::DragFloat3("Point Light2 position", glm::value_ptr(scene->PointLights[1].Position));
+		if (ImGui::CollapsingHeader("Controls")) {
+			ImGui::Text("CONTROLS: WASD for movement, left-click+cursor for looking around, ESC for close");
+		}
+
+		if (ImGui::CollapsingHeader("Directional Light attribs")) {
+			ImGui::SliderFloat3("Directional Light ambient", glm::value_ptr(dl->Ambient), 0, 1);
+			ImGui::SliderFloat3("Directional Light diffuse", glm::value_ptr(dl->Diffuse), 0, 1);
+			ImGui::SliderFloat3("Directional Light specular", glm::value_ptr(dl->Specular), 0, 1);
+			ImGui::SliderFloat3("Directional Light direction", glm::value_ptr(dl->Direction), -1, 1);
+		}
+
+		if (ImGui::CollapsingHeader("Point Light attribs")) {
+			ImGui::SliderFloat3("Point Light1 position", glm::value_ptr(scene->PointLights[0].Position), -10, 10);
+			ImGui::SliderFloat3("Point Light2 position", glm::value_ptr(scene->PointLights[1].Position), -10, 10);
+		}
+
+		if (ImGui::CollapsingHeader("Dragon!")) {
+			if (ImGui::SliderFloat3("Dragon's position", glm::value_ptr(dragonPos), -10, 10)) {
+				dragonNode->UpdatePos(dragonPos);
+			}
+		}
 
 		ImGui::End();
 	}
 
 	virtual void Exit() override {
-		Instrumentor::Get().EndSession();
 		TextureManager::CleanUp();
 	}
 
 private:
 	Ref<Model> sponza;
+	Ref<Model> dragon;
+
+	Ref<RenderableNode> dragonNode;
+
+	glm::vec3 dragonPos;
 
 	Ref<Scene> scene;
 	Ref<Renderer> renderer;
-
-	float fps;
 };
 
 int main() {

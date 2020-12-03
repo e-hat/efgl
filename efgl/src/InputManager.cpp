@@ -40,27 +40,29 @@ namespace efgl {
 	// -------------------------------------------------------
 	void InputManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	{
-		if (firstMouse)
-		{
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			if (firstMouse)
+			{
+				lastX = (float)xpos;
+				lastY = (float)ypos;
+				firstMouse = false;
+			}
+
+			float xoffset = (float)xpos - lastX;
+			float yoffset = lastY - (float)ypos; // reversed since y-coordinates go from bottom to top
+
 			lastX = (float)xpos;
 			lastY = (float)ypos;
-			firstMouse = false;
+
+			p_Camera->ProcessMouseMovement(xoffset, yoffset);
 		}
-
-		float xoffset = (float)xpos - lastX;
-		float yoffset = lastY - (float)ypos; // reversed since y-coordinates go from bottom to top
-
-		lastX = (float)xpos;
-		lastY = (float)ypos;
-
-		p_Camera->ProcessMouseMovement(xoffset, yoffset);
 	}
 
 	// glfw: whenever the mouse scroll wheel scrolls, this callback is called
 	// ----------------------------------------------------------------------
 	void InputManager::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		p_Camera->ProcessMouseScroll(yoffset);
+		p_Camera->ProcessMouseScroll(static_cast<float>(yoffset));
 	}
 
 	// below is from tutorial https://learnopengl.com/

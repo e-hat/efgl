@@ -6,6 +6,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <../tracy/Tracy.hpp>
+
 using namespace std;
 
 namespace efgl
@@ -101,6 +103,7 @@ namespace efgl
 
 	void Shader::Bind() const
 	{
+		ZoneScoped;
 		GLCall(glUseProgram(m_RendererID));
 	}
 
@@ -111,6 +114,7 @@ namespace efgl
 
 	int Shader::getUniformLocation(const string& name)
 	{
+		ZoneScopedC(tracy::Color::Aqua);
 		if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
 			return m_UniformLocationCache[name];
 		GLCall(unsigned int location = glGetUniformLocation(m_RendererID, name.c_str()));

@@ -19,6 +19,9 @@ namespace efgl
 		{
 			p_Instance = new Window;
 			p_Window = getWindow(width, height, name);
+
+			// setting window attribs
+			glfwSetWindowAttrib(p_Window, GLFW_DECORATED, GL_FALSE);
 		}
 		return p_Instance;	
 	}
@@ -67,6 +70,7 @@ namespace efgl
 
 	void Window::Swap()
 	{
+		ZoneScopedC(tracy::Color::Magenta);
 		glfwSwapBuffers(p_Window);
 	}
 

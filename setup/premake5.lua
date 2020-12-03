@@ -1,10 +1,10 @@
 -- Pretty much copied from the cherno's version 
 -- at https://github.com/TheCherno/Hazel/blob/master/premake5.lua
 workspace "efgl"
-	architecture "x86_64"
-    startproject "Sandbox"
-    filename "efgl"
-    location "../"
+        architecture "x86_64"
+        startproject "efgl"
+        filename "efgl"
+        location "../"
 
 	configurations
 	{
@@ -28,6 +28,7 @@ workspace "efgl"
 	IncludeDir["spdlog"] = "../vendor/spdlog/include"
 	IncludeDir["assimp"] = "../vendor/assimp/include"
 	IncludeDir["ImGui"] = "../vendor/imgui"
+        IncludeDir["tracy"] = "../vendor/tracy/common/"
 
 	group "Dependencies"
 		include "../vendor/GLFW"
@@ -38,10 +39,10 @@ workspace "efgl"
 
 	project "efgl"
 		location "../efgl/"
-		kind "StaticLib"
+		kind "ConsoleApp"
 		language "C++"
 		cppdialect "C++17"
-		staticruntime "on"
+                staticruntime "on"
 
 		targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
@@ -53,12 +54,13 @@ workspace "efgl"
 		{
 			"../%{prj.name}/src/**",
 			"../vendor/stb/**.h",
-			"../vendor/stb/**.cpp"
+			"../vendor/stb/**.cpp",
+                        "../vendor/tracy/TracyClient.cpp"
 		}
 
 		defines
 		{
-			"_CRT_SECURE_NO_WARNINGS",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 		includedirs
@@ -70,7 +72,8 @@ workspace "efgl"
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.assimp}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+                        "%{IncludeDir.tracy}"
 		}
 
 		links 
@@ -91,6 +94,9 @@ workspace "efgl"
 		filter { 'files:../vendor/stb/**.cpp' }
 			flags { 'NoPCH' }
 
+                filter { 'files:../vendor/tracy/TracyClient.cpp' }
+                        flags { 'NoPCH' }
+
 		filter "system:windows"
 			systemversion "latest"
 
@@ -101,69 +107,6 @@ workspace "efgl"
 				"RENDERAPI_OGL"
 			}
 
-		filter "configurations:Debug"
-			defines "EF_DEBUG"
-			runtime "Debug"
-			symbols "on"
-
-		filter "configurations:Release"
-			defines "EF_RELEASE"
-			runtime "Release"
-			optimize "on"
-
-		filter "configurations:Dist"
-			defines "EF_DIST"
-			runtime "Release"
-			optimize "on"
-
-	project "Sandbox"
-		location "../Sandbox"
-		kind "ConsoleApp"
-		language "C++"
-		cppdialect "C++17"
-		staticruntime "on"
-
-		targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
-
-		files
-		{
-			"../%{prj.name}/src/**"
-		}
-
-		excludes
-		{
-			"../%{prj.name}/src/examples/**"
-		}
-
-		includedirs
-		{
-			"../efgl/src",
-			"../vendor",
-			"../Sandbox/src",
-			"%{IncludeDir.GLFW}",
-			"%{IncludeDir.Glad}",
-			"%{IncludeDir.glm}",
-			"%{IncludeDir.stb}",
-			"%{IncludeDir.spdlog}",
-			"%{IncludeDir.assimp}",
-			"%{IncludeDir.ImGui}"
-		}
-
-		links
-		{
-			"efgl",
-			"ImGui"
-		}
-
-		filter "system:windows"
-			systemversion "latest"
-
-			defines 
-			{
-				"RENDERAPI_OGL",
-			}
-			
 		filter "configurations:Debug"
 			defines "EF_DEBUG"
 			runtime "Debug"

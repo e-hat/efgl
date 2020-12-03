@@ -2,7 +2,8 @@
 #include "Mesh.h"
 
 #include "platform/OpenGL/VertexBufferLayout.h"
-#include "util/Profile.h"
+
+#include <../tracy/Tracy.hpp>
 
 #include <string>
 
@@ -36,7 +37,7 @@ namespace efgl {
 	}
 
 	void Mesh::DrawCustom(Ref<IMaterial> mat, Shader& shader) const {
-		PROFILE_FUNCTION();
+		ZoneScoped;
 		EF_ASSERT(m_Uploaded && "Mesh was not uploaded prior to draw call");
 
 		shader.Bind();
@@ -47,7 +48,6 @@ namespace efgl {
 		if (!Indices.empty()) {
 			m_IBO->Bind();
 			GLCall(glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, (GLvoid*)nullptr));
-			m_IBO->Unbind();
 		}
 		else {
 			GLCall(glDrawArrays(GL_TRIANGLES, 0, Vertices.size()));

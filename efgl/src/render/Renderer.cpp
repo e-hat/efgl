@@ -2,29 +2,35 @@
 #include "Renderer.h"
 
 #include "scene/RenderableNode.h"
-#include "util/Profile.h"
+
+#include <../tracy/Tracy.hpp>
 
 #include <stack>
 
+static const char* zoneName = "gl clearing funcs";
+
 namespace efgl {
 	Renderer::Renderer(Ref<Scene> scene) 
-		: m_Scene(scene), m_Shader("../efgl/shaders/phong.glsl")
+		: m_Scene(scene), m_Shader("shaders/phong.glsl")
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_CULL_FACE);
+		m_Shader.Bind();
 	}
 
 	void Renderer::Render() {
-		PROFILE_FUNCTION();
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		m_Shader.Bind();
+		ZoneScopedC(tracy::Color::Orange);
+		{
+			ZoneScopedNC("Clearing buffers", tracy::Color::Green);
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+
 		m_Shader.SetUniform("proj", m_Scene->Camera.GetProjectionMatrix());
 		m_Shader.SetUniform("view", m_Scene->Camera.GetViewMatrix());
 		m_Shader.SetUniform("viewPos", m_Scene->Camera.Position);
-		
+
 		if (m_Scene->DirLight) {
 			m_Shader.SetUniform("dirLight.direction", m_Scene->DirLight->Direction);
 			m_Shader.SetUniform("dirLight.ambient", m_Scene->DirLight->Ambient);
@@ -33,6 +39,7 @@ namespace efgl {
 		}
 
 		for (int i = 0; i < m_Scene->PointLights.size(); ++i) {
+			ZoneScoped;
 			std::string prefix = "pointLights[" + std::to_string(i) + "].";
 			const PointLight& p = m_Scene->PointLights[i];
 			m_Shader.SetUniform(prefix + "position", p.Position);

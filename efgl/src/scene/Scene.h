@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Light.h"
 
-#include "util/Profile.h"
+#include <../tracy/Tracy.hpp>
 
 #include <vector>
 
@@ -14,8 +14,8 @@ namespace efgl {
 	public:
 		Scene() = default;
 
-		inline void Traverse() { 
-			PROFILE_FUNCTION();
+		void Traverse() { 
+			ZoneScoped("Scene Graph traversal");
 			Root->Traverse(); 
 		}
 

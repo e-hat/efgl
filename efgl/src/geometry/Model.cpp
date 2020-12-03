@@ -1,8 +1,6 @@
 #include "efpch.h"
 #include "Model.h"
 
-#include "util/Profile.h"
-
 #include "material/StandardMaterial.h"
 
 #include <assimp/Importer.hpp>
@@ -11,12 +9,13 @@
 #include <algorithm>
 #include <iostream>
 
+#include <../tracy/Tracy.hpp>
+
 using namespace std;
 
 namespace efgl {
 	Model::Model(const char* path)
 	{
-		PROFILE_FUNCTION();
 		TextureManager::SetFlip(false);
 		loadModel(path);
 	}
@@ -29,6 +28,7 @@ namespace efgl {
 	}
 
 	void Model::Draw(Shader& shader) const {
+		ZoneScoped;
 		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
 			[&shader](auto& pMesh) {
 			pMesh->Draw(shader);
@@ -43,7 +43,6 @@ namespace efgl {
 	}
 
 	void Model::loadModel(const std::string& path) {
-		PROFILE_FUNCTION();
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(
 			path,
@@ -84,7 +83,6 @@ namespace efgl {
 	}
 
 	void Model::processMesh(aiMesh* mesh, const aiScene* scene) {
-		PROFILE_FUNCTION();
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
 
@@ -137,7 +135,6 @@ namespace efgl {
 	}
 
 	vector<Ref<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type) {
-		PROFILE_FUNCTION();
 		vector<Ref<Texture>> textures;
 		int numTextures = mat->GetTextureCount(type);
 		for (unsigned int i = 0; i < numTextures; ++i) {

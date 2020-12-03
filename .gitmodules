@@ -11,3 +11,6 @@
 [submodule "efgl/vendor/imgui"]
 	path = vendor/imgui
 	url = https://github.com/TheCherno/imgui.git
+[submodule "vendor/tracy"]
+	path = vendor/tracy
+	url = https://github.com/wolfpld/tracy

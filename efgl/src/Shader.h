@@ -19,66 +19,78 @@ namespace efgl
 		// Set uniforms
 		void SetUniform(const std::string& name, const bool& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform1i(getUniformLocation(name), static_cast<int>(value)));
 		}
 
 		void SetUniform(const std::string& name, const int& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform1i(getUniformLocation(name), value));
 		}
 
 		void SetUniform(const std::string& name, const float& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform1f(getUniformLocation(name), value));
 		}
 
 		void SetUniform(const std::string& name, const glm::vec2& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform2fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
 		
 		void SetUniform(const std::string& name, const float& x, const float& y)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform2f(getUniformLocation(name), x, y));
 		}
 
 		void SetUniform(const std::string& name, const glm::vec3& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
 
 		void SetUniform(const std::string& name, const float& x, const float& y, 
 						const float& z)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform3f(getUniformLocation(name), x, y, z));
 		}
 
 		void SetUniform(const std::string& name, const glm::vec4& value)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform4fv(getUniformLocation(name), 1, glm::value_ptr(value)));
 		}
 
 		void SetUniform(const std::string& name, const float& x, const float& y, 
 						const float& z, const float& w)
 		{
+			ZoneScopedC(tracy::Color::Red);
 			GLCall(glUniform4f(getUniformLocation(name), x, y, z, w));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat2& mat)
 		{
-			GLCall(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, 
+			ZoneScopedC(tracy::Color::Red);
+			GLCall(glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE,
 										glm::value_ptr(mat)));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat3& mat)
 		{
-			GLCall(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, 
+			ZoneScopedC(tracy::Color::Red);
+			GLCall(glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE,
 										glm::value_ptr(mat)));
 		}
 
 		void SetUniform(const std::string& name, const glm::mat4 mat)
 		{
-			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, 
+			ZoneScopedC(tracy::Color::Red);
+			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
 										glm::value_ptr(mat)));
 		}
 

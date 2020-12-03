@@ -2,11 +2,8 @@
 
 #include "StandardMaterial.h"
 
-#include "util/Profile.h"
-
 namespace efgl {
 	void StandardMaterial::SetShaderUniforms(Shader& shader) {
-		PROFILE_FUNCTION();
 		shader.Bind();
 
 		shader.SetUniform("material.shininess", Shininess);

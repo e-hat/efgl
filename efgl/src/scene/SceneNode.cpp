@@ -43,23 +43,26 @@ namespace efgl {
 	}
 
 	void SceneNode::Traverse() {
-		glm::mat4 parentTransform =
-			(m_Parent == nullptr) ?
-			glm::mat4(1.0f)
-			: m_Parent->m_Transform;
-		
-		m_Transform = glm::scale(parentTransform, m_Scale);
-		m_Transform = m_Transform * glm::toMat4(m_Rotation);
-		m_Transform = glm::translate(m_Transform, m_Pos);
+		if (!m_Visited) {
+			glm::mat4 parentTransform =
+				(m_Parent == nullptr) ?
+				glm::mat4(1.0f)
+				: m_Parent->m_Transform;
 
-		if (m_OptionalShader == nullptr) {
-			if (m_Parent == nullptr) m_ShaderToRender.reset();
-			else {
-				m_ShaderToRender = m_Parent->m_ShaderToRender;
+			m_Transform = glm::scale(parentTransform, m_Scale);
+			m_Transform = m_Transform * glm::toMat4(m_Rotation);
+			m_Transform = glm::translate(m_Transform, m_Pos);
+
+			if (m_OptionalShader == nullptr) {
+				if (m_Parent == nullptr) m_ShaderToRender.reset();
+				else {
+					m_ShaderToRender = m_Parent->m_ShaderToRender;
+				}
 			}
-		} 
-		else {
-			m_ShaderToRender = m_OptionalShader;
+			else {
+				m_ShaderToRender = m_OptionalShader;
+			}
+			m_Visited = true;
 		}
 
 		for (Ref<SceneNode> child : Children) {
@@ -67,7 +70,6 @@ namespace efgl {
 				child->Traverse();
 		}
 
-		m_Visited = true;
 			
 	}
 }

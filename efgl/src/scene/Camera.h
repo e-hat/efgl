@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <../tracy/Tracy.hpp>
+
 #include <vector>
 
 namespace efgl {
@@ -65,11 +67,13 @@ namespace efgl {
 			updateCameraVectors();
 		}
 
-		glm::mat4 GetViewMatrix() const {
+		inline glm::mat4 GetViewMatrix() const {
+			ZoneScoped;
 			return glm::lookAt(Position, Position + Front, Up);
 		}
 
-		glm::mat4 GetProjectionMatrix() const {
+		inline glm::mat4 GetProjectionMatrix() const {
+			ZoneScoped;
 			return glm::perspective(glm::radians(Zoom), (float)ScreenWidth / (float)ScreenHeight, Near, Far);
 		}
 

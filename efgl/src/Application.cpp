@@ -1,6 +1,7 @@
 #include "efpch.h"
 
 #include "Application.h"
+#include <../tracy/Tracy.hpp>
 #ifdef DEBUG
 #include "imgui.h"
 #include "examples/imgui_impl_glfw.h"
@@ -41,7 +42,6 @@ namespace efgl {
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
-		//ImGui::StyleColorsClassic();
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -55,30 +55,37 @@ namespace efgl {
 		ImGui_ImplOpenGL3_Init("#version 460");
 #endif
 		while (!window->ShouldClose()) {
+			ZoneScoped;
 			OnRender();
 #ifdef DEBUG
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
+			{
+				ZoneScopedNC("ImGui New Frame", tracy::Color::RosyBrown);
+				ImGui_ImplOpenGL3_NewFrame();
+				ImGui_ImplGlfw_NewFrame();
+				ImGui::NewFrame();
+			}
 
 			OnImGuiRender();
-
-			ImGuiIO& io = ImGui::GetIO();
-			io.DisplaySize = ImVec2((float)window->GetWidth(), (float)window->GetHeight());
-
-			// Rendering
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			{
-				GLFWwindow* backup_current_context = glfwGetCurrentContext();
-				ImGui::UpdatePlatformWindows();
-				ImGui::RenderPlatformWindowsDefault();
-				glfwMakeContextCurrent(backup_current_context);
+				ZoneScopedNC("ImGui Rendering", tracy::Color::Chartreuse);
+				ImGuiIO& io = ImGui::GetIO();
+				io.DisplaySize = ImVec2((float)window->GetWidth(), (float)window->GetHeight());
+
+				// Rendering
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+				if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+				{
+					GLFWwindow* backup_current_context = glfwGetCurrentContext();
+					ImGui::UpdatePlatformWindows();
+					ImGui::RenderPlatformWindowsDefault();
+					glfwMakeContextCurrent(backup_current_context);
+				}
 			}
 #endif
 			window->Swap();
+			FrameMark;
 		}
 		Exit();
 	}
