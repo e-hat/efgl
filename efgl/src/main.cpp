@@ -1,6 +1,6 @@
 #include "efpch.h"
 
-#include "Application.h"
+#include "application/Application.h"
 
 #include "scene/Camera.h"
 #include "geometry/Model.h"
@@ -8,7 +8,7 @@
 #include "scene/Scene.h"
 #include "scene/RenderableNode.h"
 #include "render/Renderer.h"
-#include "InputManager.h"
+#include "application/InputManager.h"
 #include "util/Time.h"
 #include "material/StandardMaterial.h"
 
