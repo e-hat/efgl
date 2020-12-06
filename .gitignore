@@ -7,8 +7,6 @@
 /bin/*
 /bin-int/*
 vendor/Glad/bin-int/*
-Sandbox/profiling/*
-Sandbox/src/examples/*
 
 # User-specific files
 *.rsuser
@@ -24,12 +22,6 @@ Sandbox/src/examples/*
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
