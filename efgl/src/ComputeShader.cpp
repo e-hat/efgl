@@ -15,13 +15,18 @@ namespace efgl {
 		: m_FilePath(filePath)
 	{
 		std::string src = parseShader(filePath);
-		m_RendererID = createShader(filePath);
+		m_RendererID = createShader(src);
 	}
 
 
 	ComputeShader::~ComputeShader()
 	{
 		GLCall(glDeleteProgram(m_RendererID));
+	}
+
+	void ComputeShader::Dispatch(int x, int y, int z)
+	{
+		GLCall(glDispatchCompute(x, y, z));
 	}
 
 	std::string ComputeShader::parseShader(const string& filepath)
@@ -57,8 +62,7 @@ namespace efgl {
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
 			char* msg = (char*)_malloca(length * sizeof(char));
 			GLCall(glGetShaderInfoLog(id, length, &length, msg));
-			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
-				<< "shader. Error log:" << endl;
+			cout << "Failed Compilation of compute shader:" << m_FilePath << endl;
 			cout << msg << endl;
 			GLCall(glDeleteShader(id));
 			return 0;

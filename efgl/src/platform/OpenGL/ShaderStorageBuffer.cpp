@@ -3,12 +3,12 @@
 #include "ShaderStorageBuffer.h"
 
 namespace efgl {
-	ShaderStorageBuffer::ShaderStorageBuffer(const size_t elemSize, const void* numElems)
+	ShaderStorageBuffer::ShaderStorageBuffer(const size_t elemSize, int numElems, const void* data, GLenum usage)
 	{
 		GLCall(glGenBuffers(1, &m_RendererID));
 		GLCall(glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_RendererID));
 
-		GLCall(glBufferData(GL_SHADER_STORAGE_BUFFER, elemSize, numElems, GL_STATIC_COPY));
+		GLCall(glBufferData(GL_SHADER_STORAGE_BUFFER, numElems * elemSize, data, usage));
 		GLCall(glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0));
 	}
 

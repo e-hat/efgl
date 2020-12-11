@@ -11,6 +11,7 @@ namespace efgl {
 		~FrameBuffer();
 
 		void AddColorAttachment(ITargetable& tex, unsigned int slot);
+		void DisableColorAttachment();
 		void AddDepthStencilBuffer(ITargetable& tex);
 		void AddDepthBuffer(ITargetable& tex);
 		void AddStencilBuffer(ITargetable& tex);
@@ -18,6 +19,8 @@ namespace efgl {
 		void ClearColor(Color c, float alpha);
 		void ClearBuffers(GLbitfield mask);
 		void EnableFeatures(GLenum mask);
+
+		static void SetViewportAttribs(GLint x, GLint y, GLint width, GLint height);
 
 		inline bool CheckComplete() {
 			Bind();

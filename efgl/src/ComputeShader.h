@@ -14,6 +14,10 @@ namespace efgl {
 		void Bind()	  const;
 		void Unbind() const;
 
+		inline unsigned int GetID() const { return m_RendererID; }
+
+		void Dispatch(int x, int y, int z);
+
 		// Set uniforms
 		void SetUniform(const std::string& name, const bool& value)
 		{
@@ -79,6 +83,7 @@ namespace efgl {
 			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
 				glm::value_ptr(mat)));
 		}
+
 	private:
 		unsigned int m_RendererID;
 		std::string m_FilePath;

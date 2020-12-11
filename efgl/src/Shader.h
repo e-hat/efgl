@@ -13,6 +13,8 @@ namespace efgl
 		~Shader();
 		Shader(const std::string& filepath);
 
+		inline unsigned int GetID() const { return m_RendererID; }
+
 		void Bind()	  const;
 		void Unbind() const;
 
@@ -93,7 +95,6 @@ namespace efgl
 			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
 										glm::value_ptr(mat)));
 		}
-
 	protected:
 		struct ShaderProgramSource
 		{

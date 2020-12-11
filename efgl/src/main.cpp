@@ -18,8 +18,8 @@
 
 using namespace efgl;
 
-static const int SCREEN_WIDTH = 1080;
-static const int SCREEN_HEIGHT = 920;
+static const int SCREEN_WIDTH = 1280;
+static const int SCREEN_HEIGHT = 720;
 
 class SandboxApplication : public Application {
 public:
@@ -93,6 +93,9 @@ public:
 		ZoneScoped;
 		Ref<DirectionalLight> dl = scene->DirLight;
 		ImGui::Begin("Phong Scene Debug Menu");
+
+		ImGui::SliderFloat("Near plane", &scene->Camera.Near, 0.05f, 10.0f);
+		ImGui::SliderFloat("Far plane", &scene->Camera.Far, 10.0f, 110.0f);
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 

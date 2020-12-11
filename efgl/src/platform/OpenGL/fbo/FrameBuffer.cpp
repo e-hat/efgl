@@ -9,11 +9,18 @@ namespace efgl {
 
 	void FrameBuffer::AddColorAttachment(ITargetable& tex, unsigned int slot) {
 		Bind();
-		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, 
-			GL_COLOR_ATTACHMENT0 + slot, 
-			GL_TEXTURE_2D, 
-			tex.GetID(), 
+		GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER,
+			GL_COLOR_ATTACHMENT0 + slot,
+			GL_TEXTURE_2D,
+			tex.GetID(),
 			0));
+		Unbind();
+	}
+
+	void FrameBuffer::DisableColorAttachment() {
+		Bind();
+		GLCall(glDrawBuffer(GL_NONE));
+		GLCall(glReadBuffer(GL_NONE));
 		Unbind();
 	}
 
@@ -51,6 +58,10 @@ namespace efgl {
 		Bind();
 		GLCall(glEnable(cap));
 		Unbind();
+	}
+
+	void FrameBuffer::SetViewportAttribs(GLint x, GLint y, GLint width, GLint height) {
+		GLCall(glViewport(x, y, width, height));
 	}
 
 	FrameBuffer::~FrameBuffer() {

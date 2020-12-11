@@ -1,0 +1,74 @@
+#version 460 core
+
+// local invocation layout (per work group)
+layout(local_size_x = 1, local_size_y = 1) in;
+
+struct AABBVolume {
+    vec3 minPt;
+    vec3 maxPt;
+};
+
+layout(std430, binding = 1) buffer AABBBuffer {
+    AABBVolume colliders[];
+};
+
+layout(std140, binding = 2) uniform ClusteringInfo {
+
+    mat4 projInverse;
+    vec2 screenDimensions;
+    // defines view frustrum
+    float zFar;
+    float zNear;
+    float scale;
+    float bias;
+
+    uint tileSizeX;
+    uint tileSizeY;
+    uint numZSlices;
+};
+
+vec4 screen2View(const vec4 screenSpace); 
+vec3 rayIntersectZPlane(const vec3 incident, const float zOffset);
+
+void main() { 
+    const vec3 eyePos = vec3(0.0f);
+
+    const vec2 tileSizePx = vec2(tileSizeX, tileSizeY);
+    const vec2 normTileDim = vec2(tileSizePx) / screenDimensions;
+    const vec4 bottomLeft_SS = vec4(gl_WorkGroupID.xy * normTileDim,
+                                    -1.0f, 1.0f);
+    const vec4 topRight_SS   = vec4((gl_WorkGroupID.xy + vec2(1.0f)) * normTileDim,
+                                    -1.0f, 1.0f);
+
+    const float zTileNear = -zNear * pow(zFar / zNear, float(gl_WorkGroupID.z) / numZSlices);
+    const float zTileFar =  -zNear * pow(zFar / zNear, float(gl_WorkGroupID.z + 1) / numZSlices);
+
+    const vec3 bottomLeft_V = screen2View(bottomLeft_SS).xyz;
+    const vec3 topRight_V = screen2View(topRight_SS).xyz;
+
+    const vec3 bottomLeftFront = rayIntersectZPlane(bottomLeft_V, zTileNear);
+    const vec3 bottomLeftBack  = rayIntersectZPlane(bottomLeft_V, zTileFar);
+    const vec3 topRightFront   = rayIntersectZPlane(topRight_V, zTileNear);
+    const vec3 topRightBack    = rayIntersectZPlane(topRight_V, zTileFar);
+
+    const vec3 minPt = min(min(bottomLeftFront, bottomLeftBack),min(topRightFront, topRightBack));
+    const vec3 maxPt = max(max(bottomLeftFront, bottomLeftBack),min(topRightFront, topRightBack));
+
+    uint idx = gl_WorkGroupID.x +
+        gl_WorkGroupID.y * gl_NumWorkGroups.x +
+        gl_WorkGroupID.z * gl_NumWorkGroups.y * gl_NumWorkGroups.x;
+
+    colliders[idx].minPt = minPt;
+    colliders[idx].maxPt = maxPt; 
+}
+
+vec4 screen2View(const vec4 screenSpace) {
+    vec4 clipSpace = vec4(screenSpace.xy * 2.0 - 1.0,
+                          screenSpace.zw);
+    const vec4 view = projInverse * clipSpace;
+    return view / view.w;
+}
+
+vec3 rayIntersectZPlane(const vec3 incident, const float zOffset) {
+    return incident * zOffset / incident.z;
+}
