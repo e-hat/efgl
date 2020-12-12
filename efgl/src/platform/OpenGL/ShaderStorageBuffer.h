@@ -7,7 +7,7 @@ namespace efgl {
 		ShaderStorageBuffer(const size_t elemSize, int numElems, const void* data, GLenum usage);
 		~ShaderStorageBuffer();
 
-		void Bind(int slot);
+		void Bind(unsigned int slot);
 		void Bind();
 		void Unbind();
 

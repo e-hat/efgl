@@ -22,7 +22,7 @@ namespace efgl {
 		GLCall(glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_RendererID));
 	}
 
-	void ShaderStorageBuffer::Bind(int slot)
+	void ShaderStorageBuffer::Bind(unsigned int slot)
 	{
 		GLCall(glBindBufferBase(GL_SHADER_STORAGE_BUFFER, slot, m_RendererID));
 	}
