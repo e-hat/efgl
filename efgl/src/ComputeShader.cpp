@@ -29,6 +29,21 @@ namespace efgl {
 		GLCall(glDispatchCompute(x, y, z));
 	}
 
+	void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot) {
+		int location = -1;
+		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
+			location = m_UniformBlockLocationCache[blockName];
+		else {
+			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
+			if (location == -1)
+				cout << "Warning: Uniform block " << blockName << " doesn't exist." << endl;
+			m_UniformBlockLocationCache[blockName] = location;
+		}
+
+		GLCall(glUniformBlockBinding(m_RendererID, location, slot));
+	}
+
+
 	std::string ComputeShader::parseShader(const string& filepath)
 	{
 		std::ifstream stream(filepath);

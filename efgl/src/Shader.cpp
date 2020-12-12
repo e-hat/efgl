@@ -74,6 +74,7 @@ namespace efgl
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
 			char* msg = (char*)_malloca(length * sizeof(char));
 			GLCall(glGetShaderInfoLog(id, length, &length, msg));
+			cout << "Compilation error on shader at " << m_FilePath << endl;
 			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
 				<< "shader. Error log:" << endl;
 			cout << msg << endl;
@@ -99,6 +100,20 @@ namespace efgl
 		GLCall(glDeleteShader(fs));
 
 		return program;
+	}
+
+	void Shader::BindBlockIndex(const std::string& blockName, unsigned int slot) {
+		int location = -1;
+		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
+			location = m_UniformBlockLocationCache[blockName];
+		else {
+			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
+			if (location == -1)
+				cout << "Warning: Uniform block " << blockName << " doesn't exist." << endl;
+			m_UniformBlockLocationCache[blockName] = location;
+		}
+
+		GLCall(glUniformBlockBinding(m_RendererID, location, slot));
 	}
 
 	void Shader::Bind() const

@@ -18,6 +18,8 @@ namespace efgl {
 
 		void Dispatch(int x, int y, int z);
 
+		void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot);
+
 		// Set uniforms
 		void SetUniform(const std::string& name, const bool& value)
 		{
@@ -88,7 +90,9 @@ namespace efgl {
 		unsigned int m_RendererID;
 		std::string m_FilePath;
 
+		// for caching uniform locations
 		std::unordered_map<std::string, int> m_UniformLocationCache;
+		std::unordered_map<std::string, int> m_UniformBlockLocationCache;
 
 		int getUniformLocation(const std::string& name);
 

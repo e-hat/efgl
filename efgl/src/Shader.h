@@ -18,6 +18,8 @@ namespace efgl
 		void Bind()	  const;
 		void Unbind() const;
 
+		void BindBlockIndex(const std::string& blockName, unsigned int slot);
+
 		// Set uniforms
 		void SetUniform(const std::string& name, const bool& value)
 		{
@@ -107,6 +109,7 @@ namespace efgl
 
 		// caching for uniforms
 		std::unordered_map<std::string, int> m_UniformLocationCache;
+		std::unordered_map<std::string, int> m_UniformBlockLocationCache;
 
 		int getUniformLocation(const std::string& name);
 
