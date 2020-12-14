@@ -7,6 +7,7 @@
 #include "material/IMaterial.h"
 
 namespace efgl {
+	// Holds geometry, not much else to say
 	class RenderableNode : public SceneNode
 	{
 	public:

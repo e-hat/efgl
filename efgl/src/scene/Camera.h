@@ -24,6 +24,8 @@ namespace efgl {
 	const float SENSITIVITY = 0.4f;
 	const float ZOOM = 45.0f;
 
+	// quite ugly, I need to get ScreenWidth and ScreenHeight OUT,
+	// this should be managed statically by efgl::Application perhaps
 	class Camera
 	{
 	public:

@@ -34,6 +34,7 @@ namespace efgl {
 		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
 			location = m_UniformBlockLocationCache[blockName];
 		else {
+			// setup so that warning only appears once vs spam
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
 			if (location == -1)
 				cout << "Warning: Uniform block " << blockName << " doesn't exist." << endl;

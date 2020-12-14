@@ -6,6 +6,7 @@
 
 namespace efgl
 {
+	// wrapper singleton for GLFW windows, for RAII purposes
 	class Window
 	{
 	public:

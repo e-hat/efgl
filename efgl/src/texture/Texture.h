@@ -8,9 +8,9 @@
 
 namespace efgl {
 
+	// General purpose texture for use in FBOs and the like
 	class Texture : public ITargetable {
 	public:
-
 		Texture(int width, int height, GLint dataFormat, GLenum pixelDataType = GL_UNSIGNED_BYTE, const void* data = nullptr);
 		~Texture();
 
@@ -25,6 +25,8 @@ namespace efgl {
 		unsigned int m_TextureUnit;
 	};
 
+	// On the other hand, this should *absolutely* be
+	// used when loading textures from files, like for images/models
 	class TextureManager {
 	public:
 		TextureManager() = delete;

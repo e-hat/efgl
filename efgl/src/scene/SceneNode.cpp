@@ -18,32 +18,32 @@ namespace efgl {
 
 	void SceneNode::UpdatePos(glm::vec3 newPos) {
 		m_Pos = newPos;
-		SetVisitedFalse();
+		SetDirty();
 	}
 
 	void SceneNode::UpdateScale(glm::vec3 newScale) {
 		m_Scale = newScale;
-		SetVisitedFalse();
+		SetDirty();
 	}
 
 	void SceneNode::UpdateRotation(glm::quat newRot) {
 		m_Rotation = newRot;
-		SetVisitedFalse();
+		SetDirty();
 	}
 
 	void SceneNode::UpdateShader(Ref<Shader> newShader) {
 		m_OptionalShader = newShader;
 	}
 
-	void SceneNode::SetVisitedFalse() {
-		m_Visited = false;
+	void SceneNode::SetDirty() {
+		m_Dirty = true;
 		for (Ref<SceneNode> child : Children) {
-			child->SetVisitedFalse();
+			child->SetDirty();
 		}
 	}
 
 	void SceneNode::Traverse() {
-		if (!m_Visited) {
+		if (!m_Dirty) {
 			glm::mat4 parentTransform =
 				(m_Parent == nullptr) ?
 				glm::mat4(1.0f)
@@ -62,11 +62,11 @@ namespace efgl {
 			else {
 				m_ShaderToRender = m_OptionalShader;
 			}
-			m_Visited = true;
+			m_Dirty = false;
 		}
 
 		for (Ref<SceneNode> child : Children) {
-			if (!child->m_Visited)
+			if (child->m_Dirty)
 				child->Traverse();
 		}
 

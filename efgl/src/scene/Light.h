@@ -1,6 +1,9 @@
 #pragma once
 #include "efpch.h"
 
+// TODO: Create serializer for these, since
+// they need to be translated + sent to GPU
+// for clustering
 struct DirectionalLight {
 	glm::vec3 Direction;
 

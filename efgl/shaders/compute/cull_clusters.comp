@@ -1,0 +1,58 @@
+#version 460 core
+
+struct AABBVolume {
+    vec3 minPt;
+    vec3 maxPt;
+};
+
+layout(std430, binding = 1) buffer AABBBuffer {
+    AABBVolume clusterGrid[];
+};
+
+layout(std140, binding = 2) uniform ClusteringInfo {
+
+    mat4 projInverse;
+    vec2 screenDimensions;
+    // defines view frustrum
+    float zFar;
+    float zNear;
+    float scale;
+    float bias;
+
+    uint tileSizeX;
+    uint tileSizeY;
+    uint numZSlices;
+};
+
+layout (std430, binding = 3) buffer ActiveClusterMaskBuffer {
+    bool activeClusterMask[];
+};
+
+uniform sampler2D depthMap;
+
+uint calcClusterIndex(vec3 pixelCoord);
+float linearDepth(float depthSample);
+
+void main() {
+    vec2 pixelCoord = gl_GlobalInvocationID.xy / screenDimensions;
+    float z = texture(depthMap, pixelCoord).r;
+
+    uint clusterIndex = calcClusterIndex(vec3(pixelCoord, z)); 
+    activeClusterMask[clusterIndex] = true;
+}
+
+uint calcClusterIndex(vec3 pixelCoord) {
+    uint zTile =  uint(max(log2(linearDepth(pixelCoord.z)) * scale + bias, 0.0));
+    uvec2 tileDims = uvec2(screenDimensions / vec2(tileSizeX, tileSizeY));
+    uvec3 tiles = uvec3(uvec2(pixelCoord.xy / vec2(tileSizeX, tileSizeY)), zTile);
+
+    return tiles.x + 
+           tileDims.x * tiles.y +
+           tileDims.x * tileDims.y * tiles.z;
+}
+
+float linearDepth(float depthSample) {
+    float depthRange = 2.0 * depthSample - 1.0;
+    float linear = 2.0 * zNear * zFar / (zFar + zNear - depthRange * (zFar - zNear));
+    return linear;
+}

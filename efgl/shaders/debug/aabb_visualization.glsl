@@ -68,13 +68,6 @@ void main()
     outputColor = colors[tileIndex % NR_COLORS];
 }
 
-bool collided(vec4 v, AABBVolume collider) {
-    vec3 bl = collider.minPt;
-    vec3 tr = collider.maxPt;
-    return (v.x >= bl.x && v.x <= tr.x) && (v.y >= bl.y && v.y <= tr.y)
-        && (v.z >= bl.z && v.z <= tr.z);
-}
-
 float linearDepth(float depthSample) {
     float depthRange = 2.0 * depthSample - 1.0;
     float linear = 2.0 * zNear * zFar / (zFar + zNear - depthRange * (zFar - zNear));

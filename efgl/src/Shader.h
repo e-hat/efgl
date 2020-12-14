@@ -13,11 +13,11 @@ namespace efgl
 		~Shader();
 		Shader(const std::string& filepath);
 
-		inline unsigned int GetID() const { return m_RendererID; }
-
 		void Bind()	  const;
 		void Unbind() const;
 
+		// For setting uniform blocks
+		// will elaborate on this when necessary
 		void BindBlockIndex(const std::string& blockName, unsigned int slot);
 
 		// Set uniforms

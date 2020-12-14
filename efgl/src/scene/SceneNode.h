@@ -19,7 +19,8 @@ namespace efgl {
 
 		// This is set up to propogate the new shader 
 		// to all children. We'll see if this is useful
-		// or annoying
+		// or annoying. Or, as I've found out with SceneGraphs,
+		// there's a chance I never use this feature ever. shrug
 		void UpdateShader(Ref<Shader> newShader);
 		void UpdatePos(glm::vec3 newPos);
 		void UpdateScale(glm::vec3 newScale);
@@ -29,7 +30,7 @@ namespace efgl {
 
 		std::vector<Ref<SceneNode>> Children;
 	protected:
-		void SetVisitedFalse();
+		void SetDirty();
 
 		SceneNode* m_Parent;
 		Ref<Shader> m_OptionalShader;
@@ -40,6 +41,7 @@ namespace efgl {
 		glm::quat m_Rotation;
 
 		glm::mat4 m_Transform;
-		bool m_Visited = false;
+		// caching transformations
+		bool m_Dirty = false;
 	};
 }

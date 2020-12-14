@@ -77,7 +77,12 @@ namespace efgl
 			cout << "Compilation error on shader at " << m_FilePath << endl;
 			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
 				<< "shader. Error log:" << endl;
+			// TODO: someway, somehow, I need to get this to print
+			// the correct lines for FS syntax errors. It currently 
+			// prints NUM_LINES_IN_VS + ERROR_LINE_NUM due to how they 
+			// are bundled...ugh
 			cout << msg << endl;
+			
 			GLCall(glDeleteShader(id));
 			return 0;
 		}

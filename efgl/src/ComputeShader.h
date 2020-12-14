@@ -6,6 +6,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace efgl {
+	// this could most certainly be abstracted with the
+	// normal Shader class...
 	class ComputeShader {
 	public:
 		~ComputeShader();
@@ -14,11 +16,10 @@ namespace efgl {
 		void Bind()	  const;
 		void Unbind() const;
 
-		inline unsigned int GetID() const { return m_RendererID; }
-
 		void Dispatch(int x, int y, int z);
 
-		void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot);
+		// For setting uniform blocks
+		void BindBlockIndex(const std::string& blockName, unsigned int slot);
 
 		// Set uniforms
 		void SetUniform(const std::string& name, const bool& value)
