@@ -57,7 +57,7 @@ workspace "efgl"
 			"../vendor/stb/**.h",
 			"../vendor/stb/**.cpp",
 			"../vendor/tracy/TracyClient.cpp",
-			"../vendor/glad/src/glad.c"
+			"../vendor/Glad/src/glad.c"
 		}
 
 		defines
@@ -87,7 +87,7 @@ workspace "efgl"
 			"ImGui"
 		}
 		
-		filter { 'files:../efgl/src/glad.c' }
+		filter { 'files:../vendor/Glad/src/glad.c' }
 			flags { 'NoPCH' }
 		
 		filter { 'files:../vendor/stb/**.h' }
@@ -96,8 +96,8 @@ workspace "efgl"
 		filter { 'files:../vendor/stb/**.cpp' }
 			flags { 'NoPCH' }
 
-                filter { 'files:../vendor/tracy/TracyClient.cpp' }
-                        flags { 'NoPCH' }
+        filter { 'files:../vendor/tracy/TracyClient.cpp' }
+						flags { 'NoPCH' }
 
 		filter "system:windows"
 			systemversion "latest"
