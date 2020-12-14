@@ -11,7 +11,7 @@ This project began as an abstraction over OpenGL where I played around with vari
 
 ### Progress So Far
 
-<img src="progress/phong_demo.PNG" width="250" height="250" />
+<img src="progress/phong_demo.PNG" width="700" height="700" />
 
 Simple phong lighting model with forward rendering, which will be adapted to work with clustered forward rendering.
 
