@@ -52,10 +52,12 @@ workspace "efgl"
 
 		files
 		{
-			"../%{prj.name}/src/**",
+			"../efgl/src/**.h",
+			"../efgl/src/**.cpp",
 			"../vendor/stb/**.h",
 			"../vendor/stb/**.cpp",
-                        "../vendor/tracy/TracyClient.cpp"
+			"../vendor/tracy/TracyClient.cpp",
+			"../vendor/glad/src/glad.c"
 		}
 
 		defines
