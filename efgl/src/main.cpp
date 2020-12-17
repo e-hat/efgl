@@ -74,7 +74,7 @@ public:
 		p2.Linear = 0.09f;
 		p2.Quadratic = 0.032f;
 
-		p.Radius = 50;
+		p2.Radius = 50;
 
 		p2.Position = glm::vec3(7.4f, 4.6f, -0.46f);
 

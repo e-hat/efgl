@@ -9,6 +9,7 @@
 
 #include <stack>
 #include <array>
+#include <algorithm>
 
 // Cluster dims, optimized for my specific machine
 static const int NUM_TILES_X = 8;
@@ -216,8 +217,9 @@ namespace efgl {
 		m_nActiveClusters = MakeRef<ShaderStorageBuffer>(sizeof(unsigned int), 1, voidCounterPtr, GL_STATIC_COPY);
 		m_nActiveClusters->Bind(N_ACTIVE_CLUSTERS_BINDING);
 
+		auto gpuLights = serializePointLights(m_Scene->PointLights);
 		m_Lights = MakeRef<ShaderStorageBuffer>(
-			sizeof(PointLight), m_Scene->PointLights.size(), m_Scene->PointLights.data(), GL_STATIC_READ
+			sizeof(GPUPointLight), gpuLights.size(), gpuLights.data(), GL_STATIC_READ
 		);
 		m_Lights->Bind(LIGHTS_BINDING);
 
@@ -267,5 +269,28 @@ namespace efgl {
 		m_Shader->BindBlockIndex(CLUSTERINGINFO_BLOCKNAME, 2);
 		m_CullClusters->BindBlockIndex(CLUSTERINGINFO_BLOCKNAME, 2);
 		m_CullLights->BindBlockIndex(CLUSTERINGINFO_BLOCKNAME, 2);
+	}
+
+	std::vector<Renderer::GPUPointLight> Renderer::serializePointLights(const std::vector<PointLight>& pointLights) {
+		std::vector<Renderer::GPUPointLight> result;
+		result.reserve(pointLights.size());
+
+		std::transform(pointLights.begin(), pointLights.end(), std::back_inserter(result),
+			[](const PointLight& in) {
+				GPUPointLight out = {
+					glm::vec4(in.Position, 1.0f),
+					glm::vec4((glm::vec3)in.Ambient, 1.0f),
+					glm::vec4((glm::vec3)in.Diffuse, 1.0f),
+					glm::vec4((glm::vec3)in.Specular, 1.0f),
+					in.Constant,
+					in.Linear,
+					in.Quadratic,
+					in.Radius
+				};
+				return out;
+			}
+		);
+
+		return result;
 	}
 }

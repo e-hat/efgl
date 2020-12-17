@@ -24,9 +24,26 @@ namespace efgl {
 
 	private:
 
+		typedef struct GPUPointLight {
+			glm::vec4 Position;
+
+			glm::vec4 Ambient;
+			glm::vec4 Diffuse;
+			glm::vec4 Specular;
+
+			float Constant;
+			float Linear;
+			float Quadratic;
+
+			float Radius;
+		} GPUPointLight;
+
 		// render passes
 		void depthPass();
 		void colorPass();
+
+		// helpers
+		std::vector<GPUPointLight> serializePointLights(const std::vector<PointLight>& pointLights);
 
 		// SHADERS
 		Ref<Shader> m_Shader;

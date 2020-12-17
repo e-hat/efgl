@@ -39,11 +39,11 @@ struct DirLight {
 };
 
 struct PointLight {
-    vec3 position;
+    vec4 position;
 
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
 
     float constant;
     float linear;
@@ -145,19 +145,19 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.position - fragPos);
+    vec3 lightDir = normalize(light.position.xyz - fragPos);
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // attenuation
-    float distance = length(light.position - fragPos);
+    float distance = length(light.position.xyz - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
     // combine results
-    vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, TexCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1, TexCoords).r);
+    vec3 ambient = light.ambient.xyz* vec3(texture(material.texture_diffuse1, TexCoords));
+    vec3 diffuse = light.diffuse.xyz * diff * vec3(texture(material.texture_diffuse1, TexCoords));
+    vec3 specular = light.specular.xyz * spec * vec3(texture(material.texture_specular1, TexCoords).r);
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
