@@ -1,0 +1,123 @@
+#version 460 core
+
+layout (local_size_x = 1, local_size_y = 1) in;
+
+struct AABBVolume {
+    vec3 minPt;
+    vec3 maxPt;
+};
+
+layout (std430, binding = 1) buffer AABBBuffer {
+    AABBVolume clusters[];
+};
+
+layout(std140, binding = 2) uniform ClusteringInfo {
+
+    mat4 projInverse;
+    vec2 screenDimensions;
+    // defines view frustrum
+    float zFar;
+    float zNear;
+    float scale;
+    float bias;
+
+    uint tileSizeX;
+    uint tileSizeY;
+    uint numZSlices;
+    
+};
+
+layout (std430, binding = 4) buffer ActiveClusterBuffer {
+    uint activeClusters[];
+};
+
+struct PointLight {
+    vec3 position;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
+    float constant;
+    float linear;
+    float quadratic;
+
+    float radius;
+}; 
+
+layout (std430, binding = 6) buffer LightsBuffer {
+    PointLight lights[];
+};
+
+struct LightGridEntry {
+    uint offset;
+    uint nLights;
+};
+
+layout (std430, binding = 7) buffer LightGridBuffer {
+    LightGridEntry lightGrid[];
+};
+
+layout (std430, binding = 8) buffer LightIndicesBuffer {
+    uint globalLightIndices[];
+};
+
+layout (std430, binding = 9) buffer ActiveLightCountBuffer {
+    uint globalActiveLights;
+};
+
+uniform mat4 view;
+
+#define MAX_LIGHTS_PER_CLUSTER 5
+
+bool testSphereAABB(uint lightIdx, uint clusterIdx);
+float sqDistPointAABB(vec3 pt, uint clusterIdx);
+
+void main() {
+    globalActiveLights = 0;
+    uint clusterIdx = activeClusters[gl_WorkGroupID.x];
+
+    // accumulating colliding lights
+    uint nVisibleLights = 0;
+    uint visibleLightIndices[MAX_LIGHTS_PER_CLUSTER];
+    uint numLights = lights.length();
+
+    for (uint lightIdx = 0; lightIdx < numLights && nVisibleLights < MAX_LIGHTS_PER_CLUSTER; ++lightIdx) {
+        if (testSphereAABB(lightIdx, clusterIdx)) {
+            visibleLightIndices[nVisibleLights++] = lightIdx;
+        }
+    }
+
+    uint offset = atomicAdd(globalActiveLights, nVisibleLights);
+    for (uint i = 0; i < nVisibleLights; ++i) {
+        globalLightIndices[offset + i] = visibleLightIndices[i];
+    }
+
+    lightGrid[clusterIdx].offset = offset;
+    lightGrid[clusterIdx].nLights  = nVisibleLights;
+}
+
+bool testSphereAABB(uint lightIdx, uint clusterIdx) {
+    float radius = lights[lightIdx].radius;
+    // translate light from world space to view space
+    vec3 center = vec3(view * vec4(lights[lightIdx].position, 1.0));
+    float sqDist = sqDistPointAABB(center, clusterIdx);
+
+    return sqDistPointAABB(center, clusterIdx) <= radius * radius;
+}
+
+float sqDistPointAABB(vec3 pt, uint clusterIdx) {
+    float sqDist = 0.0;
+    AABBVolume collider = clusters[clusterIdx];
+
+    for (uint i = 0; i < 3; ++i) {
+        if (pt[i] < collider.minPt[i]) {
+            sqDist += (collider.minPt[i] - pt[i]) * (collider.minPt[i] - pt[i]);
+        }
+        else if (pt[i] > collider.maxPt[i]) {
+            sqDist += (collider.maxPt[i] - pt[i]) * (collider.maxPt[i] - pt[i]);
+        }
+    }
+
+    return sqDist;
+}

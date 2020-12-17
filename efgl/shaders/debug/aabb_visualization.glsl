@@ -21,17 +21,6 @@ void main()
 
 in vec4 FragPos;
 
-uniform int numColliders;
-
-struct AABBVolume {
-    vec3 minPt;
-    vec3 maxPt;
-};
-
-layout (std430, binding = 1) buffer AABBBuffer {
-    AABBVolume colliders[];
-};
-
 layout(std140, binding = 2) uniform ClusteringInfo {
 
     mat4 projInverse;
@@ -53,7 +42,6 @@ uniform vec4 colors[NR_COLORS];
 
 out vec4 outputColor;
 
-bool collided(vec4 v, AABBVolume collider);
 float linearDepth(float depthSample);
 
 void main()

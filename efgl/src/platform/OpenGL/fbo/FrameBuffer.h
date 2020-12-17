@@ -34,7 +34,7 @@ namespace efgl {
 		}
 
 		inline void Unbind() {
-			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID));
+			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 		}
 
 	private:

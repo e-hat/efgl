@@ -7,7 +7,7 @@
 namespace efgl {
 	SceneNode::SceneNode(glm::vec3 pos, glm::vec3 scale, glm::quat rotation)
 		: m_Pos(pos), m_Scale(scale), m_Rotation(rotation), m_OptionalShader(nullptr),
-		m_Transform(glm::mat4(1.0f)), m_Parent(nullptr)
+		m_Transform(glm::mat4(1.0f)), m_Parent(nullptr), m_Dirty(true)
 	{
 	}
 
@@ -43,7 +43,7 @@ namespace efgl {
 	}
 
 	void SceneNode::Traverse() {
-		if (!m_Dirty) {
+		if (m_Dirty) {
 			glm::mat4 parentTransform =
 				(m_Parent == nullptr) ?
 				glm::mat4(1.0f)

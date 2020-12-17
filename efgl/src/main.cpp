@@ -21,6 +21,8 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
+static const int N_RANDOM_LIGHTS = 25;
+
 class SandboxApplication : public Application {
 public:
 	SandboxApplication()
@@ -41,6 +43,7 @@ public:
 		auto dragonMat = MakeRef<StandardMaterial>();
 		dragonMat->Diffuses.push_back(TextureManager::LoadTexture("container2.png", "resources/img/"));
 		dragonMat->Speculars.push_back(TextureManager::LoadTexture("container2_specular.png", "resources/img/"));
+		dragon->SetMaterial(dragonMat);
 
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
@@ -58,7 +61,9 @@ public:
 		p.Linear = 0.09f;
 		p.Quadratic = 0.032f;
 
-		p.Position = glm::vec3(3.0f);
+		p.Radius = 50;
+
+		p.Position = glm::vec3(-9.26f, 4.913f, -0.658f);
 
 		PointLight p2;
 		p2.Ambient = Color(0.2f);
@@ -69,7 +74,9 @@ public:
 		p2.Linear = 0.09f;
 		p2.Quadratic = 0.032f;
 
-		p2.Position = glm::vec3(7.0f);
+		p.Radius = 50;
+
+		p2.Position = glm::vec3(7.4f, 4.6f, -0.46f);
 
 		scene->PointLights.push_back(p);
 		scene->PointLights.push_back(p2);
@@ -80,7 +87,6 @@ public:
 		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(sponzaNode));
 		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(dragonNode));
 		renderer = MakeRef<Renderer>(scene);
-
 	}
 
 	virtual void OnRender() override {
@@ -119,6 +125,10 @@ public:
 			if (ImGui::SliderFloat3("Dragon's position", glm::value_ptr(dragonPos), -10, 10)) {
 				dragonNode->UpdatePos(dragonPos);
 			}
+		}
+
+		if (ImGui::CollapsingHeader("Camera position info")) {
+			ImGui::SliderFloat3("Camera pos", glm::value_ptr(scene->Camera.Position), -100, 100);
 		}
 
 		ImGui::End();

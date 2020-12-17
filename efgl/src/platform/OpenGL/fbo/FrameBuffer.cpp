@@ -18,10 +18,8 @@ namespace efgl {
 	}
 
 	void FrameBuffer::DisableColorAttachment() {
-		Bind();
-		GLCall(glDrawBuffer(GL_NONE));
-		GLCall(glReadBuffer(GL_NONE));
-		Unbind();
+		GLCall(glNamedFramebufferReadBuffer(m_RendererID, GL_NONE));
+		GLCall(glNamedFramebufferDrawBuffer(m_RendererID, GL_NONE));
 	}
 
 	void FrameBuffer::AddDepthStencilBuffer(ITargetable& tex) {

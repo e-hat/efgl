@@ -30,20 +30,19 @@ namespace efgl {
 	}
 
 	void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot) {
-		int location = -1;
+		int location = GL_INVALID_INDEX;
 		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
 			location = m_UniformBlockLocationCache[blockName];
 		else {
-			// setup so that warning only appears once vs spam
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
-			if (location == -1)
-				cout << "Warning: Uniform block " << blockName << " doesn't exist." << endl;
-			m_UniformBlockLocationCache[blockName] = location;
+			// This is for more info on the error that will be thrown in glUniformBlockBinding
+			if (location == GL_INVALID_INDEX)
+				cout << "EF_ERROR: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;
+			else m_UniformBlockLocationCache[blockName] = location;
 		}
 
 		GLCall(glUniformBlockBinding(m_RendererID, location, slot));
 	}
-
 
 	std::string ComputeShader::parseShader(const string& filepath)
 	{

@@ -23,14 +23,14 @@ namespace efgl {
 		void Render();
 
 	private:
-		glm::vec4 colors[5];
 
-		// DEBUG GEOMETRY
-		Ref<Quad> m_Quad;
+		// render passes
+		void depthPass();
+		void colorPass();
 
 		// SHADERS
 		Ref<Shader> m_Shader;
-		Ref<Shader> m_ScreenQuad;
+		Ref<Shader> m_DepthPassShader;
 
 		// SCENE
 		Ref<Scene> m_Scene;
@@ -39,7 +39,11 @@ namespace efgl {
 		Ref<ShaderStorageBuffer> m_AABBGrid;
 		Ref<ShaderStorageBuffer> m_ActiveClusterMask;
 		Ref<ShaderStorageBuffer> m_ActiveClusters;
-		Ref<ShaderStorageBuffer> m_NumActiveClusters;
+		Ref<ShaderStorageBuffer> m_nActiveClusters;
+		Ref<ShaderStorageBuffer> m_Lights;
+		Ref<ShaderStorageBuffer> m_LightGrid;
+		Ref<ShaderStorageBuffer> m_LightIndices;
+		Ref<ShaderStorageBuffer> m_nActiveLights;
 
 		// TEXTURES
 		Ref<Texture> m_DepthMap;
@@ -52,7 +56,11 @@ namespace efgl {
 
 		// COMPUTE SHADERS
 		Ref<ComputeShader> m_AABBGen;
-		Ref<ComputeShader> m_CullLights;
+		Ref<ComputeShader> m_CullClusters;
 		Ref<ComputeShader> m_CompressActive;
+		Ref<ComputeShader> m_CullLights;
+
+		void makeSSBOs();
+		void makeUBOs();
 	};
 }

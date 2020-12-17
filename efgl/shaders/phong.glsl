@@ -41,16 +41,33 @@ struct DirLight {
 struct PointLight {
     vec3 position;
 
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
     float constant;
     float linear;
     float quadratic;
 
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    float radius;
 };
 
-#define NR_POINT_LIGHTS 2
+layout (std430, binding = 6) buffer PointLightBuffer {
+    PointLight pointLights[];
+};
+
+struct LightGridEntry {
+    uint offset;
+    uint nLights;
+};
+
+layout (std430, binding = 7) buffer LightGridBuffer {
+    LightGridEntry lightGrid[];
+};
+
+layout (std430, binding = 8) buffer LightIndicesBuffer {
+    uint globalLightIndices[];
+};
 
 in vec3 FragPos;
 in vec3 Normal;
@@ -58,12 +75,28 @@ in vec2 TexCoords;
 
 uniform vec3 viewPos;
 uniform DirLight dirLight;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform Material material;
+
+layout(std140, binding = 2) uniform ClusteringInfo {
+
+    mat4 projInverse;
+    vec2 screenDimensions;
+    // defines view frustrum
+    float zFar;
+    float zNear;
+    float scale;
+    float bias;
+
+    uint tileSizeX;
+    uint tileSizeY;
+    uint numZSlices;
+};
 
 // function prototypes
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+
+float linearDepth(float depthSample);
 
 void main()
 {    
@@ -74,11 +107,22 @@ void main()
 
     // phase 1: directional lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
-    // phase 2: point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
-    // phase 3: spot light
 
+    // phase 2: point lights (culled by clusters)
+    uint zTile =  uint(max(log2(linearDepth(gl_FragCoord.z)) * scale + bias, 0.0));
+    uvec2 tileDims = uvec2(screenDimensions / vec2(tileSizeX, tileSizeY));
+    uvec3 cluster = uvec3(uvec2(gl_FragCoord.xy / vec2(tileSizeX, tileSizeY)), zTile);
+
+    uint clusterIdx = cluster.x + 
+                     tileDims.x * cluster.y +
+                     tileDims.x * tileDims.y * cluster.z;
+
+    LightGridEntry gridEntry = lightGrid[clusterIdx];
+    for (uint i = 0; i < gridEntry.nLights; ++i) {
+        uint lightIdx = globalLightIndices[gridEntry.offset + i];
+        result += CalcPointLight(pointLights[lightIdx], norm, FragPos, viewDir);
+    } 
+ 
     FragColor = vec4(result, 1.0);
 }
 
@@ -118,4 +162,10 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     diffuse *= attenuation;
     specular *= attenuation;
     return (ambient + diffuse + specular);
+}
+
+float linearDepth(float depthSample) {
+    float depthRange = 2.0 * depthSample - 1.0;
+    float linear = 2.0 * zNear * zFar / (zFar + zNear - depthRange * (zFar - zNear));
+    return linear;
 }
