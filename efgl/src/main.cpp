@@ -11,6 +11,7 @@
 #include "application/InputManager.h"
 #include "util/Time.h"
 #include "material/StandardMaterial.h"
+#include "util/Random.h"
 
 #include <../tracy/Tracy.hpp>
 #include <glm/gtc/random.hpp>
@@ -22,13 +23,16 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
-static const int N_RANDOM_LIGHTS = 100;
+static const int N_RANDOM_LIGHTS = 1024;
 
 static const glm::vec3 lightColors[3] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),
 	glm::vec3(0.0f, 1.0f, 0.0f),
 	glm::vec3(0.0f, 0.0f, 1.0f)
 };
+
+static const auto posLowerBound = glm::vec3(-13.0f, 0.5f, -6.0f);
+static const auto posUpperBound = glm::vec3(12.0f, 6.8f, 5.0f);
 
 class SandboxApplication : public Application {
 public:
@@ -63,15 +67,16 @@ public:
 			PointLight p;
 			p.Ambient = Color(0.0f);
 			p.Diffuse = lightColors[i % 3];
-			p.Specular = glm::vec3(1.0f);
+			p.Specular = lightColors[i % 3];
 
 			p.Constant = 1.0f;
 			p.Linear = 0.22f;
 			p.Quadratic = 0.2f;
 
-			p.Radius = 20;
+			p.Radius = 65;
 
-			p.Position = glm::linearRand(glm::vec3(-13.0f, 0.5f, -6.0f), glm::vec3(12.0f, 6.8f, 5.0f));
+			p.Position = Random::GetRandomInRange(posLowerBound, posUpperBound);
+			
 			scene->PointLights.push_back(p);
 		}
 
@@ -85,7 +90,7 @@ public:
 
 	virtual void OnRender() override {
 		ZoneScoped("OnRender");
-		InputManager::ProcessInput(window, Time::GetDeltaTime());
+		InputManager::ProcessInput(window, time.GetDeltaTime());
 		renderer->Render();
 	}
 
@@ -142,6 +147,8 @@ private:
 
 	Ref<Scene> scene;
 	Ref<Renderer> renderer;
+
+	Time time;
 };
 
 int main() {

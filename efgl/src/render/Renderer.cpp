@@ -4,8 +4,6 @@
 #include "scene/RenderableNode.h"
 
 #include <../tracy/Tracy.hpp>
-
-
 #include <stack>
 #include <array>
 #include <algorithm>
@@ -18,7 +16,7 @@ static const int NUM_CLUSTERS = NUM_TILES_X * NUM_TILES_Y * NUM_TILES_Z;
 
 static const std::string CLUSTERINGINFO_BLOCKNAME = "ClusteringInfo";
 
-static const int MAX_LIGHTS_PER_CLUSTER = 10;
+static const int MAX_LIGHTS_PER_CLUSTER = 65;
 
 // BINDING POINTS FOR SSBOs
 static const int AABB_GRID_BINDING = 1;

@@ -11,6 +11,7 @@
 #include "platform/OpenGL/fbo/FrameBuffer.h"
 
 #include "geometry/prim/Quad.h"
+#include "util/Time.h"
 
 namespace efgl {
 	// Main renderer that does all the heavy lifting.

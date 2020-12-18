@@ -4,12 +4,12 @@
 namespace efgl {
 	class Time {
 	public:
-		Time() = delete;
+		Time() = default;
 
-		static float GetDeltaTime();
+		float GetDeltaTime();
 
 	private:
-		static float deltaTime;
-		static float lastFrame;
+		float deltaTime;
+		float lastFrame;
 	};
 }

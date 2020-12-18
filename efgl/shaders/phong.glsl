@@ -109,7 +109,6 @@ const float exposure = 1.0;
 
 void main()
 {    
-    if (texture(material.texture_diffuse1, TexCoords).a < 0.5) discard;
     // properties
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -132,11 +131,21 @@ void main()
         result += CalcPointLight(pointLights[lightIdx], norm, FragPos, viewDir);
     } 
  
-    result = exposureTonemap(result);
-    //result = gammaCorrection(result);
+    result = reinhardTonemap(result);
+    result = gammaCorrection(result);
 
     FragColor = vec4(result, 1.0);
     //FragColor = vec4(linearDepth(gl_FragCoord.z));
+}
+
+// Attenuate the point light intensity
+float attenuate(vec3 lightDirection, float radius) {
+	float cutoff = 0.5;
+	float attenuation = dot(lightDirection, lightDirection) / (100.0 * radius);
+	attenuation = 1.0 / (attenuation * 15.0 + 1.0);
+	attenuation = (attenuation - cutoff) / (1.0 - cutoff);
+
+	return clamp(attenuation, 0.0, 1.0);
 }
 
 // calculates the color when using a directional light.
@@ -162,11 +171,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(viewDir, halfwayDir), 0.0), material.shininess);
     // attenuation
     float distance = length(light.position.xyz - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
+    float attenuation = pow(clamp(1 - pow((distance / light.radius), 4.0), 0.0, 1.0), 2.0)/(1.0  + (distance * distance) );    
+    //float attenuation = 1;
     // combine results
     vec3 ambient = light.ambient.xyz* vec3(texture(material.texture_diffuse1, TexCoords));
     vec3 diffuse = light.diffuse.xyz * diff * vec3(texture(material.texture_diffuse1, TexCoords));
