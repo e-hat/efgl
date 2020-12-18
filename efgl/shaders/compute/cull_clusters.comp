@@ -27,7 +27,7 @@ uint calcClusterIndex(vec3 pixelCoord);
 float linearDepth(float depthSample);
 
 void main() {
-    vec2 pixelCoord = gl_GlobalInvocationID.xy / screenDimensions;
+    vec2 pixelCoord = gl_GlobalInvocationID.xy;
     float z = texture(depthMap, pixelCoord).r;
 
     uint clusterIndex = calcClusterIndex(vec3(pixelCoord, z)); 

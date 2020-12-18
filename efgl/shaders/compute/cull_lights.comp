@@ -68,13 +68,12 @@ layout (std430, binding = 9) buffer ActiveLightCountBuffer {
 
 uniform mat4 view;
 
-#define MAX_LIGHTS_PER_CLUSTER 5
+#define MAX_LIGHTS_PER_CLUSTER 10
 
 bool testSphereAABB(uint lightIdx, uint clusterIdx);
 float sqDistPointAABB(vec3 pt, uint clusterIdx);
 
 void main() {
-    globalActiveLights = 0;
     uint clusterIdx = activeClusters[gl_WorkGroupID.x];
 
     // accumulating colliding lights

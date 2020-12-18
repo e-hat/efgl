@@ -98,25 +98,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 float linearDepth(float depthSample);
 
-vec3 gammaCorrection(vec3 v);
-
-// tonemappers
-vec3 reinhardTonemap(vec3 v);
-vec3 exposureTonemap(vec3 v);
-
-const float gamma = 1.8;
-const float exposure = 1.0;
-
 void main()
 {    
-    if (texture(material.texture_diffuse1, TexCoords).a < 0.5) discard;
-    // properties
-    vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
-
-    // phase 1: directional lighting
-    vec3 result = CalcDirLight(dirLight, norm, viewDir);
-
     // phase 2: point lights (culled by clusters)
     uint zTile =  uint(max(log2(linearDepth(gl_FragCoord.z)) * scale + bias, 0.0));
     uvec2 tileDims = uvec2(screenDimensions / vec2(tileSizeX, tileSizeY));
@@ -127,16 +110,8 @@ void main()
                      tileDims.x * tileDims.y * cluster.z;
 
     LightGridEntry gridEntry = lightGrid[clusterIdx];
-    for (uint i = 0; i < gridEntry.nLights; ++i) {
-        uint lightIdx = globalLightIndices[gridEntry.offset + i];
-        result += CalcPointLight(pointLights[lightIdx], norm, FragPos, viewDir);
-    } 
  
-    result = exposureTonemap(result);
-    //result = gammaCorrection(result);
-
-    FragColor = vec4(result, 1.0);
-    //FragColor = vec4(linearDepth(gl_FragCoord.z));
+    FragColor = vec4(mix(vec3(0), vec3(0.0, 1.0, 1.0), float(gridEntry.nLights) / 5), 1.0);
 }
 
 // calculates the color when using a directional light.
@@ -183,14 +158,3 @@ float linearDepth(float depthSample) {
     return linear;
 }
 
-vec3 reinhardTonemap(vec3 v) {
-    return v / (v + vec3(1.0));
-}
-
-vec3 gammaCorrection(vec3 v) {
-    return pow(v, vec3(1.0 / gamma));
-}
-
-vec3 exposureTonemap(vec3 v) {
-    return vec3(1.0) - exp(-v * exposure);
-}

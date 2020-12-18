@@ -5,21 +5,20 @@
 
 #include <../tracy/Tracy.hpp>
 
-#include <glm/gtc/random.hpp>
 
 #include <stack>
 #include <array>
 #include <algorithm>
 
 // Cluster dims, optimized for my specific machine
-static const int NUM_TILES_X = 8;
-static const int NUM_TILES_Y = 8;
-static const int NUM_TILES_Z = 16;
+static const int NUM_TILES_X = 9;
+static const int NUM_TILES_Y = 16;
+static const int NUM_TILES_Z = 24;
 static const int NUM_CLUSTERS = NUM_TILES_X * NUM_TILES_Y * NUM_TILES_Z;
 
 static const std::string CLUSTERINGINFO_BLOCKNAME = "ClusteringInfo";
 
-static const int MAX_LIGHTS_PER_CLUSTER = 5;
+static const int MAX_LIGHTS_PER_CLUSTER = 10;
 
 // BINDING POINTS FOR SSBOs
 static const int AABB_GRID_BINDING = 1;
@@ -30,6 +29,9 @@ static const int LIGHTS_BINDING = 6;
 static const int LIGHT_GRID_BINDING = 7;
 static const int LIGHT_INDICES_BINDING = 8;
 static const int N_ACTIVE_LIGHTS_BINDING = 9;
+
+static const unsigned int N_ACTIVE_LIGHTS_CLEAR_VAL = 0;
+static const unsigned int N_ACTIVE_CLUSTERS_CLEAR_VAL = 0;
 
 typedef struct AABBVolume {
 	glm::vec4 Min;
@@ -120,11 +122,15 @@ namespace efgl {
 	}
 
 	void Renderer::colorPass() {
+		m_nActiveLights->SetData(0, sizeof(unsigned int), &N_ACTIVE_CLUSTERS_CLEAR_VAL);
+		m_nActiveClusters->SetData(0, sizeof(unsigned int), &N_ACTIVE_CLUSTERS_CLEAR_VAL);
+		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
 		glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
 		m_DepthMap->Bind(0);
 
 		m_CullClusters->Bind();
-		m_CullClusters->Dispatch(NUM_TILES_X, NUM_TILES_Y, NUM_TILES_Z);
+		m_CullClusters->Dispatch(m_Scene->Camera.ScreenWidth, m_Scene->Camera.ScreenHeight, 1);
 		
 		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
@@ -133,8 +139,8 @@ namespace efgl {
 
 		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-		float nActiveClusters;
-		m_nActiveClusters->ReadData(0, sizeof(float), &nActiveClusters);
+		unsigned int nActiveClusters;
+		m_nActiveClusters->ReadData(0, sizeof(unsigned int), &nActiveClusters);
 
 		m_CullLights->Bind();
 
@@ -214,7 +220,7 @@ namespace efgl {
 
 		auto nGlobalActiveClusters = MakeRef<unsigned int>(0);
 		void* voidCounterPtr = nGlobalActiveClusters.get();
-		m_nActiveClusters = MakeRef<ShaderStorageBuffer>(sizeof(unsigned int), 1, voidCounterPtr, GL_STATIC_COPY);
+		m_nActiveClusters = MakeRef<ShaderStorageBuffer>(sizeof(unsigned int), 1, voidCounterPtr, GL_DYNAMIC_DRAW);
 		m_nActiveClusters->Bind(N_ACTIVE_CLUSTERS_BINDING);
 
 		auto gpuLights = serializePointLights(m_Scene->PointLights);
@@ -246,7 +252,7 @@ namespace efgl {
 		// total num of active lights for scene, for use in compute shader
 		auto nActiveLights = MakeRef<unsigned int>(0);
 		void* voidActiveLightPtr = nActiveLights.get();
-		m_nActiveLights = MakeRef<ShaderStorageBuffer>(sizeof(unsigned int), 1, voidActiveLightPtr, GL_STATIC_COPY);
+		m_nActiveLights = MakeRef<ShaderStorageBuffer>(sizeof(unsigned int), 1, voidActiveLightPtr, GL_DYNAMIC_DRAW);
 		m_nActiveLights->Bind(N_ACTIVE_LIGHTS_BINDING);
 	}
 

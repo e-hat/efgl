@@ -12,6 +12,7 @@ namespace efgl {
 		void Unbind();
 
 		void ReadData(unsigned int offset, unsigned int nBytes, void* data);
+		void SetData(unsigned int offset, unsigned int nBytes, const void* data);
 
 	private:
 		unsigned int m_RendererID;

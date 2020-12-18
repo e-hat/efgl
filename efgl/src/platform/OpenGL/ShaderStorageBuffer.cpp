@@ -35,4 +35,8 @@ namespace efgl {
 	void ShaderStorageBuffer::ReadData(unsigned int offset, unsigned int nBytes, void* data) {
 		GLCall(glGetNamedBufferSubData(m_RendererID, offset, nBytes, data));
 	}
+
+	void ShaderStorageBuffer::SetData(unsigned int offset, unsigned int nBytes, const void* data) {
+		GLCall(glNamedBufferSubData(m_RendererID, offset, nBytes, data));
+	}
 }

@@ -34,7 +34,6 @@ layout(std140, binding = 2) uniform ClusteringInfo {
     uint tileSizeX;
     uint tileSizeY;
     uint numZSlices;
-    
 };
 
 #define NR_COLORS 5

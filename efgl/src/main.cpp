@@ -13,6 +13,7 @@
 #include "material/StandardMaterial.h"
 
 #include <../tracy/Tracy.hpp>
+#include <glm/gtc/random.hpp>
 
 #include <imgui.h>
 
@@ -21,7 +22,13 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
-static const int N_RANDOM_LIGHTS = 25;
+static const int N_RANDOM_LIGHTS = 100;
+
+static const glm::vec3 lightColors[3] = {
+	glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.0f, 0.0f, 1.0f)
+};
 
 class SandboxApplication : public Application {
 public:
@@ -47,39 +54,26 @@ public:
 
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
-		dl->Ambient = Color(0.2f);
-		dl->Diffuse = Color(0.5f);
-		dl->Specular = Color(1.0f, 1.0f, 1.0f);
+		dl->Ambient = Color(0.0f);
+		dl->Diffuse = Color(0.0f);
+		dl->Specular = Color(0.0f);
 		dl->Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 
-		PointLight p;
-		p.Ambient = Color(0.2f);
-		p.Diffuse = Color(0.5f);
-		p.Specular = Color(1.0f, 1.0f, 1.0f);
+		for (int i = 0; i < N_RANDOM_LIGHTS; ++i) {
+			PointLight p;
+			p.Ambient = Color(0.0f);
+			p.Diffuse = lightColors[i % 3];
+			p.Specular = glm::vec3(1.0f);
 
-		p.Constant = 1.0f;
-		p.Linear = 0.09f;
-		p.Quadratic = 0.032f;
+			p.Constant = 1.0f;
+			p.Linear = 0.22f;
+			p.Quadratic = 0.2f;
 
-		p.Radius = 50;
+			p.Radius = 20;
 
-		p.Position = glm::vec3(-9.26f, 4.913f, -0.658f);
-
-		PointLight p2;
-		p2.Ambient = Color(0.2f);
-		p2.Diffuse = Color(0.5f);
-		p2.Specular = Color(1.0f, 1.0f, 1.0f);
-
-		p2.Constant = 1.0f;
-		p2.Linear = 0.09f;
-		p2.Quadratic = 0.032f;
-
-		p2.Radius = 50;
-
-		p2.Position = glm::vec3(7.4f, 4.6f, -0.46f);
-
-		scene->PointLights.push_back(p);
-		scene->PointLights.push_back(p2);
+			p.Position = glm::linearRand(glm::vec3(-13.0f, 0.5f, -6.0f), glm::vec3(12.0f, 6.8f, 5.0f));
+			scene->PointLights.push_back(p);
+		}
 
 		scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 		auto sponzaNode = MakeRef<RenderableNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), sponza);
