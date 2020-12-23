@@ -3,7 +3,6 @@
 
 #include <vector>
 
-
 namespace efgl
 {
 	struct LayoutElement
@@ -75,7 +74,5 @@ namespace efgl
 	private:
 		std::vector<LayoutElement> m_Elements;
 		unsigned int m_Stride;
-
-		// Because ternary operator doesn't work in initializer list for whatever reason
 	};
 }

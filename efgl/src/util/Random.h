@@ -5,7 +5,6 @@
 
 namespace efgl
 {
-
 	class Random
 	{
 	public:
@@ -16,7 +15,7 @@ namespace efgl
 		template<typename T>
 		static T GetRandomInRange(T a, T b)
 		{
-			EF_ASSERT(false && "efgl::Random does not support this data type!");
+			EF_ASSERT(false && "efgl::Random does not support this data type");
 		}
 
 		template<>
@@ -34,7 +33,8 @@ namespace efgl
 		}
 
 		template<>
-		static glm::vec3 GetRandomInRange(glm::vec3 lowerXYZ, glm::vec3 upperXYZ) {
+		static glm::vec3 GetRandomInRange(glm::vec3 lowerXYZ, glm::vec3 upperXYZ) 
+		{
 			return glm::vec3(
 				GetRandomInRange<float>(lowerXYZ.x, upperXYZ.x),
 				GetRandomInRange<float>(lowerXYZ.y, upperXYZ.y),

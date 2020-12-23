@@ -13,11 +13,13 @@
 #include "geometry/prim/Quad.h"
 #include "util/Time.h"
 
-namespace efgl {
+namespace efgl
+{
 	// Main renderer that does all the heavy lifting.
 	// Maybe need more than one of these for different demos,
 	// of way of configuring
-	class Renderer {
+	class Renderer 
+	{
 	public:
 		Renderer(Ref<Scene> scene);
 
@@ -25,7 +27,8 @@ namespace efgl {
 
 	private:
 
-		typedef struct GPUPointLight {
+		typedef struct GPUPointLight 
+		{
 			glm::vec4 Position;
 
 			glm::vec4 Ambient;
@@ -52,6 +55,7 @@ namespace efgl {
 
 		// SCENE
 		Ref<Scene> m_Scene;
+		Camera& m_Camera;
 
 		// SSBOs
 		Ref<ShaderStorageBuffer> m_AABBGrid;

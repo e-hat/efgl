@@ -10,8 +10,12 @@ layout (std430, binding = 4) buffer ActiveClusterBuffer {
     uint activeClusters[];
 };
 
+struct DispatchIndirectParams {
+    uint x, y, z;
+};
+
 layout (std430, binding = 5) buffer UniqueActiveClusterCountBuffer {
-    uint globalActiveClusters;
+    DispatchIndirectParams cullLightsDispatchParams;
 };
 
 void main() {
@@ -21,7 +25,7 @@ void main() {
         gl_WorkGroupID.z * gl_NumWorkGroups.y * gl_NumWorkGroups.x;
 
     if (activeClusterMask[clusterIdx]) {
-        uint idx = atomicAdd(globalActiveClusters, 1);
+        uint idx = atomicAdd(cullLightsDispatchParams.x, 1);
         activeClusters[idx] = clusterIdx;
     }
 

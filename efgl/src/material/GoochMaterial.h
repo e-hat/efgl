@@ -3,8 +3,10 @@
 
 #include "IMaterial.h"
 
-namespace efgl {
-	class GoochMaterial : public IMaterial {
+namespace efgl 
+{
+	class GoochMaterial : public IMaterial 
+	{
 	public:
 		void SetShaderUniforms(Shader& shader) override;
 

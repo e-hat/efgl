@@ -5,7 +5,8 @@
 #include "Window.h"
 
 namespace efgl {
-	class InputManager {
+	class InputManager
+	{
 	public:
 		InputManager() = delete;
 

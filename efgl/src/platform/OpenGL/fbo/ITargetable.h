@@ -1,7 +1,8 @@
 #pragma once
 
 namespace efgl {
-	class ITargetable {
+	class ITargetable 
+	{
 	public:
 		virtual unsigned int GetID() = 0;
 	};

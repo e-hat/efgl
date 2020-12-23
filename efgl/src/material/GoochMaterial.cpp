@@ -4,9 +4,11 @@
 
 #include <string>
 
-namespace efgl {
+namespace efgl 
+{
 
-	void GoochMaterial::SetShaderUniforms(Shader& shader) {
+	void GoochMaterial::SetShaderUniforms(Shader& shader) 
+	{
 		const std::string s = "material.";
 
 		shader.Bind();

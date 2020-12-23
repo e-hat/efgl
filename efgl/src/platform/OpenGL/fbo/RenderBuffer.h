@@ -4,7 +4,8 @@
 #include "ITargetable.h"
 
 namespace efgl {
-	class RenderBuffer : public ITargetable {
+	class RenderBuffer : public ITargetable 
+	{
 	public:
 		RenderBuffer(int width, int height, GLint dataFormat);
 

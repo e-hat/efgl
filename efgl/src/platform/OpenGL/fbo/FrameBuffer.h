@@ -3,8 +3,10 @@
 
 #include "ITargetable.h"
 
-namespace efgl {
-	class FrameBuffer {
+namespace efgl 
+{
+	class FrameBuffer 
+	{
 	public:
 
 		FrameBuffer();
@@ -22,18 +24,21 @@ namespace efgl {
 
 		static void SetViewportAttribs(GLint x, GLint y, GLint width, GLint height);
 
-		inline bool CheckComplete() {
+		inline bool CheckComplete() 
+		{
 			Bind();
 			GLCall(bool result = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 			Unbind();
 			return result;
 		}
 
-		inline void Bind() {
+		inline void Bind()
+		{
 			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID));
 		}
 
-		inline void Unbind() {
+		inline void Unbind()
+		{
 			GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 		}
 

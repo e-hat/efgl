@@ -12,13 +12,15 @@
 #include "examples/imgui_impl_glfw.cpp"
 #endif
 
-namespace efgl {
+namespace efgl 
+{
 	Application::Application(Window* window)
 		: window(window)
 	{
 	}
 
-	Application::~Application() {
+	Application::~Application() 
+	{
 #ifdef DEBUG
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -26,7 +28,8 @@ namespace efgl {
 #endif
 	}
 
-	void Application::Run() {
+	void Application::Run() 
+	{
 		Init();
 #ifdef DEBUG
 		// Setup Dear ImGui context
@@ -34,11 +37,8 @@ namespace efgl {
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
-		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
@@ -54,7 +54,8 @@ namespace efgl {
 		ImGui_ImplGlfw_InitForOpenGL(window->GetNativeWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 460");
 #endif
-		while (!window->ShouldClose()) {
+		while (!window->ShouldClose()) 
+		{
 			ZoneScoped;
 			OnRender();
 #ifdef DEBUG

@@ -6,10 +6,12 @@
 #include <fstream>
 #include <sstream>
 
+#include <../tracy/TracyOpenGL.hpp>
 
 using namespace std;
 
-namespace efgl {
+namespace efgl 
+{
 
 	ComputeShader::ComputeShader(const std::string& filePath)
 		: m_FilePath(filePath)
@@ -26,14 +28,23 @@ namespace efgl {
 
 	void ComputeShader::Dispatch(int x, int y, int z)
 	{
+		TracyGpuZoneC("ComputeShader::Dispatch", tracy::Color::Beige);
 		GLCall(glDispatchCompute(x, y, z));
 	}
 
-	void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot) {
+	void ComputeShader::DispatchIndirect(unsigned int byteOffset) 
+	{
+		TracyGpuZoneC("ComputeShader::DispatchIndirect", tracy::Color::LightSteelBlue);
+		GLCall(glDispatchComputeIndirect(byteOffset));
+	}
+
+	void ComputeShader::BindBlockIndex(const std::string& blockName, unsigned int slot)
+	{
 		int location = GL_INVALID_INDEX;
 		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
 			location = m_UniformBlockLocationCache[blockName];
-		else {
+		else 
+		{
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
 			// This is for more info on the error that will be thrown in glUniformBlockBinding
 			if (location == GL_INVALID_INDEX)
@@ -48,7 +59,8 @@ namespace efgl {
 	{
 		std::ifstream stream(filepath);
 
-		if (!stream.good()) {
+		if (!stream.good())
+		{
 			std::cout << "Failed to load shader at " << filepath << std::endl;
 		}
 		
@@ -77,7 +89,7 @@ namespace efgl {
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
 			char* msg = (char*)_malloca(length * sizeof(char));
 			GLCall(glGetShaderInfoLog(id, length, &length, msg));
-			cout << "Failed Compilation of compute shader:" << m_FilePath << endl;
+			cout << "Failed Compilation of compute shader: " << m_FilePath << endl;
 			cout << msg << endl;
 			GLCall(glDeleteShader(id));
 			return 0;

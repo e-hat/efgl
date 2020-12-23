@@ -5,6 +5,8 @@
 #include <iostream>
 #include <utility>
 
+#include <../tracy/TracyOpenGL.hpp>	
+
 namespace efgl
 {
 	Window* Window::p_Instance = nullptr;
@@ -54,6 +56,8 @@ namespace efgl
 		}
 		glViewport(0, 0, width, height);
 
+		// for GPU profiling
+		TracyGpuContext;
 		return result;
 	}
 
@@ -71,12 +75,13 @@ namespace efgl
 	void Window::Swap()
 	{
 		ZoneScopedC(tracy::Color::Magenta);
+
 		glfwSwapBuffers(p_Window);
+		TracyGpuCollect;
 	}
 
 	Window::~Window()
 	{
-		std::cout << "destructing" << std::endl;
 		glfwTerminate();
 	}
 }

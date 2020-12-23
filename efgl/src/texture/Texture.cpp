@@ -7,7 +7,8 @@
 #include <iostream>
 #include <algorithm>
 
-namespace efgl {
+namespace efgl
+{
 
 	std::unordered_map<std::string, TextureManager::TextureData> TextureManager::m_CachedTextures;
 
@@ -28,11 +29,13 @@ namespace efgl {
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 	}
 
-	Texture::~Texture() {
+	Texture::~Texture() 
+	{
 		GLCall(glDeleteTextures(1, &m_RendererID));
 	}
 
-	void Texture::Bind(unsigned int textureUnit) {
+	void Texture::Bind(unsigned int textureUnit) 
+	{
 		EF_ASSERT(textureUnit < 16 && "textureUnit must be in range [0..16)");
 
 		m_TextureUnit = textureUnit;
@@ -41,7 +44,8 @@ namespace efgl {
 		GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	}
 
-	void Texture::Unbind() {
+	void Texture::Unbind() 
+	{
 		EF_ASSERT(m_TextureUnit > 0 && "attempting to unbind already unbound texture");
 
 		GLCall(glActiveTexture(GL_TEXTURE0 + m_TextureUnit));
@@ -49,18 +53,23 @@ namespace efgl {
 		m_TextureUnit = -1;
 	}
 
-	void TextureManager::SetFlip(bool flip) {
+	void TextureManager::SetFlip(bool flip) 
+	{
 		stbi_set_flip_vertically_on_load(flip);
 	}
 
-	void TextureManager::CleanUp() {
-		for (auto it = std::begin(m_CachedTextures); it != std::end(m_CachedTextures); ++it) {
+	void TextureManager::CleanUp() 
+	{
+		for (auto it = std::begin(m_CachedTextures); it != std::end(m_CachedTextures); ++it) 
+		{
 			stbi_image_free((void*)(it->second.data));
 		}
 	}
 
-	Ref<Texture> TextureManager::LoadTexture(const std::string& path, const std::string& directory) {
-		if (m_CachedTextures.find(path) != std::end(m_CachedTextures)) {
+	Ref<Texture> TextureManager::LoadTexture(const std::string& path, const std::string& directory) 
+	{
+		if (m_CachedTextures.find(path) != std::end(m_CachedTextures)) 
+		{
 			TextureData cached = m_CachedTextures[path];
 			return MakeRef<Texture>(cached.width, cached.height, cached.format, GL_UNSIGNED_BYTE, cached.data);
 		}
@@ -69,14 +78,16 @@ namespace efgl {
 
 		int width, height, nrChannels;
 		unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
-		if (!data) {
+		if (!data) 
+		{
 			std::cout << "TextureManager::Failed to load texture at path " << filename << std::endl;
 			stbi_image_free(data);
 			return nullptr;
 		}
 
 		GLint format;
-		switch (nrChannels) {
+		switch (nrChannels) 
+		{
 		case 1:
 			format = GL_RED;
 			break;

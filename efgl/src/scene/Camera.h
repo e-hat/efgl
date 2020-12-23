@@ -9,9 +9,10 @@
 
 #include <vector>
 
-namespace efgl {
-
-	enum class CameraMovement {
+namespace efgl 
+{
+	enum class CameraMovement 
+	{
 		FORWARD,
 		BACKWARD,
 		LEFT,
@@ -24,8 +25,6 @@ namespace efgl {
 	const float SENSITIVITY = 0.4f;
 	const float ZOOM = 45.0f;
 
-	// quite ugly, I need to get ScreenWidth and ScreenHeight OUT,
-	// this should be managed statically by efgl::Application perhaps
 	class Camera
 	{
 	public:
@@ -69,17 +68,20 @@ namespace efgl {
 			updateCameraVectors();
 		}
 
-		inline glm::mat4 GetViewMatrix() const {
+		inline glm::mat4 GetViewMatrix() const 
+		{
 			ZoneScoped;
 			return glm::lookAt(Position, Position + Front, Up);
 		}
 
-		inline glm::mat4 GetProjectionMatrix() const {
+		inline glm::mat4 GetProjectionMatrix() const
+		{
 			ZoneScoped;
 			return glm::perspective(glm::radians(Zoom), (float)ScreenWidth / (float)ScreenHeight, Near, Far);
 		}
 
-		void ProcessKeyboard(CameraMovement direction, float deltaTime) {
+		void ProcessKeyboard(CameraMovement direction, float deltaTime) 
+		{
 			float velocity = MovementSpeed * deltaTime;
 			switch (direction) {
 			case CameraMovement::FORWARD:
@@ -97,14 +99,16 @@ namespace efgl {
 			}
 		}
 
-		void ProcessMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch = true) {
+		void ProcessMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch = true) 
+		{
 			xOffset *= MouseSensitivity;
 			yOffset *= MouseSensitivity;
 
 			Yaw += xOffset;
 			Pitch += yOffset;
 
-			if (constrainPitch) {
+			if (constrainPitch) 
+			{
 				Pitch = (Pitch > 89.0f) ? 89.0f : Pitch;
 				Pitch = (Pitch < -89.0f) ? -89.0f : Pitch;
 			}
@@ -112,7 +116,8 @@ namespace efgl {
 			updateCameraVectors();
 		}
 
-		void ProcessMouseScroll(float yOffset) {
+		void ProcessMouseScroll(float yOffset) 
+		{
 			Zoom -= (float)yOffset;
 			Zoom = (Zoom < 1.0f) ? 1.0f : Zoom;
 			Zoom = (Zoom > 45.0f) ? 45.0f : Zoom;

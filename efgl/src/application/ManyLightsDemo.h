@@ -24,7 +24,7 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
-static const int N_RANDOM_LIGHTS = 1024;
+static const int N_RANDOM_LIGHTS = 0;
 
 static const glm::vec3 lightColors[3] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),
@@ -35,15 +35,17 @@ static const glm::vec3 lightColors[3] = {
 static const auto posLowerBound = glm::vec3(-13.0f, 0.5f, -6.0f);
 static const auto posUpperBound = glm::vec3(12.0f, 6.8f, 5.0f);
 
-class ManyLightsDemo : public Application {
+class ManyLightsDemo : public Application
+{
 public:
 	ManyLightsDemo()
-		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Subdivision demo")),
+		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "ManyLights demo")),
 		dragonPos(1.0f)
 	{
 	}
 
-	virtual void Init() override {
+	virtual void Init() override 
+	{
 
 		scene = MakeRef<Scene>();
 
@@ -59,9 +61,9 @@ public:
 
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
-		dl->Ambient = Color(0.0f);
-		dl->Diffuse = Color(0.0f);
-		dl->Specular = Color(0.0f);
+		dl->Ambient = Color(0.2f);
+		dl->Diffuse = Color(1.0f);
+		dl->Specular = Color(1.0f);
 		dl->Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 
 		for (int i = 0; i < N_RANDOM_LIGHTS; ++i) {
@@ -89,13 +91,15 @@ public:
 		renderer = MakeRef<Renderer>(scene);
 	}
 
-	virtual void OnRender() override {
+	virtual void OnRender() override 
+	{
 		ZoneScoped("OnRender");
 		InputManager::ProcessInput(window, time.GetDeltaTime());
 		renderer->Render();
 	}
 
-	virtual void OnImGuiRender() override {
+	virtual void OnImGuiRender() override
+	{
 		ZoneScoped;
 		Ref<DirectionalLight> dl = scene->DirLight;
 		ImGui::Begin("Phong Scene Debug Menu");
@@ -129,7 +133,8 @@ public:
 		ImGui::End();
 	}
 
-	virtual void Exit() override {
+	virtual void Exit() override 
+	{
 		TextureManager::CleanUp();
 	}
 

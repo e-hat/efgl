@@ -57,7 +57,8 @@ namespace efgl {
 		};
 		
 		Vertices.reserve(vertices.size());
-		for (const auto& data : vertices) {
+		for (const auto& data : vertices)
+		{
 			Vertices.emplace_back(Vertex{
 				glm::vec3(data[0], data[1], data[2]),
 				glm::vec3(data[3], data[4], data[5]),

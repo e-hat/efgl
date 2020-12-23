@@ -1,18 +1,18 @@
 #pragma once
 #include "efpch.h"
 
-namespace efgl {
-	// TODO: Create serializer for these, since
-	// they need to be translated + sent to GPU
-	// for clustering
-	struct DirectionalLight {
+namespace efgl 
+{
+	struct DirectionalLight 
+	{
 		glm::vec3 Direction;
 
 		Color Ambient;
 		Color Diffuse;
 		Color Specular;
 
-		void SetUniforms(Shader& shader) {
+		void SetUniforms(Shader& shader) 
+		{
 			shader.SetUniform("dirLight.direction", Direction);
 			shader.SetUniform("dirLight.ambient", Ambient);
 			shader.SetUniform("dirLight.diffuse", Diffuse);
@@ -20,7 +20,8 @@ namespace efgl {
 		}
 	};
 
-	struct PointLight {
+	struct PointLight
+	{
 		glm::vec3 Position;
 
 		Color Ambient;

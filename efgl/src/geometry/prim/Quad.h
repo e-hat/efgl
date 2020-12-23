@@ -3,9 +3,11 @@
 
 #include "geometry/Mesh.h"
 
-namespace efgl {
+namespace efgl 
+{
 
-	class Quad : public Mesh {
+	class Quad : public Mesh 
+	{
 	public:
 		Quad(Ref<IMaterial> pMat);
 	};

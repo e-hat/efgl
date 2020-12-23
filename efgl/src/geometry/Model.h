@@ -11,8 +11,10 @@
 #include <vector>
 #include <string>
 
-namespace efgl {
-	class Model : public IRenderable {
+namespace efgl
+{
+	class Model : public IRenderable 
+	{
 	public:
 		Model(const char* path);
 
@@ -23,16 +25,14 @@ namespace efgl {
 
 	private:
 		std::vector<Ref<Mesh>> m_Meshes;
+		// for grouping Mesh data by Material into VBO
 		std::vector<MeshData> m_Data;
 		std::vector<Ref<IMaterial>> m_Materials;
 		std::string m_Directory;
 
 		void loadModel(const std::string& path);
-
 		void processNode(aiNode* node, const aiScene* scene);
-
 		void processMesh(aiMesh* mesh, const aiScene* scene);
-
 		std::vector<Ref<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
 	};
 }

@@ -7,7 +7,6 @@
 
 namespace efgl {
 	// The SceneNode class is purely for positional information
-	// Nodes containing actual renderable geometry are RenderableNodes
 	class SceneNode  {
 		friend class Scene;
 	public:
@@ -17,14 +16,11 @@ namespace efgl {
 
 		virtual bool IsRenderable() { return false; }
 
-		// This is set up to propogate the new shader 
-		// to all children. We'll see if this is useful
-		// or annoying. Or, as I've found out with SceneGraphs,
-		// there's a chance I never use this feature ever. shrug
-		void UpdateShader(Ref<Shader> newShader);
 		void UpdatePos(glm::vec3 newPos);
 		void UpdateScale(glm::vec3 newScale);
 		void UpdateRotation(glm::quat newRot);
+		// Shader changes are propogated as well
+		void UpdateShader(Ref<Shader> newShader);
 
 		void Traverse();
 
@@ -41,7 +37,7 @@ namespace efgl {
 		glm::quat m_Rotation;
 
 		glm::mat4 m_Transform;
-		// caching transformations
+		// caching transformations for static trees
 		bool m_Dirty = false;
 	};
 }

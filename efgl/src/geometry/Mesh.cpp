@@ -4,6 +4,7 @@
 #include "platform/OpenGL/VertexBufferLayout.h"
 
 #include <../tracy/Tracy.hpp>
+#include <../tracy/TracyOpenGL.hpp>
 
 #include <string>
 
@@ -11,7 +12,8 @@ using namespace std;
 
 namespace efgl {
 
-	VertexBufferLayout Vertex::GetVBL() {
+	VertexBufferLayout Vertex::GetVBL() 
+	{
 		VertexBufferLayout vbl;
 		vbl.Push<float>(3);
 		vbl.Push<float>(3);
@@ -25,7 +27,8 @@ namespace efgl {
 	{
 	}
 
-	void Mesh::UploadData() {
+	void Mesh::UploadData() 
+	{
 		if (!m_Uploaded) {
 			m_VBO = MakeRef<VertexBuffer>(Vertices.data(), Vertices.size() * sizeof(Vertex));
 			m_VAO = MakeRef<VertexArray>();
@@ -36,8 +39,10 @@ namespace efgl {
 		}
 	}
 
-	void Mesh::DrawCustom(Ref<IMaterial> mat, Shader& shader) const {
+	void Mesh::DrawCustom(Ref<IMaterial> mat, Shader& shader) const
+	{
 		ZoneScoped;
+		TracyGpuZoneC("Mesh::DrawCustom", tracy::Color::CornflowerBlue);
 		EF_ASSERT(m_Uploaded && "Mesh was not uploaded prior to draw call");
 
 		shader.Bind();
@@ -55,7 +60,8 @@ namespace efgl {
 
 	}
 
-	void Mesh::Draw(Shader& shader) const {
+	void Mesh::Draw(Shader& shader) const 
+	{
 		DrawCustom(pMaterial, shader);
 	}
 }

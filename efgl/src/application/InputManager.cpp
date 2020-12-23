@@ -4,13 +4,15 @@
 
 #include <GLFW/glfw3.h>
 
-namespace efgl {
+namespace efgl
+{
 	Camera* InputManager::p_Camera = nullptr;
 	bool InputManager::firstMouse = true;
 	float InputManager::lastX = 0;
 	float InputManager::lastY = 0;
 
-	void InputManager::SetGLFWCallbacks(Window* window, Camera* camera) {
+	void InputManager::SetGLFWCallbacks(Window* window, Camera* camera) 
+	{
 
 		lastX = window->GetWidth() / 2.0f;
 		lastY = window->GetHeight() / 2.0f;
@@ -22,7 +24,8 @@ namespace efgl {
 		glfwSetScrollCallback(window->GetNativeWindow(), scroll_callback);
 	}
 
-	void InputManager::ProcessInput(Window* window, float deltaTime) {
+	void InputManager::ProcessInput(Window* window, float deltaTime) 
+	{
 		processInput(window->GetNativeWindow(), deltaTime);
 	}
 
@@ -40,7 +43,8 @@ namespace efgl {
 	// -------------------------------------------------------
 	void InputManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	{
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		{
 			if (firstMouse)
 			{
 				lastX = (float)xpos;

@@ -13,7 +13,8 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1080;
 static const int SCREEN_HEIGHT = 920;
 
-class SubdivisionDemo : public Application {
+class SubdivisionDemo : public Application 
+{
 public:
 	SubdivisionDemo()
 		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Subdivision demo")),
@@ -21,7 +22,8 @@ public:
 	{
 	}
 
-	virtual void Init() override {
+	virtual void Init() override
+	{
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
@@ -34,9 +36,10 @@ public:
 		InputManager::SetGLFWCallbacks(window, &camera);
 	}
 
-	virtual void OnRender() override {
+	virtual void OnRender() override
+	{
 
-		InputManager::ProcessInput(window, Time::GetDeltaTime());
+		InputManager::ProcessInput(window, time.GetDeltaTime());
 
 		// set background
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -78,6 +81,8 @@ private:
 	Ref<Model> sponza;
 	Ref<Shader> subdivisionShader;
 	Camera camera;
+
+	Time time;
 
 	int numSlices;
 

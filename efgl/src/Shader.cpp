@@ -28,7 +28,8 @@ namespace efgl
 	{
 		std::ifstream stream(filepath);
 
-		if (!stream.good()) {
+		if (!stream.good()) 
+		{
 			std::cout << "Failed to load shader at " << filepath << std::endl;
 		}
 
@@ -77,11 +78,10 @@ namespace efgl
 			cout << "Compilation error on shader at " << m_FilePath << endl;
 			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
 				<< "shader. Error log:" << endl;
-			// TODO: someway, somehow, I need to get this to print
-			// the correct lines for FS syntax errors. It currently 
-			// prints NUM_LINES_IN_VS + ERROR_LINE_NUM due to how they 
-			// are bundled...ugh
 			cout << msg << endl;
+			// TODO: figure out a way to get the right line number from this info...
+			// current behavior: since frag + vert shaders share files, frag line
+			// # is fragNumber + total number of lines in vert
 			
 			GLCall(glDeleteShader(id));
 			return 0;
@@ -107,11 +107,13 @@ namespace efgl
 		return program;
 	}
 
-	void Shader::BindBlockIndex(const std::string& blockName, unsigned int slot) {
+	void Shader::BindBlockIndex(const std::string& blockName, unsigned int slot) 
+	{
 		int location = GL_INVALID_INDEX;
 		if (m_UniformBlockLocationCache.find(blockName) != m_UniformBlockLocationCache.end())
 			location = m_UniformBlockLocationCache[blockName];
-		else {
+		else 
+		{
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
 			if (location == GL_INVALID_INDEX)
 				cout << "Warning: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;

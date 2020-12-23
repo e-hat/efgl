@@ -1,8 +1,10 @@
 #pragma once
 #include "efpch.h"
 
-namespace efgl {
-	class Time {
+namespace efgl 
+{
+	class Time 
+	{
 	public:
 		Time() = default;
 
