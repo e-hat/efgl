@@ -4,6 +4,7 @@ This engine is somewhere I can implement modern rendering techniques and hopeful
 
 * Clustered forward shading model using OpenGL compute shaders
 * Blinn-Phong lighting model
+* Linear lighting
 * HDR with Reinhard tonemapping
 * Gamma-correction
 
