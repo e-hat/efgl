@@ -13,7 +13,7 @@ The current roadmap is as follows:
 * Implement a physically-based shading model (this step will probably end up containing skybox and normal map implementations to make it look even better).
 * Shadows using NVidia's PCSS algorithm, which builds off the classic shadowmapping technique and cleanly replcaces the PCF step.
 * Post-processing, including SSAO. 
-* Some type of global illumination implementation using photon mapping, which I may be able to accelerate using my current frustrum clustering technique. 
+* SSS. I mean how hard could it be?
 
 ### Progress So Far
 
