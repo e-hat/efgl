@@ -1,7 +1,8 @@
 #pragma once
 #include "efpch.h"
 
-namespace efgl {
+namespace efgl 
+{
 	class ShaderStorageBuffer 
 	{
 	public:

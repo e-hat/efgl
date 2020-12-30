@@ -3,7 +3,8 @@
 
 #include "ITargetable.h"
 
-namespace efgl {
+namespace efgl 
+{
 	class RenderBuffer : public ITargetable 
 	{
 	public:

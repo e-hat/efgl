@@ -4,10 +4,9 @@
 #include "material/IMaterial.h"
 #include "texture/Texture.h"
 
-namespace efgl 
-{
-	class StandardMaterial : public IMaterial 
-	{
+namespace efgl {
+
+	class StandardMaterial : public IMaterial {
 	public:
 		virtual void SetShaderUniforms(Shader& shader) override;
 		

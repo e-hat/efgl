@@ -36,7 +36,11 @@ namespace efgl
 		EF_ASSERT(p_Window == nullptr && "Trying to create more than one window");
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+#ifdef UHD4600
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#else
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+#endif
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_SAMPLES, 4);
 
@@ -75,6 +79,7 @@ namespace efgl
 	void Window::Swap()
 	{
 		ZoneScopedC(tracy::Color::Magenta);
+		TracyGpuZoneC("Window::Swap", tracy::Color::Turquoise);
 
 		glfwSwapBuffers(p_Window);
 		TracyGpuCollect;

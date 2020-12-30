@@ -1,6 +1,8 @@
-#version 460 core
+#version 430 core
 
-layout(local_size_x = 1, local_size_y = 1) in;
+// dimensions don't really matter, but their product must be
+// optimal group size (see src/render/Renderer.cpp)
+layout(local_size_x = 4, local_size_y = 8) in;
 
 layout(std140, binding = 2) uniform ClusteringInfo {
 

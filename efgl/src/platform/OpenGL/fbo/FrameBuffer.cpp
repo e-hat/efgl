@@ -21,8 +21,15 @@ namespace efgl {
 
 	void FrameBuffer::DisableColorAttachment()
 	{
+#ifdef UHD4600
+		Bind();
+		GLCall(glReadBuffer(GL_NONE));
+		GLCall(glDrawBuffer(GL_NONE));
+		Unbind();
+#else
 		GLCall(glNamedFramebufferReadBuffer(m_RendererID, GL_NONE));
 		GLCall(glNamedFramebufferDrawBuffer(m_RendererID, GL_NONE));
+#endif
 	}
 
 	void FrameBuffer::AddDepthStencilBuffer(ITargetable& tex) 

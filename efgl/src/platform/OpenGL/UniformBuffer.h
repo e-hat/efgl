@@ -1,8 +1,10 @@
 #pragma once
 #include "efpch.h"
 
-namespace efgl {
-	class UniformBuffer {
+namespace efgl 
+{
+	class UniformBuffer 
+	{
 	public:
 		UniformBuffer(unsigned int size, const void* data, GLenum usage);
 

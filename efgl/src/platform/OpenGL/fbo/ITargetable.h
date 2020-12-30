@@ -1,6 +1,7 @@
 #pragma once
 
-namespace efgl {
+namespace efgl
+{
 	class ITargetable 
 	{
 	public:

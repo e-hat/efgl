@@ -71,6 +71,10 @@ static const int N_ACTIVE_LIGHTS_BINDING = 9;
 static const unsigned int N_ACTIVE_LIGHTS_CLEAR_VAL = 0;
 static const DispatchIndirectParams N_ACTIVE_CLUSTERS_CLEAR_VAL = { 0, 1, 1 };
 
+// optimized for my Intel integrated graphics laptop
+static const int CULL_CLUSTERS_GROUP_DIM_X = 4;
+static const int CULL_CLUSTERS_GROUP_DIM_Y = 8;
+
 namespace efgl 
 {
 	Renderer::Renderer(Ref<Scene> scene)
@@ -146,7 +150,12 @@ namespace efgl
 		m_DepthMap->Bind(0);
 
 		m_CullClusters->Bind();
-		m_CullClusters->Dispatch(m_Camera.ScreenWidth, m_Camera.ScreenHeight, 1);
+		// probably important that width is divisible by group size
+		m_CullClusters->Dispatch(
+			m_Camera.ScreenWidth  / CULL_CLUSTERS_GROUP_DIM_X, 
+			m_Camera.ScreenHeight / CULL_CLUSTERS_GROUP_DIM_Y, 
+			1
+		);
 		
 		glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 

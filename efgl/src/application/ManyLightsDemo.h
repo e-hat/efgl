@@ -24,7 +24,7 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
-static const int N_RANDOM_LIGHTS = 0;
+static const int N_RANDOM_LIGHTS = 100;
 
 static const glm::vec3 lightColors[3] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),
@@ -62,8 +62,8 @@ public:
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
 		dl->Ambient = Color(0.2f);
-		dl->Diffuse = Color(1.0f);
-		dl->Specular = Color(1.0f);
+		dl->Diffuse = Color(0.0f);
+		dl->Specular = Color(0.0f);
 		dl->Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 
 		for (int i = 0; i < N_RANDOM_LIGHTS; ++i) {

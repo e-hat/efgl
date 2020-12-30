@@ -53,6 +53,12 @@ namespace efgl {
 	void ShaderStorageBuffer::SetData(unsigned int offset, unsigned int nBytes, const void* data)
 	{
 		TracyGpuZoneC("ShaderStorageBuffer::SetData", tracy::Color::LavenderBlush);
+#ifdef UHD4600
+		Bind();
+		GLCall(glBufferSubData(GL_SHADER_STORAGE_BUFFER, offset, nBytes, data));
+		Unbind();
+#else
 		GLCall(glNamedBufferSubData(m_RendererID, offset, nBytes, data));
+#endif
 	}
 }

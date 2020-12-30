@@ -1,5 +1,5 @@
 #shader vertex
-#version 460 core
+#version 430 core
 
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
@@ -21,7 +21,7 @@ void main()
     TexCoords = aTexCoords;
 }
 #shader fragment
-#version 460 core
+#version 430 core
 out vec4 FragColor;
 
 struct Material {
@@ -135,7 +135,6 @@ void main()
     result = gammaCorrection(result);
 
     FragColor = vec4(result, 1.0);
-    //FragColor = vec4(linearDepth(gl_FragCoord.z));
 }
 
 // Attenuate the point light intensity

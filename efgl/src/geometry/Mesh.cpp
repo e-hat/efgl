@@ -51,6 +51,7 @@ namespace efgl {
 
 		m_VAO->Bind();
 		if (!Indices.empty()) {
+			TracyGpuZoneC("Draw call", tracy::Color::Thistle);
 			m_IBO->Bind();
 			GLCall(glDrawElements(GL_TRIANGLES, m_IBO->GetCount(), GL_UNSIGNED_INT, (GLvoid*)nullptr));
 		}

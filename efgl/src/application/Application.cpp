@@ -1,7 +1,10 @@
 #include "efpch.h"
 
 #include "Application.h"
+
 #include <../tracy/Tracy.hpp>
+#include <../tracy/TracyOpenGL.hpp>
+
 #ifdef DEBUG
 #include "imgui.h"
 #include "examples/imgui_impl_glfw.h"
@@ -57,6 +60,7 @@ namespace efgl
 		while (!window->ShouldClose()) 
 		{
 			ZoneScoped;
+			TracyGpuZoneC("Render loop", tracy::Color::PaleVioletRed);
 			OnRender();
 #ifdef DEBUG
 			{
@@ -67,8 +71,10 @@ namespace efgl
 			}
 
 			OnImGuiRender();
+
 			{
 				ZoneScopedNC("ImGui Rendering", tracy::Color::Chartreuse);
+				TracyGpuZoneC("ImGui Render section", tracy::Color::MistyRose2);
 				ImGuiIO& io = ImGui::GetIO();
 				io.DisplaySize = ImVec2((float)window->GetWidth(), (float)window->GetHeight());
 

@@ -11,5 +11,7 @@ namespace efgl
 		void SetShaderUniforms(Shader& shader) override;
 
 		int NumCheckers;
+		Color C1;
+		Color C2;
 	};
 }
