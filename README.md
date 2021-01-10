@@ -17,6 +17,10 @@ The current roadmap is as follows:
 
 ### Progress So Far
 
+<img src="progress/sphere.PNG" width="900" height="506">
+
+Sphere primitive generated.
+
 <img src="progress/clustered_demo.PNG" width="900" height="506">
 
 Clustered forward shading result with 1024 lights on the Sponza scene. This is using a Blinn-Phong lighting model and HDR + Reinhard tonemapping, along with gamma correction.
