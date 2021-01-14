@@ -14,7 +14,7 @@ namespace efgl
 
 	void SceneNode::AddChild(Ref<SceneNode> child) 
 	{
-		Children.push_back(child);
+		m_Children.push_back(child);
 		child->m_Parent = this;
 	}
 
@@ -44,7 +44,7 @@ namespace efgl
 	void SceneNode::SetDirty() 
 	{
 		m_Dirty = true;
-		for (Ref<SceneNode> child : Children) 
+		for (Ref<SceneNode> child : m_Children) 
 		{
 			child->SetDirty();
 		}
@@ -78,7 +78,7 @@ namespace efgl
 			m_Dirty = false;
 		}
 
-		for (Ref<SceneNode> child : Children) 
+		for (Ref<SceneNode> child : m_Children) 
 		{
 			if (child->m_Dirty)
 				child->Traverse();

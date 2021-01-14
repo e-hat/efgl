@@ -182,13 +182,11 @@ namespace efgl
 		{
 			Ref<SceneNode> current = work.top();
 			work.pop();
-			if (current->IsRenderable())
-			{
-				auto toRender = std::dynamic_pointer_cast<RenderableNode>(current);
-				m_Shader->SetUniform("model", toRender->GetTransform());
-				toRender->Geometry->Draw(*m_Shader);
+			if (auto geometry = current->GetGeometry()) {
+				m_Shader->SetUniform("model", current->GetTransform());
+				(*geometry)->Draw(*m_Shader);
 			}
-			for (Ref<SceneNode> child : current->Children) 
+			for (Ref<SceneNode> child : current->GetChildren()) 
 			{
 				work.push(child);
 			}
@@ -213,13 +211,12 @@ namespace efgl
 		{
 			Ref<SceneNode> current = work.top();
 			work.pop();
-			if (current->IsRenderable()) {
-				auto toRender = std::dynamic_pointer_cast<RenderableNode>(current);
-				m_DepthPassShader->SetUniform("model", toRender->GetTransform());
+			if (auto geometry = current->GetGeometry()) {
+				m_DepthPassShader->SetUniform("model", current->GetTransform());
 				// custom draw since material does not impact depth pass
-				toRender->Geometry->DrawCustom(nullptr, *m_DepthPassShader);
+				(*geometry)->DrawCustom(nullptr, *m_DepthPassShader);
 			}
-			for (Ref<SceneNode> child : current->Children) 
+			for (Ref<SceneNode> child : current->GetChildren()) 
 			{
 				work.push(child);
 			}
