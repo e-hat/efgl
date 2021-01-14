@@ -24,7 +24,7 @@ using namespace efgl;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 
-static const int N_RANDOM_LIGHTS = 100;
+static const int N_RANDOM_LIGHTS = 1000;
 
 static const glm::vec3 lightColors[3] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),
@@ -40,7 +40,7 @@ class ManyLightsDemo : public Application
 public:
 	ManyLightsDemo()
 		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "ManyLights demo")),
-		dragonPos(1.0f)
+		dragonPos(1.0f), time(Time())
 	{
 	}
 
@@ -84,10 +84,12 @@ public:
 		}
 
 		scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
-		auto sponzaNode = MakeRef<RenderableNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), sponza);
-		dragonNode = MakeRef<RenderableNode>(dragonPos, glm::vec4(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f), dragon);
-		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(sponzaNode));
-		scene->Root->AddChild(std::static_pointer_cast<SceneNode>(dragonNode));
+		auto sponzaNode = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
+		sponzaNode->SetGeometry(sponza);
+		dragonNode = MakeRef<SceneNode>(dragonPos, glm::vec4(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
+		dragonNode->SetGeometry(dragon);
+		scene->Root->AddChild(sponzaNode);
+		scene->Root->AddChild(dragonNode);
 		renderer = MakeRef<Renderer>(scene);
 	}
 
@@ -142,7 +144,7 @@ private:
 	Ref<Model> sponza;
 	Ref<Model> dragon;
 
-	Ref<RenderableNode> dragonNode;
+	Ref<SceneNode> dragonNode;
 
 	glm::vec3 dragonPos;
 
