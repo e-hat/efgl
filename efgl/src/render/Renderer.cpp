@@ -182,6 +182,7 @@ namespace efgl
 		{
 			Ref<SceneNode> current = work.top();
 			work.pop();
+			// optional geometry
 			if (auto geometry = current->GetGeometry()) {
 				m_Shader->SetUniform("model", current->GetTransform());
 				(*geometry)->Draw(*m_Shader);
@@ -211,6 +212,7 @@ namespace efgl
 		{
 			Ref<SceneNode> current = work.top();
 			work.pop();
+			// optional geometry
 			if (auto geometry = current->GetGeometry()) {
 				m_DepthPassShader->SetUniform("model", current->GetTransform());
 				// custom draw since material does not impact depth pass

@@ -58,10 +58,11 @@ bool get1Dcheckerboard(float t, int numStripes) {
 vec3 checkerboard(vec2 uv, int numOnSide) {
     bool stripe1 = get1Dcheckerboard(uv.x, numOnSide);
     bool stripe2 = get1Dcheckerboard(uv.y, numOnSide);
-    return mix(c1, c2, int(stripe1 ^^ stripe2)); 
+    return mix(c1.rgb, c2.rgb, int(stripe1 ^^ stripe2)); 
 }
 
 vec3 reinhardTonemap(vec3 v);
+vec3 acesTonemap(vec3 v);
 vec3 gammaCorrection(vec3 v);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 mat_diffuse);
 
@@ -72,7 +73,7 @@ void main()
     vec3 mat_diffuse = checkerboard(TexCoords, numCheckers);
 
     vec3 result = CalcPointLight(light, normalize(Normal), FragPos, normalize(viewPos - FragPos), mat_diffuse);
-    result = reinhardTonemap(result);
+    result = acesTonemap(result);
     result = gammaCorrection(result);
 
     outputColor = vec4(result, 1.0);
@@ -103,6 +104,16 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
 
 vec3 reinhardTonemap(vec3 v) {
     return v / (v + vec3(1.0));
+}
+
+vec3 acesTonemap(vec3 v) {
+    v *= 0.6f;
+    float a = 2.51f;
+    float b = 0.03f;
+    float c = 2.43f;
+    float d = 0.59f;
+    float e = 0.14f;
+    return clamp((v*(a*v+b))/(v*(c*v+d)+e), 0.0f, 1.0f);
 }
 
 vec3 gammaCorrection(vec3 v) {

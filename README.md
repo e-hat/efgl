@@ -1,4 +1,7 @@
 # efgl
+
+<a name="About"/>
+
 ## About
 This engine is somewhere I can implement modern rendering techniques and hopefully make some beautiful images along the way. So far, this engine has successfully implemented the following features:
 
@@ -15,9 +18,11 @@ The current roadmap is as follows:
 * Post-processing, including SSAO. 
 * SSS. I mean how hard could it be?
 
+<a name="Progress"/>
+
 ### Progress So Far
 
-<img src="progress/sphere.PNG" width="900" height="506">
+<img src="progress/sphere.PNG" width="900" height="506"/>
 
 Sphere primitive generated.
 
@@ -43,11 +48,14 @@ Gooch shading model implementation. See reference for Stanford dragon model belo
 
 Morgan McGuire, Computer Graphics Archive, July 2017 (https://casual-effects.com/data)
 
+<a name="Start"/>
 ## Getting Started
 ### Requirements
 * [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually. I've never tested on other platforms so I can't say what would happen exactly.
 ### Installation
 Open a command prompt in the directory where want to clone the repo. Enter `git clone --recursive https://github.com/deadbird11/efgl.git`, then `cd efgl`. Type the command `cd setup/`, followed by `./setup.exe`. In the `efgl/` directory, there should now be a file named `efgl.sln`. I haven't tried this for other platforms, and, while it ought to produce a proper project file for whatever IDE you use due to premake, I doubt the code is as platform agnostic.
+
+<a name="ack"/>
 ## Acknowledgements
 * Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). He also provided the `premake5.lua` script, although it has been changed rather extensively over the ages.
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    

@@ -10,8 +10,8 @@ namespace efgl
 	public:
 		void SetShaderUniforms(Shader& shader) override;
 
-		int NumCheckers;
-		Color C1;
-		Color C2;
+		int NumCheckers = 25;
+		Color C1 = Color(1.0f);
+		Color C2 = Color(0.0f);
 	};
 }
