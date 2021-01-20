@@ -1,7 +1,5 @@
 # efgl
 
-<a name="About"/>
-
 ## About
 This engine is somewhere I can implement modern rendering techniques and hopefully make some beautiful images along the way. So far, this engine has successfully implemented the following features:
 
@@ -17,8 +15,6 @@ The current roadmap is as follows:
 * Shadows using NVidia's PCSS algorithm, which builds off the classic shadowmapping technique and cleanly replcaces the PCF step.
 * Post-processing, including SSAO. 
 * SSS. I mean how hard could it be?
-
-<a name="Progress"/>
 
 ### Progress So Far
 
@@ -48,7 +44,6 @@ Gooch shading model implementation. See reference for Stanford dragon model belo
 
 Morgan McGuire, Computer Graphics Archive, July 2017 (https://casual-effects.com/data)
 
-<a name="Start"/>
 ## Getting Started
 ### Requirements
 * [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually. I've never tested on other platforms so I can't say what would happen exactly.
