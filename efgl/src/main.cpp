@@ -25,8 +25,8 @@ public:
 	SandboxApplication()
 		: Application(Window::Init(SCR_WIDTH, SCR_HEIGHT, "Geodesic Sphere")),
 		scl(1.0f), vSegments(30), hSegments(30), pos(glm::vec3(0.0f, 1.8f, 0.0f)), 
-		lightPos(glm::vec3(1.556f, 3.111f, -1.648f)), roughness(0.5f), metallic(0.5f),
-		albedo(glm::vec3(0.5f)), lightColor(glm::vec3(1.0f))
+		lightPos(glm::vec3(1.556f, 3.111f, -1.648f)), lightColor(glm::vec3(1.0f)),
+		roughness(0.5), metallic(0.5), albedo(glm::vec3(125.0f))
 	{
 	}
 
@@ -35,21 +35,19 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 
-		mat = MakeRef<CheckerMaterial>();
-		mat->NumCheckers = 20;
-		mat->C1 = Color(1.0f);
-		mat->C2 = Color(0.4f);
-
-		floor = MakeRef<Quad>(mat);
-		floor->UploadData();
-
-		sphere = MakeRef<Sphere>(mat, vSegments, hSegments);
+		sphere = MakeRef<Sphere>(nullptr, vSegments, hSegments);
 		sphere->UploadData();
+
+		bulb = MakeRef<Sphere>(nullptr, 30, 30);
+		bulb->UploadData();
 
 		shader = MakeRef<Shader>("shaders/debug/pbr_demo.glsl");
 		camera = Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 0.0f, 0.0f));
 
+		lightShader = MakeRef<Shader>("shaders/debug/lightbulb.glsl");
+
 		InputManager::SetGLFWCallbacks(window, &camera);
+
 	}
 
 	virtual void OnRender() override
@@ -64,7 +62,7 @@ public:
 		shader->Bind();
 
 		shader->SetUniform("metallic", metallic);
-		shader->SetUniform("albedo", albedo);
+		shader->SetUniform("albedo", glm::normalize(albedo));
 		shader->SetUniform("roughness", roughness);
 
 		glm::mat4 proj = camera.GetProjectionMatrix();
@@ -97,14 +95,23 @@ public:
 		shader->SetUniform("light.quadratic", p.Quadratic);
 		shader->SetUniform("light.radius", p.Radius);
 
-		//floor->Draw(*shader);
-
 		model = glm::mat4(1.0f);
 		model = glm::scale(model, glm::vec3(scl));
 		model = glm::translate(model, pos);
 
 		shader->SetUniform("model", model);
 		sphere->Draw(*shader);
+
+		lightShader->Bind();
+
+		lightShader->SetUniform("proj", proj);
+		lightShader->SetUniform("view", view);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.1f));
+		lightShader->SetUniform("model", model);
+		bulb->Draw(*lightShader);
 	}
 
 	virtual void OnImGuiRender() override {
@@ -116,9 +123,9 @@ public:
 		}
 
 		if (ImGui::CollapsingHeader("PBR Parameters")) {
-			ImGui::SliderFloat("Metallic", &metallic, 0, 1);
 			ImGui::SliderFloat("Roughness", &roughness, 0, 1);
-			ImGui::SliderFloat3("Albedo", glm::value_ptr(albedo), 0, 1);
+			ImGui::SliderFloat("Metallic", &metallic, 0, 1);
+			ImGui::ColorPicker3("Albedo", glm::value_ptr(albedo));
 			ImGui::SliderFloat3("Light color", glm::value_ptr(lightColor), 0, 1.5);
 			ImGui::SliderFloat3("Light pos", glm::value_ptr(lightPos), -10, 10);
 		}
@@ -147,9 +154,10 @@ public:
 	}
 
 private:
-	Ref<Quad> floor;
 	Ref<Sphere> sphere;
+	Ref<Sphere> bulb;
 	Ref<Shader> shader;
+	Ref<Shader> lightShader;
 	Camera camera;
 
 	Ref<CheckerMaterial> mat;
@@ -158,17 +166,20 @@ private:
 	glm::vec3 pos;
 	int vSegments, hSegments;
 
-	float roughness, metallic;
-	glm::vec3 albedo, lightColor;
-
 	glm::vec3 lightPos;
+
+	glm::vec3 lightColor;
+
+	glm::vec3 albedo;
+	float metallic;
+	float roughness;
 
 	Time time;
 };
 
 int main() {
-	//SandboxApplication app;
-	ManyLightsDemo app;
+	SandboxApplication app;
+	//ManyLightsDemo app;
 	app.Run();
 
 	return 0;

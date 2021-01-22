@@ -44,9 +44,9 @@ uniform PointLight light;
 
 uniform vec3 viewPos;
 
-uniform sampler2D texture_albedo;
-uniform sampler2D texture_metallic;
-uniform sampler2D texture_roughness;
+uniform vec3 albedo;
+uniform float metallic;
+uniform float roughness;
 
 const float PI = 3.14159265359;
 
@@ -77,10 +77,6 @@ void main()
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 N, vec3 fragPos, vec3 V)
 {
-    vec3 albedo = texture(texture_albedo, TexCoords).rgb;
-    float metallic = texture(texture_metallic, TexCoords).r;
-    float roughness = texture(texture_roughness, TexCoords).r;
-
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, albedo, metallic);
 
@@ -92,7 +88,7 @@ vec3 CalcPointLight(PointLight light, vec3 N, vec3 fragPos, vec3 V)
     vec3 radiance = light.color.xyz * attenuation;
 
     // cook-torrance BRDF
-    float NDF = DistributionGGX(H, N, roughness);
+    float NDF = DistributionGGX(N, H, roughness);
     float G   = GeometrySmith(N, V, L, roughness);
     vec3  F   = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
@@ -102,6 +98,7 @@ vec3 CalcPointLight(PointLight light, vec3 N, vec3 fragPos, vec3 V)
 
     vec3 numerator = NDF * G * F;
     float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+    // note: denominator guaranteed to be positive
     vec3 specular = numerator / max(denominator, 0.001);
 
     // add outgoing radiance Lo
@@ -130,16 +127,16 @@ vec3 gammaCorrection(vec3 v) {
 
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
-    float a      = roughness*roughness;
-    float a2     = a*a;
-    float NdotH  = max(dot(N, H), 0.0);
+    float a = roughness*roughness;
+    float a2 = a*a;
+    float NdotH = max(dot(N, H), 0.0);
     float NdotH2 = NdotH*NdotH;
-	
-    float num   = a2;
+
+    float nom   = a2;
     float denom = (NdotH2 * (a2 - 1.0) + 1.0);
     denom = PI * denom * denom;
-	
-    return num / denom;
+
+    return nom / max(denom, 0.0000001); // prevent divide by zero for roughness=0.0 and NdotH=1.0
 }
 
 float GeometrySchlickGGX(float NdotV, float roughness)

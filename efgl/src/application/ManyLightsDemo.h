@@ -7,7 +7,6 @@
 #include "geometry/Model.h"
 #include "Shader.h"
 #include "scene/Scene.h"
-#include "scene/RenderableNode.h"
 #include "render/Renderer.h"
 #include "application/InputManager.h"
 #include "util/Time.h"

@@ -1,8 +1,6 @@
 #include "efpch.h"
 #include "Renderer.h"
 
-#include "scene/RenderableNode.h"
-
 #include <../tracy/Tracy.hpp>
 #include <../tracy/TracyOpenGL.hpp>
 
