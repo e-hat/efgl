@@ -74,6 +74,7 @@ public:
 		shader->SetUniform("proj", proj);
 		shader->SetUniform("view", view);
 		shader->SetUniform("model", model);
+		shader->SetUniform("viewPos", camera.Position);
 
 		PointLight p;
 		p.Position = lightPos;
@@ -144,7 +145,6 @@ public:
 				sphere->UploadData();
 			}
 		}
-
 
 		ImGui::End();
 	}
