@@ -27,6 +27,7 @@ workspace "efgl"
 	IncludeDir["glm"]  = "../vendor/glm"
 	IncludeDir["spdlog"] = "../vendor/spdlog/include"
 	IncludeDir["assimp"] = "../vendor/assimp/include"
+        IncludeDir["tinyobj"] = "../vendor/tinyobjloader"
 	IncludeDir["ImGui"] = "../vendor/imgui"
         IncludeDir["tracy"] = "../vendor/tracy/common/"
 
@@ -75,7 +76,8 @@ workspace "efgl"
 			"%{IncludeDir.spdlog}",
 			"%{IncludeDir.assimp}",
 			"%{IncludeDir.ImGui}",
-                        "%{IncludeDir.tracy}"
+                        "%{IncludeDir.tracy}",
+                        "%{IncludeDir.tinyobj}"
 		}
 
 		links 
@@ -95,6 +97,9 @@ workspace "efgl"
 
 		filter { 'files:../vendor/stb/**.cpp' }
 			flags { 'NoPCH' }
+
+                filter { 'files:../vendor/tinyobjloader/tiny_obj_loader.h' }
+                        flags { 'NoPCH' }
 
         filter { 'files:../vendor/tracy/TracyClient.cpp' }
 						flags { 'NoPCH' }

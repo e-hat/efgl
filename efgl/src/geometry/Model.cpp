@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <tiny_obj_loader.h>
+#define TINYOBJLOADER_IMPLEMENTATION
 
 using namespace std;
 

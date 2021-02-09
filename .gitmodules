@@ -14,3 +14,6 @@
 [submodule "vendor/tracy"]
 	path = vendor/tracy
 	url = https://github.com/wolfpld/tracy
+[submodule "vendor/tinyobjloader"]
+	path = vendor/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader
