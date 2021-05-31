@@ -8,6 +8,9 @@
 /bin-int/*
 vendor/Glad/bin-int/*
 
+**.make
+**/Makefile
+
 # User-specific files
 *.rsuser
 *.suo
