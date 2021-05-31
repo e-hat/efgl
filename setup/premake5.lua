@@ -1,4 +1,4 @@
--- Pretty much copied from the cherno's version 
+-- Pretty much copied from the cherno's version
 -- at https://github.com/TheCherno/Hazel/blob/master/premake5.lua
 workspace "efgl"
         architecture "x86_64"
@@ -12,7 +12,7 @@ workspace "efgl"
 		"Release",
 		"Dist"
 	}
-	
+
 	flags
 	{
 		"MultiProcessorCompile"
@@ -97,7 +97,7 @@ workspace "efgl"
 			flags { 'NoPCH' }
 
         filter { 'files:../vendor/tracy/TracyClient.cpp' }
-						flags { 'NoPCH' }
+			flags { 'NoPCH' }
 
 		filter "system:windows"
 			systemversion "latest"
@@ -108,6 +108,16 @@ workspace "efgl"
 				"GLFW_INCLUDE_NONE",
 				"RENDERAPI_OGL"
 			}
+
+        filter "system:linux"
+            systemversion "latest"
+
+            defines 
+            {
+                "EF_BUILD_DLL",
+                "GLFW_INCLUDE_NONE",
+                "RENDERAPI_OGL"
+            } 
 
 		filter "configurations:Debug"
 			defines "EF_DEBUG"
