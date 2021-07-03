@@ -152,14 +152,15 @@ namespace efgl
 
 	vector<Ref<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type) 
 	{
-		vector<Ref<Texture>> textures;
 		int numTextures = mat->GetTextureCount(type);
+		vector<Ref<Texture>> textures;
+		textures.reserve(numTextures);
 		for (unsigned int i = 0; i < numTextures; ++i) 
 		{
 			aiString str;
 			mat->GetTexture(type, i, &str);
 
-			textures.push_back(
+			textures.emplace_back(
 				TextureManager::LoadTexture(str.C_Str(), m_Directory)
 			);
 
