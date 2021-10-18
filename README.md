@@ -4,14 +4,13 @@
 This engine is somewhere I can implement modern rendering techniques and hopefully make some beautiful images along the way. So far, this engine has successfully implemented the following features:
 
 * Clustered forward shading model using OpenGL compute shaders
-* Blinn-Phong lighting model
+* Physically based shading model
 * Linear lighting
 * HDR with Reinhard tonemapping
 * Gamma-correction
 
 The current roadmap is as follows:
 
-* Implement a physically-based shading model (this step will probably end up containing skybox and normal map implementations to make it look even better).
 * Shadows using NVidia's PCSS algorithm, which builds off the classic shadowmapping technique and cleanly replcaces the PCF step.
 * Post-processing, including SSAO. 
 * SSS. I mean how hard could it be?
