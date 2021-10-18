@@ -13,7 +13,7 @@ The current roadmap is as follows:
 
 * Shadows using NVidia's PCSS algorithm, which builds off the classic shadowmapping technique and cleanly replcaces the PCF step.
 * Post-processing, including SSAO. 
-* SSS. I mean how hard could it be?
+* Subsurface Scattering. I mean how hard could it be?
 
 ### Progress So Far
 
