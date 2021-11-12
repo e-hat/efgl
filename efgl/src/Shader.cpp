@@ -3,6 +3,7 @@
 #include "Shader.h"
 
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 
@@ -30,7 +31,8 @@ namespace efgl
 
 		if (!stream.good()) 
 		{
-			std::cout << "Failed to load shader at " << filepath << std::endl;
+			std::cerr << "Failed to load shader at " << filepath << std::endl;
+            std::cerr << "Working directory is " << std::filesystem::current_path() << std::endl;
 		}
 
 		enum class ShaderType
@@ -75,10 +77,10 @@ namespace efgl
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
       auto msg = std::make_unique<char[]>(length);
 			GLCall(glGetShaderInfoLog(id, length, &length, msg.get()));
-			cout << "Compilation error on shader at " << m_FilePath << endl;
-			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
+			cerr << "Compilation error on shader at " << m_FilePath << endl;
+			cerr << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
 				<< "shader. Error log:" << endl;
-			cout << msg.get() << endl;
+			cerr << msg.get() << endl;
 			// TODO: figure out a way to get the right line number from this info...
 			// current behavior: since frag + vert shaders share files, frag line
 			// # is fragNumber + total number of lines in vert
@@ -116,7 +118,7 @@ namespace efgl
 		{
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
 			if (location == GL_INVALID_INDEX)
-				cout << "Warning: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;
+				cerr << "Warning: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;
 			else m_UniformBlockLocationCache[blockName] = location;
 		}
 
@@ -141,7 +143,7 @@ namespace efgl
 			return m_UniformLocationCache[name];
 		GLCall(unsigned int location = glGetUniformLocation(m_RendererID, name.c_str()));
 		if (location == -1)
-			cout << "Warning: Uniform " << name << " doesn't exist." << endl;
+			cerr << "Warning: Uniform " << name << " doesn't exist." << endl;
 
 		m_UniformLocationCache[name] = location;
 		return location;

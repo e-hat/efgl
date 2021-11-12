@@ -3,6 +3,7 @@
 #include "ComputeShader.h"
 
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 
@@ -48,7 +49,7 @@ namespace efgl
 			GLCall(location = glGetUniformBlockIndex(m_RendererID, blockName.c_str()));
 			// This is for more info on the error that will be thrown in glUniformBlockBinding
 			if (location == GL_INVALID_INDEX)
-				cout << "EF_ERROR: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;
+				cerr << "EF_ERROR: Uniform block " << blockName << " doesn't exist in shader at " << m_FilePath << endl;
 			else m_UniformBlockLocationCache[blockName] = location;
 		}
 
@@ -61,7 +62,8 @@ namespace efgl
 
 		if (!stream.good())
 		{
-			std::cout << "Failed to load shader at " << filepath << std::endl;
+			std::cerr << "Failed to load shader at " << filepath << std::endl;
+            std::cerr << "Working directory is " << std::filesystem::current_path() << std::endl;
 		}
 		
 		string line;
@@ -89,8 +91,8 @@ namespace efgl
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
 			auto msg = std::make_unique<char[]>(length);
 			GLCall(glGetShaderInfoLog(id, length, &length, msg.get()));
-			cout << "Failed Compilation of compute shader: " << m_FilePath << endl;
-			cout << msg.get() << endl;
+			cerr << "Failed Compilation of compute shader: " << m_FilePath << endl;
+			cerr << msg.get() << endl;
 			GLCall(glDeleteShader(id));
 			return 0;
 		}
@@ -128,7 +130,7 @@ namespace efgl
 			return m_UniformLocationCache[name];
 		GLCall(unsigned int location = glGetUniformLocation(m_RendererID, name.c_str()));
 		if (location == -1)
-			cout << "Warning: Uniform " << name << " doesn't exist." << endl;
+			cerr << "Warning: Uniform " << name << " doesn't exist." << endl;
 
 		m_UniformLocationCache[name] = location;
 		return location;
