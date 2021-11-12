@@ -9,6 +9,8 @@
 ./build/**
 vendor/Glad/bin-int/*
 
+**/.*.swp
+.*.swp
 **.make
 **/Makefile
 
