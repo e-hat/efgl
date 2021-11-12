@@ -13,7 +13,9 @@ file(GLOB TOPLEVEL_SOURCES ${SOURCE_DIR}/*.cpp)
 set(SOURCES ${SOURCES} ${TOPLEVEL_SOURCES})
 add_executable(efgl ${SOURCES})
 
-set(INCLUDES ${SOURCE_DIR} 
+target_compile_definitions(efgl PRIVATE DEBUG)
+
+set(INCLUDES ${SOURCE_DIR}
   ${SOURCE_DIR}/application
   ${SOURCE_DIR}/geometry
   ${SOURCE_DIR}/geometry/prim
@@ -32,7 +34,7 @@ set(INCLUDES ${INCLUDES}
   ${VENDOR}/imgui
   ${VENDOR}/stb
   ${VENDOR}/tracy)
-target_include_directories(efgl PUBLIC ${INCLUDES})
+target_include_directories(efgl PRIVATE ${INCLUDES})
 
 add_subdirectory(vendor/assimp)
 target_link_libraries(efgl PRIVATE assimp)
