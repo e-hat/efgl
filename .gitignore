@@ -8,6 +8,9 @@
 /bin-int/*
 build/**
 vendor/Glad/bin-int/*
+.idea/**
+cmake-build-debug/**
+**/imgui.ini
 
 **/.*.swp
 .*.swp
