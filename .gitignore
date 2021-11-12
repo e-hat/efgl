@@ -6,6 +6,7 @@
 
 /bin/*
 /bin-int/*
+./build/**
 vendor/Glad/bin-int/*
 
 **.make
