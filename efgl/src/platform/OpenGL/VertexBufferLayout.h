@@ -38,28 +38,6 @@ namespace efgl
 		template<typename T>
 		void Push(unsigned int count, bool normalized = false)
 		{
-			static_assert(false);
-		}
-
-		template<>
-		inline void Push<float>(unsigned int count, bool normalized)
-		{
-			m_Elements.push_back({ GL_FLOAT, count, LayoutElement::GetGLBool(normalized) });
-			m_Stride += count * LayoutElement::GetSizeOfType(GL_FLOAT);
-		}
-
-		template<>
-		inline void Push<unsigned int>(unsigned int count, bool normalized)
-		{
-			m_Elements.push_back({ GL_UNSIGNED_INT, count, LayoutElement::GetGLBool(normalized) });
-			m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_INT);
-		}
-
-		template<>
-		inline void Push<unsigned char>(unsigned int count, bool normalized)
-		{
-			m_Elements.push_back({ GL_UNSIGNED_BYTE, count, LayoutElement::GetGLBool(normalized) });
-			m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_BYTE);
 		}
 
 		inline const std::vector<LayoutElement>& GetElements() const
@@ -74,5 +52,26 @@ namespace efgl
 	private:
 		std::vector<LayoutElement> m_Elements;
 		unsigned int m_Stride;
-	};
+  };
+
+  template<>
+  inline void VertexBufferLayout::Push<float>(unsigned int count, bool normalized)
+  {
+    m_Elements.push_back({ GL_FLOAT, count, LayoutElement::GetGLBool(normalized) });
+    m_Stride += count * LayoutElement::GetSizeOfType(GL_FLOAT);
+  }
+
+  template<>
+  inline void VertexBufferLayout::Push<unsigned int>(unsigned int count, bool normalized)
+  {
+    m_Elements.push_back({ GL_UNSIGNED_INT, count, LayoutElement::GetGLBool(normalized) });
+    m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_INT);
+  }
+
+  template<>
+	inline void VertexBufferLayout::Push<unsigned char>(unsigned int count, bool normalized)
+	{
+		m_Elements.push_back({ GL_UNSIGNED_BYTE, count, LayoutElement::GetGLBool(normalized) });
+		m_Stride += count * LayoutElement::GetSizeOfType(GL_UNSIGNED_BYTE);
+	}
 }

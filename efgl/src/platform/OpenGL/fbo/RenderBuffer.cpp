@@ -1,6 +1,6 @@
 #include "efpch.h"
 
-#include "Renderbuffer.h"
+#include "RenderBuffer.h"
 
 namespace efgl {
 	RenderBuffer::RenderBuffer(int width, int height, GLint dataFormat)

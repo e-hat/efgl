@@ -22,7 +22,7 @@ namespace efgl
 			Root->Traverse(); 
 		}
 
-		Camera Camera;
+		::efgl::Camera Camera;
 		Ref<SceneNode> Root;
 
 		// ref for optionality
