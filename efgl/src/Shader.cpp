@@ -73,12 +73,12 @@ namespace efgl
 		{
 			int length;
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
-			char* msg = (char*)_malloca(length * sizeof(char));
-			GLCall(glGetShaderInfoLog(id, length, &length, msg));
+      auto msg = std::make_unique<char[]>(length);
+			GLCall(glGetShaderInfoLog(id, length, &length, msg.get()));
 			cout << "Compilation error on shader at " << m_FilePath << endl;
 			cout << "Failed to compile " << ((type == GL_VERTEX_SHADER) ? "vertex" : "fragment")
 				<< "shader. Error log:" << endl;
-			cout << msg << endl;
+			cout << msg.get() << endl;
 			// TODO: figure out a way to get the right line number from this info...
 			// current behavior: since frag + vert shaders share files, frag line
 			// # is fragNumber + total number of lines in vert

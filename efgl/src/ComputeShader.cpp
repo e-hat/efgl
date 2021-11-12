@@ -87,10 +87,10 @@ namespace efgl
 		{
 			int length;
 			GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
-			char* msg = (char*)_malloca(length * sizeof(char));
-			GLCall(glGetShaderInfoLog(id, length, &length, msg));
+			auto msg = std::make_unique<char[]>(length);
+			GLCall(glGetShaderInfoLog(id, length, &length, msg.get()));
 			cout << "Failed Compilation of compute shader: " << m_FilePath << endl;
-			cout << msg << endl;
+			cout << msg.get() << endl;
 			GLCall(glDeleteShader(id));
 			return 0;
 		}
