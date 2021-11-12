@@ -6,10 +6,18 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <unordered_map>
 
 #include <../tracy/Tracy.hpp>
 
-#define EF_ASSERT(x) if (!(x)) __debugbreak();
+#if defined(_WIN32)
+  #define BREAK __debugbreak()
+#elif defined(__GNUC__)
+  #define BREAK __builtin_trap()
+#endif
+
+#define EF_ASSERT(x) if (!(x)) BREAK;
 #define GLCall(x) ::efgl::GLClearError();\
 	x;\
 	EF_ASSERT(::efgl::GLLogCall(#x, __FILE__, __LINE__))
