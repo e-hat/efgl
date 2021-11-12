@@ -77,7 +77,7 @@ public:
 
 			p.Radius = 65;
 
-			p.Position = Random::GetRandomInRange(posLowerBound, posUpperBound);
+			p.Position = Random::GetRandomInRange<glm::vec3>(posLowerBound, posUpperBound);
 
 			scene->PointLights.push_back(p);
 		}

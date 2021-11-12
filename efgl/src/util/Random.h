@@ -15,32 +15,12 @@ namespace efgl
 		template<typename T>
 		static T GetRandomInRange(T a, T b)
 		{
-			EF_ASSERT(false && "efgl::Random does not support this data type");
+      return GetRandomInRange(a, b);
 		}
-	};
-   
-  template<>
-	float Random::GetRandomInRange(float a, float b)
-	{
-		std::uniform_real_distribution<float> distribution(a, b);
-		return distribution(s_Engine);
-	}
 
-	template<>
-	int Random::GetRandomInRange(int a, int b)
-	{
-		std::uniform_int_distribution<int> distribution(a, b);
-		return distribution(s_Engine);
-	}
-
-	template<>
-	glm::vec3 Random::GetRandomInRange(glm::vec3 lowerXYZ, glm::vec3 upperXYZ) 
-	{
-		return glm::vec3(
-			GetRandomInRange<float>(lowerXYZ.x, upperXYZ.x),
-			GetRandomInRange<float>(lowerXYZ.y, upperXYZ.y),
-			GetRandomInRange<float>(lowerXYZ.z, upperXYZ.z)
-		);
-	}
-
+  private:
+    static float GetRandomInRange(float a, float b);
+    static int GetRandomInRange(int a, int b);
+    static glm::vec3 GetRandomInRange(glm::vec3 lowerXYZ, glm::vec3 upperXYZ);
+  };
 }
