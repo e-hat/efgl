@@ -24,7 +24,7 @@ class SandboxApplication : public Application {
 public:
 	SandboxApplication()
 		: Application(Window::Init(SCR_WIDTH, SCR_HEIGHT, "Geodesic Sphere")),
-		scl(1.0f), vSegments(30), hSegments(30), pos(glm::vec3(0.0f, 1.8f, 0.0f)), 
+		scl(1.0f), vSegments(30), hSegments(30), pos(glm::vec3(0.0f, 2.0f, -3.0f)),
 		lightPos(glm::vec3(1.556f, 3.111f, -1.648f)), lightColor(glm::vec3(1.0f)),
 		roughness(0.5), metallic(0.5), albedo(glm::vec3(125.0f))
 	{
@@ -133,7 +133,7 @@ public:
 
 		if (ImGui::CollapsingHeader("Sphere info")) {
 			ImGui::SliderFloat("Scale", &scl, 0, 20);
-			ImGui::SliderFloat3("Position", glm::value_ptr(pos), 0, 3);
+			ImGui::SliderFloat3("Position", glm::value_ptr(pos), -5, 5);
 			if (ImGui::SliderInt("# of vertical segments", &vSegments, 1, 100)) {
 				sphere.reset();
 				sphere = MakeRef<Sphere>(mat, vSegments, hSegments);
