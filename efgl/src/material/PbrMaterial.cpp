@@ -14,14 +14,14 @@ namespace efgl {
 		shader.Bind();
 
 		for (int i = 0; i < Albedos.size(); ++i) {
-			shader.SetUniform("material.texture_diffuse" + std::to_string(i + 1), i);
+			shader.SetUniform("material.texture_albedo" + std::to_string(i + 1), i);
 
 			Albedos[i]->Bind(i);
 		}
 
 		for (int i = 0; i < Roughnesses.size(); ++i) {
 			int slot = i + Albedos.size();
-			shader.SetUniform("material.texture_specular" + std::to_string(i + 1), slot);
+			shader.SetUniform("material.texture_roughness" + std::to_string(i + 1), slot);
 
 			Roughnesses[i]->Bind(slot);
 		}
