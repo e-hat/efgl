@@ -2,7 +2,7 @@
 #include "Application.h"
 
 #include "scene/Camera.h"
-#include "geometry/Model.h"
+#include "geometry/IModel.h"
 #include "Shader.h"
 #include <imgui.h>
 #include "InputManager.h"

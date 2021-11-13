@@ -1,7 +1,5 @@
 #include "efpch.h"
-#include "Model.h"
-
-#include "material/StandardMaterial.h"
+#include "IModel.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -11,18 +9,11 @@
 #include <algorithm>
 #include <iostream>
 
-
 using namespace std;
 
 namespace efgl
 {
-	Model::Model(const char* path)
-	{
-		TextureManager::SetFlip(false);
-		loadModel(path);
-	}
-
-	void Model::SetMaterial(Ref<IMaterial> pMat)
+	void IModel::SetMaterial(Ref<IMaterial> pMat)
 	{
 		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
 			[&pMat](auto& pMesh) {
@@ -30,7 +21,7 @@ namespace efgl
 		});
 	}
 
-	void Model::Draw(Shader& shader) const 
+	void IModel::Draw(Shader& shader) const
 	{
 		ZoneScoped;
 		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
@@ -39,7 +30,7 @@ namespace efgl
 		});
 	}
 
-	void Model::DrawCustom(Ref<IMaterial> mat, Shader& shader) const 
+	void IModel::DrawCustom(Ref<IMaterial> mat, Shader& shader) const
 	{
 		std::for_each(std::begin(m_Meshes), std::end(m_Meshes),
 			[&mat, &shader](auto& pMesh) {
@@ -47,7 +38,7 @@ namespace efgl
 		});
 	}
 
-	void Model::loadModel(const std::string& path)
+	void IModel::loadModel(const std::string& path)
 	{
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(
@@ -60,13 +51,13 @@ namespace efgl
 
 		if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
 		{
-			cout << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
+			cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
 			return;
 		}
 
 		m_Directory = path.substr(0, path.find_last_of('/'));
 
-		m_Materials = vector<Ref<IMaterial>>(scene->mNumMaterials);
+		m_Materials = vector<Ref<IMaterial>>(scene->mNumMaterials, nullptr);
 		m_Data = vector<MeshData>(scene->mNumMaterials);
 		m_Meshes.reserve(scene->mNumMaterials);
 
@@ -79,7 +70,7 @@ namespace efgl
 		}
 	}
 
-	void Model::processNode(aiNode* node, const aiScene* scene) 
+	void IModel::processNode(aiNode* node, const aiScene* scene)
 	{
 		for (unsigned int i = 0; i < node->mNumMeshes; ++i) 
 		{
@@ -93,7 +84,7 @@ namespace efgl
 		}
 	}
 
-	void Model::processMesh(aiMesh* mesh, const aiScene* scene)
+	void IModel::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
@@ -132,15 +123,7 @@ namespace efgl
 
 		if (!m_Materials[mesh->mMaterialIndex]) 
 		{
-			auto pMat = MakeRef<StandardMaterial>();
-
-			if (mesh->mMaterialIndex >= 0) {
-				aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-				pMat->Diffuses = loadMaterialTextures(material, aiTextureType_DIFFUSE);
-				pMat->Speculars = loadMaterialTextures(material, aiTextureType_SPECULAR);
-			}
-
-			m_Materials[mesh->mMaterialIndex] = pMat;
+			m_Materials[mesh->mMaterialIndex] = makeMaterial(scene->mMaterials[mesh->mMaterialIndex]);
 		}
 
 		vector<Vertex>&		 matGroupVertices = m_Data[mesh->mMaterialIndex].vertices;
@@ -150,7 +133,7 @@ namespace efgl
 		matGroupIndices.insert(matGroupIndices.end(), indices.begin(), indices.end());
 	}
 
-	vector<Ref<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type) 
+	vector<Ref<Texture>> IModel::loadMaterialTextures(aiMaterial* mat, aiTextureType type)
 	{
 		int numTextures = mat->GetTextureCount(type);
 		vector<Ref<Texture>> textures;

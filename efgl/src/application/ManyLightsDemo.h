@@ -4,13 +4,13 @@
 #include "application/Application.h"
 
 #include "scene/Camera.h"
-#include "geometry/Model.h"
+#include "geometry/PhongModel.h"
 #include "Shader.h"
 #include "scene/Scene.h"
 #include "render/Renderer.h"
 #include "application/InputManager.h"
 #include "util/Time.h"
-#include "material/StandardMaterial.h"
+#include "material/PhongMaterial.h"
 #include "util/Random.h"
 
 #include <../tracy/Tracy.hpp>
@@ -50,10 +50,10 @@ public:
 
 		scene->Camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT, glm::vec3(0.0f, 0.0f, 3.0f));
 		InputManager::SetGLFWCallbacks(window, &(scene->Camera));
-		sponza = MakeRef<Model>("resources/models/sponza/sponza.obj");
-		dragon = MakeRef<Model>("resources/models/dragon/dragon.obj");
+		sponza = MakeRef<PhongModel>("resources/models/sponza/sponza.obj");
+		dragon = MakeRef<PhongModel>("resources/models/dragon/dragon.obj");
 
-		auto dragonMat = MakeRef<StandardMaterial>();
+		auto dragonMat = MakeRef<PhongMaterial>();
 		dragonMat->Diffuses.push_back(TextureManager::LoadTexture("container2.png", "resources/img/"));
 		dragonMat->Speculars.push_back(TextureManager::LoadTexture("container2_specular.png", "resources/img/"));
 		dragon->SetMaterial(dragonMat);
@@ -140,8 +140,8 @@ public:
 	}
 
 private:
-	Ref<Model> sponza;
-	Ref<Model> dragon;
+	Ref<PhongModel> sponza;
+	Ref<PhongModel> dragon;
 
 	Ref<SceneNode> dragonNode;
 

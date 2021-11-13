@@ -6,7 +6,7 @@
 
 namespace efgl {
 
-	class StandardMaterial : public IMaterial {
+	class PhongMaterial : public IMaterial {
 	public:
 		virtual void SetShaderUniforms(Shader& shader) override;
 		

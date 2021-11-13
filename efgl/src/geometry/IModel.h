@@ -8,22 +8,19 @@
 
 #include <assimp/scene.h>
 
-#include <vector>
-#include <string>
+class aiMaterial;
 
 namespace efgl
 {
-	class Model : public IRenderable 
+	class IModel : public IRenderable
 	{
 	public:
-		Model(const char* path);
-
 		void SetMaterial(Ref<IMaterial> pMat) override;
 
 		virtual void DrawCustom(Ref<IMaterial> mat, Shader& shader) const override;
 		virtual void Draw(Shader& shader) const override;
 
-	private:
+	protected:
 		std::vector<Ref<Mesh>> m_Meshes;
 		// for grouping Mesh data by Material into VBO
 		std::vector<MeshData> m_Data;
@@ -33,6 +30,7 @@ namespace efgl
 		void loadModel(const std::string& path);
 		void processNode(aiNode* node, const aiScene* scene);
 		void processMesh(aiMesh* mesh, const aiScene* scene);
+        virtual Ref<IMaterial> makeMaterial(aiMaterial* mat) = 0;
 		std::vector<Ref<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
 	};
 }

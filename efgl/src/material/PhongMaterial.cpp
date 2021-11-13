@@ -1,6 +1,6 @@
 #include "efpch.h"
 
-#include "StandardMaterial.h"
+#include "PhongMaterial.h"
 
 #include <../tracy/Tracy.hpp>
 #include <../tracy/TracyOpenGL.hpp>
@@ -8,10 +8,10 @@
 namespace efgl 
 {
 
-	void StandardMaterial::SetShaderUniforms(Shader& shader)
+	void PhongMaterial::SetShaderUniforms(Shader& shader)
 	{
 		ZoneScopedC(tracy::Color::Orchid);
-		TracyGpuZoneC("StandardMaterial::SetShaderUniforms", tracy::Color::Sienna);
+		TracyGpuZoneC("PhongMaterial::SetShaderUniforms", tracy::Color::Sienna);
 		shader.Bind();
 
 		shader.SetUniform("material.shininess", Shininess);
