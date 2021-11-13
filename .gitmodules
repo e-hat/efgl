@@ -5,12 +5,12 @@
 [submodule "efgl/vendor/glm"]
 	path = vendor/glm
 	url = https://github.com/g-truc/glm
-[submodule "efgl/vendor/imgui"]
-	path = vendor/imgui
-	url = https://github.com/TheCherno/imgui.git
 [submodule "vendor/tracy"]
 	path = vendor/tracy
 	url = https://github.com/wolfpld/tracy
 [submodule "vendor/assimp"]
 	path = vendor/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = https://github.com/ocornut/imgui.git
