@@ -38,8 +38,7 @@ class ManyLightsDemo : public Application
 {
 public:
 	ManyLightsDemo()
-		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "ManyLights demo")),
-		dragonPos(1.0f), time(Time())
+		: Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "ManyLights demo")), time(Time())
 	{
 	}
 
@@ -51,12 +50,6 @@ public:
 		scene->Camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT, glm::vec3(0.0f, 0.0f, 3.0f));
 		InputManager::SetGLFWCallbacks(window, &(scene->Camera));
 		sponza = MakeRef<PhongModel>("resources/models/sponza/sponza.obj");
-		dragon = MakeRef<PhongModel>("resources/models/dragon/dragon.obj");
-
-		auto dragonMat = MakeRef<PhongMaterial>();
-		dragonMat->Diffuses.push_back(TextureManager::LoadTexture("container2.png", "resources/img/"));
-		dragonMat->Speculars.push_back(TextureManager::LoadTexture("container2_specular.png", "resources/img/"));
-		dragon->SetMaterial(dragonMat);
 
 		scene->DirLight = MakeRef<DirectionalLight>();
 		auto dl = scene->DirLight;
@@ -85,11 +78,8 @@ public:
 		scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 		auto sponzaNode = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 		sponzaNode->SetGeometry(sponza);
-		dragonNode = MakeRef<SceneNode>(dragonPos, glm::vec4(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
-		dragonNode->SetGeometry(dragon);
 		scene->Root->AddChild(sponzaNode);
-		scene->Root->AddChild(dragonNode);
-		renderer = MakeRef<Renderer>(scene);
+		renderer = std::make_unique<Renderer>(scene);
 	}
 
 	virtual void OnRender() override 
@@ -121,12 +111,6 @@ public:
 			ImGui::SliderFloat3("Directional Light direction", glm::value_ptr(dl->Direction), -1, 1);
 		}
 
-		if (ImGui::CollapsingHeader("Dragon!")) {
-			if (ImGui::SliderFloat3("Dragon's position", glm::value_ptr(dragonPos), -10, 10)) {
-				dragonNode->UpdatePos(dragonPos);
-			}
-		}
-
 		if (ImGui::CollapsingHeader("Camera position info")) {
 			ImGui::SliderFloat3("Camera pos", glm::value_ptr(scene->Camera.Position), -100, 100);
 		}
@@ -141,14 +125,9 @@ public:
 
 private:
 	Ref<PhongModel> sponza;
-	Ref<PhongModel> dragon;
-
-	Ref<SceneNode> dragonNode;
-
-	glm::vec3 dragonPos;
 
 	Ref<Scene> scene;
-	Ref<Renderer> renderer;
+	std::unique_ptr<Renderer> renderer;
 
 	Time time;
 };
