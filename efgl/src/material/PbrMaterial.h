@@ -6,7 +6,7 @@
 
 namespace efgl {
 
-	class PbrMaterial : IMaterial {
+	class PbrMaterial : public IMaterial {
 	public:
 		virtual void SetShaderUniforms(Shader& shader) override;
 
