@@ -57,9 +57,9 @@ namespace efgl
 
 		m_Directory = path.substr(0, path.find_last_of('/'));
 
-		m_Materials = vector<Ref<IMaterial>>(scene->mNumMaterials, nullptr);
-		m_Data = vector<MeshData>(scene->mNumMaterials);
-		m_Meshes.reserve(scene->mNumMaterials);
+        m_Materials = vector<Ref<IMaterial>>(scene->mNumMaterials, nullptr);
+        m_Data = vector<MeshData>(scene->mNumMaterials);
+        m_Meshes.reserve(scene->mNumMaterials);
 
 		processNode(scene->mRootNode, scene);
 
@@ -143,7 +143,7 @@ namespace efgl
 			aiString str;
 			mat->GetTexture(type, i, &str);
 
-			textures.emplace_back(
+			textures.push_back(
 				TextureManager::LoadTexture(str.C_Str(), m_Directory)
 			);
 

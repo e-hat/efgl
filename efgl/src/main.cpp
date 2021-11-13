@@ -2,187 +2,139 @@
 
 #include "application/Application.h"
 
-#include "Window.h"
 #include "scene/Scene.h"
-#include "application/InputManager.h"
 #include "util/Time.h"
-#include "geometry/prim/Quad.h"
-#include "geometry/prim/Sphere.h"
-#include "material/CheckerMaterial.h"
-#include "scene/Light.h"
-
-#include "application/ManyLightsDemo.h"
+#include "util/Random.h"
+#include "application/InputManager.h"
+#include "material/PhongMaterial.h"
+#include "geometry/PhongModel.h"
+#include "render/Renderer.h"
 
 #include <imgui.h>
 
 using namespace efgl;
 
-static const int SCR_WIDTH = 1280;
-static const int SCR_HEIGHT = 720;
+static const int SCREEN_WIDTH = 1280;
+static const int SCREEN_HEIGHT = 720;
 
-class SandboxApplication : public Application {
+static const int N_RANDOM_LIGHTS = 10;
+
+static const glm::vec3 lightColors[3] = {
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f)
+};
+
+static const auto posLowerBound = glm::vec3(-13.0f, 0.5f, -6.0f);
+static const auto posUpperBound = glm::vec3(12.0f, 6.8f, 5.0f);
+
+class SandboxApplication : public Application
+{
 public:
-	SandboxApplication()
-		: Application(Window::Init(SCR_WIDTH, SCR_HEIGHT, "Geodesic Sphere")),
-		scl(1.0f), vSegments(30), hSegments(30), pos(glm::vec3(0.0f, 2.0f, -3.0f)),
-		lightPos(glm::vec3(1.556f, 3.111f, -1.648f)), lightColor(glm::vec3(1.0f)),
-		roughness(0.5), metallic(0.5), albedo(glm::vec3(125.0f))
-	{
-	}
+  SandboxApplication()
+          : Application(Window::Init(SCREEN_WIDTH, SCREEN_HEIGHT, "ManyLights demo")), time(Time())
+  {
+  }
 
-	virtual void Init() override
-	{
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_MULTISAMPLE);
+  virtual void Init() override
+  {
 
-		sphere = MakeRef<Sphere>(nullptr, vSegments, hSegments);
-		sphere->UploadData();
+    scene = MakeRef<Scene>();
 
-		bulb = MakeRef<Sphere>(nullptr, 30, 30);
-		bulb->UploadData();
+    scene->Camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT, glm::vec3(0.0f, 0.0f, 3.0f));
+    InputManager::SetGLFWCallbacks(window, &(scene->Camera));
+    sponza = MakeRef<PhongModel>("resources/models/sponza/sponza.obj");
 
-		shader = MakeRef<Shader>("shaders/debug/pbr_demo.glsl");
-		camera = Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 0.0f, 0.0f));
+    auto dragonMat = MakeRef<PhongMaterial>();
+    dragonMat->Diffuses.push_back(TextureManager::LoadTexture("container2.png", "resources/img/"));
+    dragonMat->Speculars.push_back(TextureManager::LoadTexture("container2_specular.png", "resources/img/"));
 
-		lightShader = MakeRef<Shader>("shaders/debug/lightbulb.glsl");
+    scene->DirLight = MakeRef<DirectionalLight>();
+    auto dl = scene->DirLight;
+    dl->Ambient = Color(0.2f);
+    dl->Diffuse = Color(0.0f);
+    dl->Specular = Color(0.0f);
+    dl->Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 
-		InputManager::SetGLFWCallbacks(window, &camera);
+    for (int i = 0; i < N_RANDOM_LIGHTS; ++i) {
+      PointLight p;
+      p.Ambient = Color(0.0f);
+      p.Diffuse = lightColors[i % 3];
+      p.Specular = lightColors[i % 3];
 
-	}
+      p.Constant = 1.0f;
+      p.Linear = 0.22f;
+      p.Quadratic = 0.2f;
 
-	virtual void OnRender() override
-	{
+      p.Radius = 65;
 
-		InputManager::ProcessInput(window, time.GetDeltaTime());
+      p.Position = Random::GetRandomInRange<glm::vec3>(posLowerBound, posUpperBound);
 
-		// set background
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      scene->PointLights.push_back(p);
+    }
 
-		shader->Bind();
+    scene->Root = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(1.0f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
+    auto sponzaNode = MakeRef<SceneNode>(glm::vec3(0.0f), glm::vec3(0.01f), glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
+    sponzaNode->SetGeometry(sponza);
+    scene->Root->AddChild(sponzaNode);
+    renderer = MakeRef<Renderer>(scene);
+  }
 
-		shader->SetUniform("metallic", metallic);
-		shader->SetUniform("albedo", glm::normalize(albedo));
-		shader->SetUniform("roughness", roughness);
+  virtual void OnRender() override
+  {
+    ZoneScoped("OnRender");
+    InputManager::ProcessInput(window, time.GetDeltaTime());
+    renderer->Render();
+  }
 
-		glm::mat4 proj = camera.GetProjectionMatrix();
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(8.0f));
+  virtual void OnImGuiRender() override
+  {
+    ZoneScoped;
+    Ref<DirectionalLight> dl = scene->DirLight;
+    ImGui::Begin("Scene Menu");
 
-		shader->SetUniform("proj", proj);
-		shader->SetUniform("view", view);
-		shader->SetUniform("model", model);
-		shader->SetUniform("viewPos", camera.Position);
+    ImGui::SliderFloat("Near plane", &scene->Camera.Near, 0.05f, 10.0f);
+    ImGui::SliderFloat("Far plane", &scene->Camera.Far, 10.0f, 110.0f);
 
-		PointLight p;
-		p.Position = lightPos;
-		p.Ambient = Color(0.15f);
-		p.Diffuse = Color(0.9f);
-		p.Specular = Color(1.0f);
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-		p.Constant = 1.0f;
-		p.Linear = 0.22f;
-		p.Quadratic = 0.2f;
+    if (ImGui::CollapsingHeader("Controls")) {
+      ImGui::Text("CONTROLS: WASD for movement, left-click+cursor for looking around, ESC for close");
+    }
 
-		p.Radius = 65;
+    if (ImGui::CollapsingHeader("Directional Light attribs")) {
+      ImGui::SliderFloat3("Directional Light ambient", glm::value_ptr(dl->Ambient), 0, 1);
+      ImGui::SliderFloat3("Directional Light diffuse", glm::value_ptr(dl->Diffuse), 0, 1);
+      ImGui::SliderFloat3("Directional Light specular", glm::value_ptr(dl->Specular), 0, 1);
+      ImGui::SliderFloat3("Directional Light direction", glm::value_ptr(dl->Direction), -1, 1);
+    }
 
-		shader->SetUniform("light.position", glm::vec4(p.Position, 1.0f));
-		shader->SetUniform("light.ambient", glm::vec4(p.Ambient, 1.0f));
-		shader->SetUniform("light.color", glm::vec4(p.Diffuse, 1.0f));
-		shader->SetUniform("light.constant", p.Constant);
-		shader->SetUniform("light.linear", p.Linear);
-		shader->SetUniform("light.quadratic", p.Quadratic);
-		shader->SetUniform("light.radius", p.Radius);
+    if (ImGui::CollapsingHeader("Camera position info")) {
+      ImGui::SliderFloat3("Camera pos", glm::value_ptr(scene->Camera.Position), -100, 100);
+    }
 
-		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(scl));
-		model = glm::translate(model, pos);
+    ImGui::End();
+  }
 
-		shader->SetUniform("model", model);
-		sphere->Draw(*shader);
-
-		lightShader->Bind();
-
-		lightShader->SetUniform("proj", proj);
-		lightShader->SetUniform("view", view);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.1f));
-		lightShader->SetUniform("model", model);
-		bulb->Draw(*lightShader);
-	}
-
-	virtual void OnImGuiRender() override {
-		ImGui::Begin("Geodesic Sphere");
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-		if (ImGui::CollapsingHeader("Controls")) {
-			ImGui::Text("CONTROLS: WASD for movement, left-click+cursor for looking around, ESC for close");
-		}
-
-		if (ImGui::CollapsingHeader("PBR Parameters")) {
-			ImGui::SliderFloat("Roughness", &roughness, 0, 1);
-			ImGui::SliderFloat("Metallic", &metallic, 0, 1);
-			ImGui::ColorPicker3("Albedo", glm::value_ptr(albedo));
-			ImGui::SliderFloat3("Light color", glm::value_ptr(lightColor), 0, 1.5);
-			ImGui::SliderFloat3("Light pos", glm::value_ptr(lightPos), -10, 10);
-		}
-
-		if (ImGui::CollapsingHeader("Sphere info")) {
-			ImGui::SliderFloat("Scale", &scl, 0, 20);
-			ImGui::SliderFloat3("Position", glm::value_ptr(pos), -5, 5);
-			if (ImGui::SliderInt("# of vertical segments", &vSegments, 1, 100)) {
-				sphere.reset();
-				sphere = MakeRef<Sphere>(mat, vSegments, hSegments);
-				sphere->UploadData();
-			}
-			if (ImGui::SliderInt("# of horizontal segments", &hSegments, 1, 100)) {
-				sphere.reset();
-				sphere = MakeRef<Sphere>(mat, vSegments, hSegments);
-				sphere->UploadData();
-			}
-		}
-
-		ImGui::End();
-	}
-
-	virtual void Exit() override {
-		TextureManager::CleanUp();
-	}
+  virtual void Exit() override
+  {
+    TextureManager::CleanUp();
+  }
 
 private:
-	Ref<Sphere> sphere;
-	Ref<Sphere> bulb;
-	Ref<Shader> shader;
-	Ref<Shader> lightShader;
-	Camera camera;
+  Ref<PhongModel> sponza;
 
-	Ref<CheckerMaterial> mat;
+  Ref<Scene> scene;
+  Ref<Renderer> renderer;
 
-	float scl;
-	glm::vec3 pos;
-	int vSegments, hSegments;
-
-	glm::vec3 lightPos;
-
-	glm::vec3 lightColor;
-
-	glm::vec3 albedo;
-	float metallic;
-	float roughness;
-
-	Time time;
+  Time time;
 };
 
 int main() {
-	SandboxApplication app;
-	//ManyLightsDemo app;
-	app.Run();
+  SandboxApplication app;
+  app.Run();
 
-	return 0;
+  return 0;
 }
 
 
