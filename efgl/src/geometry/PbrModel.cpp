@@ -13,9 +13,9 @@ namespace efgl {
     Ref<IMaterial> PbrModel::makeMaterial(aiMaterial* mat) {
         Ref<PbrMaterial> result;
 
-        result->Albedos = loadMaterialTextures(mat, aiTextureType_DIFFUSE);
-        result->Metalnesses = loadMaterialTextures(mat, aiTextureType_SHININESS);
-        result->Roughnesses = loadMaterialTextures(mat, aiTextureType_SPECULAR);
+        result->Albedos = std::move(loadMaterialTextures(mat, aiTextureType_DIFFUSE));
+        result->Metalnesses = std::move(loadMaterialTextures(mat, aiTextureType_SHININESS));
+        result->Roughnesses = std::move(loadMaterialTextures(mat, aiTextureType_SPECULAR));
 
         return result;
     }

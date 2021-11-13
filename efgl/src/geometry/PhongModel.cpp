@@ -13,10 +13,10 @@ namespace efgl {
     }
 
     Ref<IMaterial> PhongModel::makeMaterial(aiMaterial* mat) {
-        Ref<PhongMaterial> result;
+        Ref<PhongMaterial> result = MakeRef<PhongMaterial>();
 
-        result->Diffuses = loadMaterialTextures(mat, aiTextureType_DIFFUSE);
-        result->Speculars = loadMaterialTextures(mat, aiTextureType_SPECULAR);
+        result->Diffuses = std::move(loadMaterialTextures(mat, aiTextureType_DIFFUSE));
+        result->Speculars = std::move(loadMaterialTextures(mat, aiTextureType_SPECULAR));
 
         return result;
     }
