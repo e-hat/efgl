@@ -45,13 +45,12 @@ Morgan McGuire, Computer Graphics Archive, July 2017 (https://casual-effects.com
 
 ## Getting Started
 ### Requirements
-* [Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually. I've never tested on other platforms so I can't say what would happen exactly.
+* ~~[Microsoft Visual Studio 2019](https://visualstudio.microsoft.com/vs/), although I plan to make this cross-platform eventually. I've never tested on other platforms so I can't say what would happen exactly.~~ I believe it is now cross platform (I am currently developing it on linux instead of windows). You'll need CMake and you will probably want a good IDE as well. I like CLion.
 ### Installation
-Open a command prompt in the directory where want to clone the repo. Enter `git clone --recursive https://github.com/deadbird11/efgl.git`, then `cd efgl`. Type the command `cd setup/`, followed by `./setup.exe`. In the `efgl/` directory, there should now be a file named `efgl.sln`. I haven't tried this for other platforms, and, while it ought to produce a proper project file for whatever IDE you use due to premake, I doubt the code is as platform agnostic.
+Open a command prompt in the directory where want to clone the repo. Enter `git clone --recursive https://github.com/deadbird11/efgl.git`, then `cd efgl`. Create a build directory, like `build`, then `cd` into it. Run `cmake ..` and it should generate some Makefiles. You can also generate other project files for whatever platform you're on. Finally, if you're using make, run `make install` and it should build an `efgl` binary. Enjoy!
 
 ## Acknowledgements
-* Thank you to [The Cherno](https://github.com/TheCherno) for his awesome Youtube series that got me into OpenGL, which can be found [here](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2). He also provided the `premake5.lua` script, although it has been changed rather extensively over the ages.
 * This project currently relies on [GLFW](https://www.glfw.org/), which is an open-source library for OpenGL.    
 * This project also relies on [glad](https://github.com/Dav1dde/glad), which is a OpenGL Loader-Generator.
 * I am using [ASSIMP](https://www.assimp.org/) as my model loading library.
-* This project uses [tracy](https://github.com/wolfpld/tracy) for profiling, which is a *seriously* cool tool.
+* This project uses [tracy](https://github.com/wolfpld/tracy) for profiling.
