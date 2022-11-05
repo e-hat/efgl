@@ -13,7 +13,7 @@ file(GLOB TOPLEVEL_SOURCES ${SOURCE_DIR}/*.cpp)
 set(SOURCES ${SOURCES} ${TOPLEVEL_SOURCES})
 add_executable(efgl ${SOURCES})
 
-target_compile_definitions(efgl PRIVATE DEBUG)
+#target_compile_definitions(efgl PRIVATE DEBUG)
 
 set(INCLUDES ${SOURCE_DIR}
   ${SOURCE_DIR}/application
@@ -39,9 +39,6 @@ target_include_directories(efgl PRIVATE ${INCLUDES})
 add_subdirectory(vendor/assimp)
 target_link_libraries(efgl PRIVATE assimp)
 
-add_subdirectory(vendor/Glad)
-target_link_libraries(efgl PRIVATE glad)
-
 add_subdirectory(vendor/GLFW)
 target_link_libraries(efgl PRIVATE glfw)
 
@@ -51,7 +48,9 @@ target_link_libraries(efgl PRIVATE glm)
 add_subdirectory(vendor/imgui)
 target_link_libraries(efgl PRIVATE imgui)
 
+find_package(Vulkan REQUIRED)
+target_link_libraries(efgl PRIVATE ${Vulkan_LIBRARIES})
+target_include_directories(efgl PRIVATE ${Vulkan_INCLUDE_DIRS})
+
 target_precompile_headers(efgl 
   PRIVATE ${SOURCE_DIR}/efpch.h)
-
-message(${SOURCES})
