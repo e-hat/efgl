@@ -1,5 +1,7 @@
 # efgl
 
+*I am currently working on a rewrite of this engine in Vulkan [here](https://github.com/e-hat/efvk)*
+
 ## About
 This engine is somewhere I can implement modern rendering techniques and hopefully make some beautiful images along the way. So far, this engine has successfully implemented the following features:
 
@@ -13,7 +15,6 @@ The current roadmap is as follows:
 
 * Shadows using NVidia's PCSS algorithm, which builds off the classic shadowmapping technique and cleanly replcaces the PCF step.
 * Post-processing, including SSAO. 
-* Subsurface Scattering. I mean how hard could it be?
 
 ### Progress So Far
 
