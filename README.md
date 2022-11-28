@@ -1,6 +1,6 @@
 # efgl
 
-*I am currently working on a rewrite of this engine in Vulkan [here](https://github.com/e-hat/efvk)*
+*I rewrote this engine in Vulkan [here](https://github.com/e-hat/efvk). I will probably won't be working on this version much if at all*
 
 ## About
 This engine is somewhere I can implement modern rendering techniques and hopefully make some beautiful images along the way. So far, this engine has successfully implemented the following features:
